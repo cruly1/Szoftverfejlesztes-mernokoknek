@@ -27,4 +27,16 @@ public class PlayerController {
         Player savedPlayer = playerService.addPlayer(player);
         return new ResponseEntity<>(savedPlayer, HttpStatus.CREATED);
     }
+
+    @PutMapping("{id}")
+    public ResponseEntity<Player> updatePlayer(@PathVariable("id") Long id, @RequestBody Player updatedPlayer) {
+        Player player = playerService.updatePlayer(id, updatedPlayer);
+        return ResponseEntity.ok(player);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deletePlayer(@PathVariable("id") Long id) {
+        String response = playerService.deletePlayerById(id);
+        return ResponseEntity.ok(response);
+    }
 }
