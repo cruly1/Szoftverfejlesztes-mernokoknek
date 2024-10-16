@@ -6,23 +6,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PlayerService {
 
     @Autowired
-    private PlayerRepository userRepository;
+    private PlayerRepository playerRepository;
 
-    public Player addUser(Player player) {
-        return userRepository.save(player);
+    public Optional<Player> getPlayerById(Long id) {
+        return playerRepository.findById(id);
     }
 
-    public String removeUserById(Long userId) {
-        userRepository.deleteById(userId);
+    public Player addPlayer(Player player) {
+        return playerRepository.save(player);
+    }
+
+    public String removePlayerById(Long userId) {
+        playerRepository.deleteById(userId);
         return "Player deleted";
     }
 
-    public List<Player> getAll() {
-        return userRepository.findAll();
+    public List<Player> getAllPlayers() {
+        return playerRepository.findAll();
     }
 }

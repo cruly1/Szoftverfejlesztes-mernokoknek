@@ -1,7 +1,7 @@
 package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.entity;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Past;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +28,7 @@ public class Player {
     private String lastName;
 
     @Column(name = "date_of_birth", nullable = false)
+    @Past
     private LocalDate dateOfBirth;
 
     @Column(name = "team_id")
