@@ -21,13 +21,17 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest public class TestPlayerController {
+@SpringBootTest
+public class TestPlayerController {
 
-    @Mock PlayerService playerService;
+    @Mock
+    PlayerService playerService;
 
-    @InjectMocks PlayerController playerController;
+    @InjectMocks
+    PlayerController playerController;
 
-    @Test public void testGetPlayerById_Successful() {
+    @Test
+    public void testGetPlayerById_Successful() {
         // arrange
         Player player=new Player();
         player.setFirstName("Laci");
@@ -48,7 +52,8 @@ import static org.mockito.Mockito.when;
     }
 
     //getPlayerById
-    @Test public void testGetPlayerById_Failed() {
+    @Test
+    public void testGetPlayerById_Failed() {
         // arrange
         Player player=new Player();
         player.setFirstName("Lajos");
@@ -69,7 +74,8 @@ import static org.mockito.Mockito.when;
     }
 
     //getAllPlayers
-    @Test public void testGetAllPlayers_OnlyOnePlayerAdded() {
+    @Test
+    public void testGetAllPlayers_OnlyOnePlayerAdded() {
         // arrange
         List<Player>players=List.of(new Player(2L, "Kupecz", "Levente", LocalDate.of(2001, 1, 14), 10L));
 
@@ -85,7 +91,8 @@ import static org.mockito.Mockito.when;
     }
 
     //createPlayer
-    @Test public void testCreatePlayer_Successful() {
+    @Test
+    public void testCreatePlayer_Successful() {
         // arrange
         Player player=new Player();
         player.setFirstName("Pista");
@@ -103,8 +110,10 @@ import static org.mockito.Mockito.when;
         assertEquals(player, response.getBody());
         verify(playerService, times(1)).addPlayer(any());
     }
+
     //updatePlayer
-    @Test public void testUpdatePlayer_Successful() {
+    @Test
+    public void testUpdatePlayer_Successful() {
         // arrange
         Long playerId=1L;
         Player updatedPlayer=new Player();
@@ -132,7 +141,8 @@ import static org.mockito.Mockito.when;
     }
 
     //deletePlayer
-    @Test public void testDeletePlayer_Successful() {
+    @Test
+    public void testDeletePlayer_Successful() {
         // arrange
         Long playerId=1L;
         String expectedResponse="Player deleted successfully.";
@@ -148,7 +158,8 @@ import static org.mockito.Mockito.when;
         verify(playerService, times(1)).deletePlayerById(playerId);
     }
 
-    @Test public void testDeletePlayer_Failed() {
+    @Test
+    public void testDeletePlayer_Failed() {
         // arrange
         Long playerId=2L;
 
