@@ -11,15 +11,15 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/player/")
+@RequestMapping("/api/player")
 public class PlayerController {
 
     @Autowired
     private PlayerService playerService;
 
-    @GetMapping("{id}")
-    public ResponseEntity<Player> getPlayerById(@PathVariable("id") Long id) {
-        Optional<Player> player = playerService.getPlayerById(id);
+    @GetMapping("/{id}")
+    public ResponseEntity<Player> getPlayerById(@PathVariable("id") Long playerId) {
+        Optional<Player> player = playerService.getPlayerById(playerId);
         return player.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -36,8 +36,8 @@ public class PlayerController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Player> updatePlayer(@PathVariable("id") Long id, @RequestBody Player updatedPlayer) {
-        Player player = playerService.updatePlayer(id, updatedPlayer);
+    public ResponseEntity<Player> updatePlayer(@PathVariable("id") Long playerId, @RequestBody Player updatedPlayer) {
+        Player player = playerService.updatePlayer(playerId, updatedPlayer);
         return ResponseEntity.ok(player);
     }
 
