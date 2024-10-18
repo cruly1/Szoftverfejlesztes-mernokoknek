@@ -40,7 +40,7 @@ public class TeamService {
                 () -> new ResourceNotFoundException(teamId, "Team"));
 
         teamRepository.deleteById(teamId);
-        return "Player deleted successfully.";
+        return "Team deleted successfully.";
     }
 
     public List<Team> getAllTeams() {

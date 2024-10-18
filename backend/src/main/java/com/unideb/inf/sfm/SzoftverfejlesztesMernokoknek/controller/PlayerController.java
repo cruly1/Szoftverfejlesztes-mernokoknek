@@ -1,5 +1,6 @@
 package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.controller;
 
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.dto.PlayerDTO;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.entity.Player;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,9 +20,17 @@ public class PlayerController {
     private PlayerService playerService;
 
     @GetMapping("{id}")
-    public ResponseEntity<Player> getPlayerById(@PathVariable("id") Long playerId) {
+    public ResponseEntity<PlayerDTO> getPlayerById(@PathVariable("id") Long playerId) {
         Optional<Player> player = playerService.getPlayerById(playerId);
-        return player.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+
+        PlayerDTO playerDTO = new PlayerDTO(
+                player.get().getId(),
+                player.get().getFirstName(),
+                player.get().getLastName(),
+                player.get().getTeam().getTeamName()
+        );
+
+        return ResponseEntity.ok(playerDTO);
     }
 
     @PostMapping
@@ -42,8 +52,18 @@ public class PlayerController {
     }
 
     @GetMapping("getAllPlayers")
-    public ResponseEntity<List<Player>> getAllPlayers() {
+    public ResponseEntity<List<PlayerDTO>> getAllPlayers() {
         List<Player> players = playerService.getAllPlayers();
-        return ResponseEntity.ok(players);
+
+        List<PlayerDTO> playerDTOS = new ArrayList<>();
+
+        players.stream().map((player -> new PlayerDTO(
+                player.getId(),
+                player.getFirstName(),
+                player.getLastName(),
+                player.getTeam().getTeamName())))
+                .forEach(playerDTOS::add);
+
+        return ResponseEntity.ok(playerDTOS);
     }
 }

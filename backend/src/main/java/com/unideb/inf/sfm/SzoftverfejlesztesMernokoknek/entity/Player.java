@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Past;
 import lombok.AllArgsConstructor;
@@ -15,11 +16,11 @@ import lombok.Setter;
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "players")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "players")
 public class Player {
 
     @Id
@@ -35,4 +36,7 @@ public class Player {
     @Column(name = "date_of_birth", nullable = false)
     @Past
     private LocalDate dateOfBirth;
+
+    @ManyToOne
+    private Team team;
 }
