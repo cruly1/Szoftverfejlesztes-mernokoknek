@@ -23,12 +23,6 @@ public class PlayerController {
         return player.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping
-    public ResponseEntity<List<Player>> getAllPlayers() {
-        List<Player> players = playerService.getAllPlayers();
-        return ResponseEntity.ok(players);
-    }
-
     @PostMapping
     public ResponseEntity<Player> createPlayer(@RequestBody Player player) {
         Player savedPlayer = playerService.addPlayer(player);
@@ -45,5 +39,11 @@ public class PlayerController {
     public ResponseEntity<String> deletePlayer(@PathVariable("id") Long id) {
         String response = playerService.deletePlayerById(id);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("getAllPlayers")
+    public ResponseEntity<List<Player>> getAllPlayers() {
+        List<Player> players = playerService.getAllPlayers();
+        return ResponseEntity.ok(players);
     }
 }
