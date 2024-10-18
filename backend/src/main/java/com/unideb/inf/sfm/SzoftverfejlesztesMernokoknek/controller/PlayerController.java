@@ -11,13 +11,13 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/player")
+@RequestMapping("/api/players/")
 public class PlayerController {
 
     @Autowired
     private PlayerService playerService;
 
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<Player> getPlayerById(@PathVariable("id") Long playerId) {
         Optional<Player> player = playerService.getPlayerById(playerId);
         return player.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
