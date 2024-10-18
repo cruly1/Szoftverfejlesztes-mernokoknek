@@ -37,7 +37,6 @@ public class TestPlayerController {
         player.setFirstName("Laci");
         player.setLastName("Kiss");
         player.setDateOfBirth(LocalDate.of(2001, 8, 13));
-        player.setTeamId(null);
 
         // mock
         when(playerService.getPlayerById(1L)).thenReturn(Optional.of(player));
@@ -59,7 +58,6 @@ public class TestPlayerController {
         player.setFirstName("Lajos");
         player.setLastName("Nagy");
         player.setDateOfBirth(LocalDate.of(2004, 5, 8));
-        player.setTeamId(null);
 
         // mock
         when(playerService.getPlayerById(1L)).thenReturn(Optional.of(player));
@@ -77,7 +75,7 @@ public class TestPlayerController {
     @Test
     public void testGetAllPlayers_OnlyOnePlayerAdded() {
         // arrange
-        List<Player>players=List.of(new Player(2L, "Kupecz", "Levente", LocalDate.of(2001, 1, 14), 10L));
+        List<Player>players=List.of(new Player(2L, "Kupecz", "Levente", LocalDate.of(2001, 1, 14)));
 
         // mock
         when(playerService.getAllPlayers()).thenReturn(players);
@@ -98,7 +96,6 @@ public class TestPlayerController {
         player.setFirstName("Pista");
         player.setLastName("Hegyi");
         player.setDateOfBirth(LocalDate.of(2007, 4, 3));
-        player.setTeamId(null);
 
         // mock
         when(playerService.addPlayer(any())).thenReturn(player);
@@ -120,14 +117,12 @@ public class TestPlayerController {
         updatedPlayer.setFirstName("István");
         updatedPlayer.setLastName("Kovács");
         updatedPlayer.setDateOfBirth(LocalDate.of(2003, 3, 12));
-        updatedPlayer.setTeamId(101L);
 
         Player returnedPlayer=new Player();
         returnedPlayer.setId(playerId);
         returnedPlayer.setFirstName("István");
         returnedPlayer.setLastName("Kovács");
         returnedPlayer.setDateOfBirth(LocalDate.of(2003, 3, 12));
-        returnedPlayer.setTeamId(101L);
 
         // mock
         when(playerService.updatePlayer(eq(playerId), any(Player.class))).thenReturn(returnedPlayer);
