@@ -1,22 +1,34 @@
 import React from 'react';
-import './App.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import HeroSection from './components/HeroSection';
-import MainSection from './components/MainSection';
 import Footer from './components/Footer';
+import Home from './pages/Home';
+import Players from './pages/Players';
+import PlayerDetails from './pages/PlayerDetails';
+import Teams from './pages/Teams';
+import Events from './pages/Events';
 
 function App() {
-    return (
-        <div className="App">
-            <header className="App-header">
-                <Navbar />
-            </header>
+  return (
+    <Router>
+      <div className="App">
+        
+        <header className="App-header">
+            <Navbar />
+        </header>
+        <Routes>
+          {/* Define Routes for Different Pages */}
+          <Route path="/" element={<Home />} />
+          <Route path="/players" element={<Players />} />
+          <Route path="/teams" element={<Teams />} />
+          <Route path="/events" element={<Events />} />
+          <Route path="/player/:id" element={<PlayerDetails />} /> {/* Dynamic route for player details */}
+        </Routes>
 
-            <HeroSection />
-            <MainSection />
-            <Footer />
-        </div>
-    );
+        <Footer />
+      </div>
+    </Router>
+  );
 }
 
 export default App;

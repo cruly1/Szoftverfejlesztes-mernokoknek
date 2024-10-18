@@ -1,5 +1,5 @@
 .hero-section {
-    height: 90vh;
+    height: 100vh;
     background: #143353 url('https://wallpapers.com/images/hd/1920-x-1080-hd-gaming-buu1xho2onmsr8rf.jpg') center center no-repeat;
     background-size: cover; /* A kép teljesen kitölti a rendelkezésre álló területet */
     display: flex;
@@ -61,6 +61,7 @@ p {
 
 .primary-btn:hover {
     background-color: #0f8c97;
+    
 }
 
 .secondary-btn {

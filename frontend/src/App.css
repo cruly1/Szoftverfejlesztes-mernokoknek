@@ -11,6 +11,6 @@ body {
 }
 
 .App-header {
-  background-color: #1c1c1c;
+  background-color: #1c1c1c !important;
   padding: 20px;
 }
