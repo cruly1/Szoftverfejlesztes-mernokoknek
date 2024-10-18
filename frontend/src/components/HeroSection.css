@@ -1,0 +1,76 @@
+.hero-section {
+    height: 90vh;
+    background: #143353 url('https://wallpapers.com/images/hd/1920-x-1080-hd-gaming-buu1xho2onmsr8rf.jpg') center center no-repeat;
+    background-size: cover; /* A kép teljesen kitölti a rendelkezésre álló területet */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6); /* Sötét áttetsző réteg a kép fölött */
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2; /* A tartalom a sötét réteg felett jelenik meg */
+    text-align: center;
+    color: #ffffff;
+}
+
+h1 {
+    font-size: 3.5rem;
+    color: #17a2b8;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+p {
+    font-size: 1.2rem;
+    margin: 20px 0;
+}
+
+.cta-buttons {
+    margin-top: 20px;
+}
+
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    text-transform: uppercase;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.primary-btn {
+    background-color: #17a2b8;
+    color: #ffffff;
+    margin-right: 10px;
+}
+
+.primary-btn:hover {
+    background-color: #0f8c97;
+}
+
+.secondary-btn {
+    background-color: #1c1c1c;
+    color: #17a2b8;
+    border: 2px solid #17a2b8;
+}
+
+.secondary-btn:hover {
+    background-color: #17a2b8;
+    color: #ffffff;
+    transform: scale(1.05);
+}
