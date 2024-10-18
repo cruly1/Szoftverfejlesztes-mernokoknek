@@ -1,0 +1,41 @@
+.main-section {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #282c34;
+    color: #ffffff;
+    border-radius: 8px;
+}
+
+.column {
+    flex: 1;
+    margin: 0 10px;
+    padding: 20px;
+    background-color: #444;
+    border-radius: 8px;
+    transition: transform 0.3s;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #17a2b8;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    padding: 10px 0;
+    text-align: center;
+}
+
+.link {
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s, text-shadow 0.3s;
+}
+
+
