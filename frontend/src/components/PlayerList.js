@@ -5,7 +5,7 @@ import './PlayerList.css'; // Create some fun styles for this
 const players = [
 
     { name: 'xelex', id: 'xelex' },
-    { name: 'zsolt', id: 'zsOlt!--' },
+    { name: 'zsolt', id: 'zsolt' },
     { name: 'bee', id: 'bee' },
     { name: 's1ckxrd', id: 's1ckxrd' },
     { name: 'therealbmG_', id: 'therealbmG_' },
