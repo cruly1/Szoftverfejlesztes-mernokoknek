@@ -1,66 +1,55 @@
-import React from 'react';
-import { useParams, Link } from 'react-router-dom';
-import './PlayerDetails.css';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import './PlayerList.css'; // Create some fun styles for this
 
-const dummyData = {
-    xelex: {
-        name: 'xelex',
-        dob: '1995-06-20',
-        nationality: 'Hungarian',
-        team: 'PilvaX',
-        teamLogo: 'https://via.placeholder.com/150', // Placeholder for team logo
-        teammates: ['zsOlt!--', 'bee', 's1ckxrd'],
-    },
-    zsolt: {
-        name: 'zsolt',
-        dob: '1998-12-10',
-        nationality: 'Romanian',
-        team: 'GSEktor',
-        teamLogo: 'https://via.placeholder.com/150', // Placeholder for team logo
-        teammates: ['xelex', 'bee', 'therealbmG_'],
-    },
-    // Add more dummy data for other players
-};
+function PlayerList() {
+    const [players, setPlayers] = useState([]); // State to store player data
+    const [loading, setLoading] = useState(true); // Loading state
+    const [error, setError] = useState(null); // Error state
 
-function PlayerDetails() {
-    const { id } = useParams(); // Capture the player ID from the URL
-    const player = dummyData[id] || {}; // Get player data based on URL parameter
+    // Fetch player data from the API
+    useEffect(() => {
+        const fetchPlayerData = async () => {
+            try {
+                const response = await fetch('/api/players'); // Fetch from your REST API endpoint
+                if (response.ok) {
+                    const data = await response.json();
+                    setPlayers(data);
+                } else {
+                    setError('Failed to fetch players');
+                }
+            } catch (error) {
+                setError('Error fetching player data');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchPlayerData();
+    }, []); // Fetch data once on component mount
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>{error}</div>;
+    }
 
     return (
-        <div className="player-detail">
-            <h1>{player.name}</h1>
-
-            {/* Player Info and Team Section in Row */}
-            <div className="player-info-row">
-                <div className="player-info">
-                    <p><strong>Date of Birth:</strong> {player.dob}</p>
-                    <p><strong>Nationality:</strong> {player.nationality}</p>
-                    <p><strong>Team:</strong> {player.team}</p>
-                </div>
-                <div className="team-info">
-                    <img src={player.teamLogo} alt={`${player.team} logo`} className="team-logo" />
-                </div>
-            </div>
-
-            {/* Teammates Section */}
-            <div className="team-members">
-                <h2>Teammates:</h2>
-                <ul>
-                    {player.teammates && player.teammates.length > 0 ? (
-                        player.teammates.map((teammate) => (
-                            <li key={teammate}>
-                                <Link to={`/players/${teammate}`} className="teammate-link">
-                                    {teammate}
-                                </Link>
-                            </li>
-                        ))
-                    ) : (
-                        <li>No teammates listed.</li>
-                    )}
-                </ul>
-            </div>
+        <div className="player-list">
+            <h1>Our Awesome Players</h1>
+            <ul>
+                {players.map((player) => (
+                    <li key={player.id}>
+                        <Link to={`/players/${player.id}`} className="player-link">
+                            {player.name}
+                        </Link>
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 }
 
-export default PlayerDetails;
+export default PlayerList;
