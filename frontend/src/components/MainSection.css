@@ -1,41 +1,92 @@
 .main-section {
-    display: flex;
-    justify-content: space-between;
     padding: 20px;
     background-color: #282c34;
     color: #ffffff;
     border-radius: 8px;
 }
 
-.column {
+.team-row {
+    margin-bottom: 40px; 
+}
+
+.team-players {
+    display: flex;
+    justify-content: space-between;
+}
+
+.player-column {
     flex: 1;
     margin: 0 10px;
-    padding: 20px;
     background-color: #444;
+    padding: 20px;
     border-radius: 8px;
     transition: transform 0.3s;
-}
-
-h2 {
-    text-align: center;
-    margin-bottom: 15px;
-    color: #17a2b8;
-}
-
-ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-li {
-    padding: 10px 0;
     text-align: center;
 }
 
-.link {
+.player-column h3 {
+    margin-bottom: 10px;
+}
+
+.player-column h3 .link, 
+.events-list .link,
+.team-row h2 .link {
     color: #ffffff;
     text-decoration: none;
     transition: color 0.3s, text-shadow 0.3s;
 }
 
+.player-column h3 .link:hover,
+.events-list .link:hover,
+.team-row h2 .link:hover {
+    color: #17a2b8;
+    text-shadow: 1px 1px 3px rgba(23, 162, 184, 0.7);
+}
 
+/* Styling for the events under each team */
+.team-events {
+    margin-top: 20px;
+    background-color: #333;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: left;
+}
+
+.team-events h3 {
+    color: #17a2b8;
+}
+
+.events-list {
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 10px;
+}
+
+.events-list li {
+    padding: 5px 0;
+    font-size: 0.9rem;
+}
+
+.events-list li .link {
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s, text-shadow 0.3s;
+}
+
+.events-list li .link:hover {
+    color: #17a2b8;
+    text-shadow: 1px 1px 3px rgba(23, 162, 184, 0.7);
+}
+
+/* Hover effect for player columns */
+.player-column:hover {
+    transform: scale(1.05);
+}
+
+/* Separate teams visually */
+h2 {
+    text-align: left;
+    margin-bottom: 20px;
+    color: #17a2b8;
+    font-size: 1.5rem;
+}
