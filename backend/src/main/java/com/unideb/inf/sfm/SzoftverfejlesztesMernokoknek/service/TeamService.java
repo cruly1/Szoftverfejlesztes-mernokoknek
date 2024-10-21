@@ -25,7 +25,7 @@ public class TeamService {
         List<String> players = new ArrayList<>();
 
         for (Player player : team.getPlayersInTeam()) {
-            players.add(player.getFirstName());
+            players.add(player.getNickName());
         }
 
         return new TeamDTO(
@@ -63,7 +63,7 @@ public class TeamService {
         for (Team team : teams) {
             List<String> players = new ArrayList<>();
             for (Player player : team.getPlayersInTeam()) {
-                players.add(player.getFirstName());
+                players.add(player.getNickName());
             }
 
             teamDTOS.add(new TeamDTO(
