@@ -1,19 +1,22 @@
 package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.controller;
 
-import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.dto.PlayerDTO;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.dto.TeamDTO;
-import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.entity.Player;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.entity.Team;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.service.TeamService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.swing.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/teams/")
@@ -24,20 +27,7 @@ public class TeamController {
 
     @GetMapping("{id}")
     public ResponseEntity<TeamDTO> getTeamById(@PathVariable("id") Long teamId) {
-        Optional<Team> team = teamService.getTeamById(teamId);
-
-        List<String> players = new ArrayList<>();
-
-        for (Player player : team.get().getPlayers()) {
-            players.add(player.getFirstName());
-        }
-
-        TeamDTO teamDTO = new TeamDTO(
-                team.get().getId(),
-                team.get().getTeamName(),
-                players
-        );
-
+        TeamDTO teamDTO = teamService.getTeamById(teamId);
         return ResponseEntity.ok(teamDTO);
     }
 
@@ -61,24 +51,7 @@ public class TeamController {
 
     @GetMapping("getAllTeams")
     public ResponseEntity<List<TeamDTO>> getAllTeams() {
-        List<Team> teams = teamService.getAllTeams();
-
-        List<TeamDTO> teamDTOS = new ArrayList<>();
-
-        List<String> players = new ArrayList<>();
-
-        for (Team team : teams) {
-            for (Player player : team.getPlayers()) {
-                players.add(player.getFirstName());
-            }
-
-            teamDTOS.add(new TeamDTO(
-                    team.getId(),
-                    team.getTeamName(),
-                    players
-            ));
-        }
-
+        List<TeamDTO> teamDTOS = teamService.getAllTeams();
         return ResponseEntity.ok(teamDTOS);
     }
 }
