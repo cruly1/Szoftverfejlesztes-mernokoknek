@@ -1,7 +1,6 @@
 package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.controller;
 
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.dto.TeamDTO;
-import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.entity.Player;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.entity.Team;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.service.TeamService;
 
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController

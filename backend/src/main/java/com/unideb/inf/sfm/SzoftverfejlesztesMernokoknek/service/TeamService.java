@@ -24,7 +24,7 @@ public class TeamService {
 
         List<String> players = new ArrayList<>();
 
-        for (Player player : team.getPlayers()) {
+        for (Player player : team.getPlayersInTeam()) {
             players.add(player.getFirstName());
         }
 
@@ -59,10 +59,10 @@ public class TeamService {
     public List<TeamDTO> getAllTeams() {
         List<Team> teams = teamRepository.findAll();
         List<TeamDTO> teamDTOS = new ArrayList<>();
-        List<String> players = new ArrayList<>();
 
         for (Team team : teams) {
-            for (Player player : team.getPlayers()) {
+            List<String> players = new ArrayList<>();
+            for (Player player : team.getPlayersInTeam()) {
                 players.add(player.getFirstName());
             }
 
@@ -71,7 +71,6 @@ public class TeamService {
                     team.getTeamName(),
                     players
             ));
-            players.clear();
         }
 
         return teamDTOS;

@@ -31,5 +31,5 @@ public class Team {
     private String teamName;
 
     @OneToMany(mappedBy = "team")
-    private List<Player> players = new ArrayList<>();
+    private List<Player> playersInTeam = new ArrayList<>();
 }
