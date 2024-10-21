@@ -6,8 +6,8 @@ const MainSection = () => {
         {
             name: 'Team 1',
             players: [
-                { name: 'xelex', link: '/players/xelex' },
-                { name: 'zsOlt!--', link: '/players/zsolt' },
+                { name: 'xelex', link: '/players/1' },
+                { name: 'zsOlt!--', link: '/players/2' },
                 { name: 'bee', link: '/players/bee' },
                 { name: 's1ckxrd', link: '/players/s1ckxrd' },
                 { name: 'therealbmG_', link: '/players/therealbmG_' }
