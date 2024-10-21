@@ -15,7 +15,6 @@ const players = [
     { name: 'SkyLinEr', id: 'skyliner' },
     { name: 'Kaktusz', id: 'kaktusz' },
     { name: 'WOORIá', id: 'wooria' },
-
 ];
 
 function PlayerList() {
