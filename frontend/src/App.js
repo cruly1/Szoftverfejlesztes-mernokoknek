@@ -22,7 +22,7 @@ function App() {
           <Route path="/players" element={<Players />} />
           <Route path="/teams" element={<Teams />} />
           <Route path="/events" element={<Events />} />
-          <Route path="/player/:id" element={<PlayerDetails />} /> {/* Dynamic route for player details */}
+          <Route path="/players/:id" element={<PlayerDetails />} /> {/* Dynamic route for player details */}
         </Routes>
 
         <Footer />
