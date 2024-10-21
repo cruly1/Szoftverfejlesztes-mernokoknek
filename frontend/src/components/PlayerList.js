@@ -3,18 +3,19 @@ import { Link } from 'react-router-dom';
 import './PlayerList.css'; // Create some fun styles for this
 
 const players = [
+
     { name: 'xelex', id: 'xelex' },
-    { name: 'zsOlt!--', id: 'zsolt' },
+    { name: 'zsolt', id: 'zsOlt!--' },
     { name: 'bee', id: 'bee' },
     { name: 's1ckxrd', id: 's1ckxrd' },
     { name: 'therealbmG_', id: 'therealbmG_' },
-    { name: 'marTineZ', id: 'martinez' },
-    { name: 'BalaGOD', id: 'balagod' },
-    { name: 'PilvaX', id: 'pilvax' },
-    { name: 'GSEktor', id: 'gsektor' },
-    { name: 'SkyLinEr', id: 'skyliner' },
-    { name: 'Kaktusz', id: 'kaktusz' },
-    { name: 'WOORIá', id: 'wooria' },
+    { name: 'martinez', id: 'marTineZ' },
+    { name: 'balagod', id: 'BalaGOD' },
+    { name: 'pilvax', id: 'PilvaX' },
+    { name: 'gsektor', id: 'GSEktor' },
+    { name: 'skyliner', id: 'SkyLinEr' },
+    { name: 'kaktusz', id: 'Kaktusz' },
+    { name: 'wooria', id: 'WOORIá' },
 ];
 
 function PlayerList() {

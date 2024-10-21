@@ -12,7 +12,7 @@ const dummyData = {
         teammates: ['zsOlt!--', 'bee', 's1ckxrd'],
     },
     zsolt: {
-        name: 'zsOlt!--',
+        name: 'zsolt',
         dob: '1998-12-10',
         nationality: 'Romanian',
         team: 'GSEktor',
