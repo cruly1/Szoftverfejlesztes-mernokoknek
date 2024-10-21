@@ -1,4 +1,5 @@
 import React from 'react';
+import { Routes, Route, useParams, Router, Switch } from 'react-router-dom';
 import PlayerList from '../components/PlayerList';
 import './Players.css';  
 
@@ -9,7 +10,6 @@ function Players() {
         <h1>Meet Our Players</h1>
         <p>Click on any player's name to view their profile and more details about their achievements!</p>
       </div>
-      <PlayerList />
     </div>
   );
 }
