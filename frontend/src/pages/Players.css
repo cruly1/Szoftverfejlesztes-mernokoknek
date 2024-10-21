@@ -1,6 +1,6 @@
 /* General Styling for the Players Page */
 .players-page {
-    background-color: #121212;
+    background-color: hsl(0, 0%, 7%);
     min-height: 100vh;
     display: flex;
     flex-direction: column;

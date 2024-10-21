@@ -1,0 +1,16 @@
+.twitch-container {
+  text-align: center;
+  padding: 40px;
+  background-color: #1c1c1c;
+}
+
+.twitch-container h2 {
+  color: #ffffff;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.twitch-embed iframe {
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}

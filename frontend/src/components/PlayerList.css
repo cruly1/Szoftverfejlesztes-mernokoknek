@@ -1,8 +1,9 @@
 .player-list {
-    display: block;
+    display: inline;
     background-color: #1c1c1c !important;
     text-align: center;
     margin: 20px;
+    padding: auto;
 }
 
 .player-list h1 {
@@ -16,6 +17,7 @@
 }
 
 .player-list li {
+    padding: 10px;
     margin: 15px 0;
 }
 
@@ -27,6 +29,10 @@
     padding: 10px 20px;
     border-radius: 5px;
     transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.player-link a{
+    padding-left: auto;
 }
 
 .player-link:hover {
