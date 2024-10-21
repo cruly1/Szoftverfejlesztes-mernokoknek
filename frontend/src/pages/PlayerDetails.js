@@ -1,66 +1,41 @@
-import React from 'react';
-import { useParams, Link } from 'react-router-dom';
-import './PlayerDetails.css';
-
-const dummyData = {
-    xelex: {
-        name: 'xelex',
-        dob: '1995-06-20',
-        nationality: 'Hungarian',
-        team: 'PilvaX',
-        teamLogo: 'https://via.placeholder.com/150', // Placeholder for team logo
-        teammates: ['zsOlt!--', 'bee', 's1ckxrd'],
-    },
-    zsolt: {
-        name: 'zsolt',
-        dob: '1998-12-10',
-        nationality: 'Romanian',
-        team: 'GSEktor',
-        teamLogo: 'https://via.placeholder.com/150', // Placeholder for team logo
-        teammates: ['xelex', 'bee', 'therealbmG_'],
-    },
-    // Add more dummy data for other players
-};
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate} from 'react-router-dom';
+import axios from 'axios';
+import './PlayerDetails.css'; // Assuming you have a CSS file for styling
 
 function PlayerDetails() {
-    const { id } = useParams(); // Capture the player ID from the URL
-    const player = dummyData[id] || {}; // Get player data based on URL parameter
+  const { id } = useParams(); // Get the player ID from the URL
+  const [player, setPlayer] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-    return (
-        <div className="player-detail">
-            <h1>{player.name}</h1>
+  useEffect(() => {
+    axios.get(`http://localhost:8080/api/players/${id}`) // Fetch player data by ID
+      .then(response => {
+        setPlayer(response.data); // Assuming the response contains player details
+        console.log(response.data);
+        navigate(`/players/${response.data.firstName}`);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [id, navigate]); // The effect runs whenever the ID in the URL changes
 
-            {/* Player Info and Team Section in Row */}
-            <div className="player-info-row">
-                <div className="player-info">
-                    <p><strong>Date of Birth:</strong> {player.dob}</p>
-                    <p><strong>Nationality:</strong> {player.nationality}</p>
-                    <p><strong>Team:</strong> {player.team}</p>
-                </div>
-                <div className="team-info">
-                    <img src={player.teamLogo} alt={`${player.team} logo`} className="team-logo" />
-                </div>
-            </div>
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
+  if (!player) return <div>No player data found</div>;
 
-            {/* Teammates Section */}
-            <div className="team-members">
-                <h2>Teammates:</h2>
-                <ul>
-                    {player.teammates && player.teammates.length > 0 ? (
-                        player.teammates.map((teammate) => (
-                            <li key={teammate}>
-                                <Link to={`/players/${teammate}`} className="teammate-link">
-                                    {teammate}
-                                </Link>
-                            </li>
-                        ))
-                    ) : (
-                        <li>No teammates listed.</li>
-                    )}
-                </ul>
-            </div>
-        </div>
-    );
+  return (
+    <div className="player-detail">
+      <h1>{player.firstName} {player.lastName}</h1>
+      <p><strong>Date of Birth:</strong> {player.dateOfBirth}</p>
+      <p><strong>Team:</strong> {player.teamName ? player.teamName : 'No team'}</p>
+    </div>
+  );
 }
 
 export default PlayerDetails;
