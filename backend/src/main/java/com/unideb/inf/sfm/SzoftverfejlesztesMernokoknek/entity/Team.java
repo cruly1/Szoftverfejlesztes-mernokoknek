@@ -5,38 +5,31 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Past;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name = "players")
+@Table(name = "teams")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Player {
+public class Team {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "first_name", nullable = false, length = 50)
-    private String firstName;
+    @Column(name = "team_name", nullable = false, length = 20)
+    private String teamName;
 
-    @Column(name = "last_name", nullable = false, length = 50)
-    private String lastName;
-
-    @Column(name = "date_of_birth", nullable = false)
-    @Past
-    private LocalDate dateOfBirth;
-
-    @ManyToOne
-    private Team team;
+    @OneToMany(mappedBy = "team")
+    private List<Player> players = new ArrayList<>();
 }
