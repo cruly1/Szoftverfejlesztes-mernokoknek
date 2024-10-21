@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -13,5 +15,7 @@ public class PlayerDTO {
     private Long id;
     private String firstName;
     private String lastName;
+    private String nickName;
+    private LocalDate birthDate;
     private String teamName;
 }
