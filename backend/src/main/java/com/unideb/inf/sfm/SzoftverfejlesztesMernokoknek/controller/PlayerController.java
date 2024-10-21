@@ -3,14 +3,20 @@ package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.controller;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.dto.PlayerDTO;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.entity.Player;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.service.PlayerService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/players/")
@@ -21,15 +27,7 @@ public class PlayerController {
 
     @GetMapping("{id}")
     public ResponseEntity<PlayerDTO> getPlayerById(@PathVariable("id") Long playerId) {
-        Optional<Player> player = playerService.getPlayerById(playerId);
-
-        PlayerDTO playerDTO = new PlayerDTO(
-                player.get().getId(),
-                player.get().getFirstName(),
-                player.get().getLastName(),
-                player.get().getTeam().getTeamName()
-        );
-
+        PlayerDTO playerDTO = playerService.getPlayerById(playerId);
         return ResponseEntity.ok(playerDTO);
     }
 
@@ -53,17 +51,7 @@ public class PlayerController {
 
     @GetMapping("getAllPlayers")
     public ResponseEntity<List<PlayerDTO>> getAllPlayers() {
-        List<Player> players = playerService.getAllPlayers();
-
-        List<PlayerDTO> playerDTOS = new ArrayList<>();
-
-        players.stream().map((player -> new PlayerDTO(
-                player.getId(),
-                player.getFirstName(),
-                player.getLastName(),
-                player.getTeam().getTeamName())))
-                .forEach(playerDTOS::add);
-
+        List<PlayerDTO> playerDTOS = playerService.getAllPlayers();
         return ResponseEntity.ok(playerDTOS);
     }
 }

@@ -1,13 +1,15 @@
 package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.service;
 
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.dto.PlayerDTO;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.entity.Player;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.ResourceNotFoundException;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.PlayerRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PlayerService {
@@ -15,11 +17,16 @@ public class PlayerService {
     @Autowired
     private PlayerRepository playerRepository;
 
-    public Optional<Player> getPlayerById(Long playerId) {
+    public PlayerDTO getPlayerById(Long playerId) {
         Player player = playerRepository.findById(playerId).orElseThrow(
                 () -> new ResourceNotFoundException(playerId, "Player"));
 
-        return Optional.of(player);
+        return new PlayerDTO(
+                player.getId(),
+                player.getFirstName(),
+                player.getLastName(),
+                player.getTeam().getTeamName()
+        );
     }
 
     public Player addPlayer(Player player) {
@@ -45,7 +52,17 @@ public class PlayerService {
         return "Player deleted successfully.";
     }
 
-    public List<Player> getAllPlayers() {
-        return playerRepository.findAll();
+    public List<PlayerDTO> getAllPlayers() {
+        List<Player> players = playerRepository.findAll();
+        List<PlayerDTO> playerDTOS = new ArrayList<>();
+
+        players.stream().map((player -> new PlayerDTO(
+                        player.getId(),
+                        player.getFirstName(),
+                        player.getLastName(),
+                        player.getTeam().getTeamName())))
+                .forEach(playerDTOS::add);
+
+        return playerDTOS;
     }
 }
