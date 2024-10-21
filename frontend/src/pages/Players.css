@@ -1,0 +1,74 @@
+/* General Styling for the Players Page */
+.players-page {
+    background-color: #121212;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 40px;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Header Section */
+.players-header {
+    text-align: center;
+    margin-bottom: 40px;
+    max-width: 800px;
+    padding: 20px;
+    background-color: #1c1c1c;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.players-header h1 {
+    font-size: 3rem;
+    color: #17a2b8;
+    margin-bottom: 10px;
+}
+
+.players-header p {
+    font-size: 1.2rem;
+    color: #cccccc;
+}
+
+/* Enhancing the PlayerList Styling */
+.player-list {
+    width: 100%;
+    max-width: 900px;
+    padding: 20px;
+}
+
+.player-list ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.player-list li {
+    list-style: none;
+    width: 200px;
+    margin: 10px;
+}
+
+.player-link {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: #ffffff;
+    background-color: #282c34;
+    padding: 15px 20px;
+    border-radius: 10px;
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Add a Fun Hover Effect */
+.player-link:hover {
+    background-color: #17a2b8;
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(23, 162, 184, 0.7);
+}

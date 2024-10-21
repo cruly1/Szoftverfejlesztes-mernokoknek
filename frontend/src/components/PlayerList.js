@@ -4,17 +4,17 @@ import './PlayerList.css'; // Create some fun styles for this
 
 const players = [
     { name: 'xelex', id: 'xelex' },
-    { name: 'zsOlt1--', id: 'zsolt' },
+    { name: 'zsOlt!--', id: 'zsolt' },
     { name: 'bee', id: 'bee' },
     { name: 's1ckxrd', id: 's1ckxrd' },
     { name: 'therealbmG_', id: 'therealbmG_' },
     { name: 'marTineZ', id: 'martinez' },
-    { name: 'BalaGOD', link: '/teams/balagod' },
-    { name: 'PilvaX', link: '/teams/pilvax' },
-    { name: 'GSEktor', link: '/teams/gsektor' },
-    { name: 'SkyLinEr', link: '/teams/skyliner' },
-    { name: 'Kaktusz', link: '/teams/kaktusz' },
-    { name: 'WOORIá', link: '/teams/wooria' },
+    { name: 'BalaGOD', id: 'balagod' },
+    { name: 'PilvaX', id: 'pilvax' },
+    { name: 'GSEktor', id: 'gsektor' },
+    { name: 'SkyLinEr', id: 'skyliner' },
+    { name: 'Kaktusz', id: 'kaktusz' },
+    { name: 'WOORIá', id: 'wooria' },
 
 ];
 
@@ -25,7 +25,7 @@ function PlayerList() {
             <ul>
                 {players.map((player) => (
                     <li key={player.id}>
-                        <Link to={`/player/${player.id}`} className="player-link">
+                        <Link to={`/players/${player.id}`} className="player-link">
                             {player.name}
                         </Link>
                     </li>
