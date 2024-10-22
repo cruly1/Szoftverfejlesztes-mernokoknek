@@ -1,12 +1,13 @@
-
-
 .twitch-container {
   text-align: center;
-  background-color: #212529; /* Sötét háttér */
-  margin: 0 auto; /* Középre igazítás */
-  padding: 50px 20px; /* Kisebb padding */
-  
-  
+  background-color: #212529;
+  /* Sötét háttér */
+  margin: 0 auto;
+  /* Középre igazítás */
+  padding: 50px 20px;
+  /* Kisebb padding */
+  border-top: 2px solid #3a3a3a;
+
 }
 
 .twitch-container h2 {
@@ -15,11 +16,14 @@
   font-weight: 600;
   margin-bottom: 20px;
   letter-spacing: 1px;
-  text-transform: uppercase; /* Nagybetűs cím */
-  border-bottom: 2px solid #17a2b8; /* Színes alsó vonal */
-  display: inline-block; /* Csak a szöveg alatt jelenik meg a vonal */
+  text-transform: uppercase;
+  /* Nagybetűs cím */
+  border-bottom: 2px solid #17a2b8;
+  /* Színes alsó vonal */
+  display: inline-block;
+  /* Csak a szöveg alatt jelenik meg a vonal */
   padding-bottom: 10px;
-  
+
 }
 
 
@@ -28,13 +32,16 @@
   width: 100%;
   max-width: 900px;
   height: 480px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* Diszkrét árnyék */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  /* Diszkrét árnyék */
 }
 
 .twitch-container h2:hover {
-  color: #17a2b8; /* Hover effekt a címnél */
+  color: #17a2b8;
+  /* Hover effekt a címnél */
 }
 
 .twitch-embed iframe:hover {
-  box-shadow: 0 6px 20px rgba(23, 162, 184, 0.3); /* Kicsit nagyobb árnyék hoverkor */
+  box-shadow: 0 6px 20px rgba(23, 162, 184, 0.3);
+  /* Kicsit nagyobb árnyék hoverkor */
 }

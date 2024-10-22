@@ -5,6 +5,8 @@
     color: #ffffff;
     position: relative;
     z-index: 1;
+    border-top: 2px solid #3a3a3a;
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.5);
 }
 
 .social-icons {

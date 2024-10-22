@@ -51,7 +51,6 @@ const MainSection = () => {
                         ))}
                     </div>
 
-                    
                     {team.events.length > 0 && (
                         <div className="team-events">
                             <h3>Attended Events</h3>

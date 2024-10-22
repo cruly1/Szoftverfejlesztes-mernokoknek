@@ -1,6 +1,6 @@
 /* General Styling for the Players Page */
 .players-page {
-    background-color: hsl(0, 0%, 7%);
+    background-color: #212529;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -16,9 +16,11 @@
     margin-bottom: 40px;
     max-width: 800px;
     padding: 20px;
-    background-color: #1c1c1c;
+    background-color: #343a40;
     border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    
+    box-shadow: 0 0 7px black;
+    border: 1px solid black;
 }
 
 .players-header h1 {
