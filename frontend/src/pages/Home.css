@@ -1,16 +1,36 @@
 .twitch-container {
   text-align: center;
-  padding: 40px;
-  background-color: #1c1c1c;
+  background-color: #212529; /* Sötét háttér */
+  margin: 0 auto; /* Középre igazítás */
+  padding: 50px 20px; /* Kisebb padding */
+  
+  
 }
 
 .twitch-container h2 {
   color: #ffffff;
-  font-size: 2.5rem;
+  font-size: 2.2rem;
+  font-weight: 600;
   margin-bottom: 20px;
+  letter-spacing: 1px;
+  text-transform: uppercase; /* Nagybetűs cím */
+  border-bottom: 2px solid #17a2b8; /* Színes alsó vonal */
+  display: inline-block; /* Csak a szöveg alatt jelenik meg a vonal */
+  padding-bottom: 10px;
 }
 
 .twitch-embed iframe {
   border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  width: 100%;
+  max-width: 900px;
+  height: 480px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* Diszkrét árnyék */
+}
+
+.twitch-container h2:hover {
+  color: #17a2b8; /* Hover effekt a címnél */
+}
+
+.twitch-embed iframe:hover {
+  box-shadow: 0 6px 20px rgba(23, 162, 184, 0.3); /* Kicsit nagyobb árnyék hoverkor */
 }
