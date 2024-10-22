@@ -1,3 +1,5 @@
+
+
 .twitch-container {
   text-align: center;
   background-color: #212529; /* Sötét háttér */
@@ -17,7 +19,9 @@
   border-bottom: 2px solid #17a2b8; /* Színes alsó vonal */
   display: inline-block; /* Csak a szöveg alatt jelenik meg a vonal */
   padding-bottom: 10px;
+  
 }
+
 
 .twitch-embed iframe {
   border-radius: 10px;
