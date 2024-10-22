@@ -11,7 +11,6 @@ function Players() {
       <PlayerList />
         </div>
       </div>
-
     </div>
   );
 }
