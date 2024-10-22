@@ -16,11 +16,6 @@
     margin-bottom: 40px;
     max-width: 800px;
     padding: 20px;
-    background-color: #343a40;
-    border-radius: 10px;
-    
-    box-shadow: 0 0 7px black;
-    border: 1px solid black;
 }
 
 .players-header h1 {

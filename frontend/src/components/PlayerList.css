@@ -1,9 +1,12 @@
 .player-list {
     display: inline;
-    background-color: #1c1c1c !important;
     text-align: center;
     margin: 20px;
     padding: auto;
+    background-color: #343a40;
+    border-radius: 10px;
+    box-shadow: 0 0 7px black;
+    border: 1px solid black;
 }
 
 .player-list h1 {
