@@ -24,7 +24,7 @@ function App() {
           <Route path="/events" element={<Events />} />
           <Route path="/players/:id" element={<PlayerDetails />} /> {/* Dynamic route for player details */}
         </Routes>
-
+        
         <Footer />
       </div>
     </Router>
