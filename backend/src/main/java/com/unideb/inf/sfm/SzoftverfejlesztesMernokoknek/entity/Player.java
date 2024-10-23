@@ -40,6 +40,26 @@ public class Player {
     @Past
     private LocalDate dateOfBirth;
 
+    @Column(name = "events", nullable = false, length = 50)
+    private String events;
+
+    @Column(name = "gender", nullable = false, length = 24)
+    private String gender;
+
+    /*
+    public enum Gender {
+        MALE, FEMALE, OTHER
+    }
+    @Column(name = "gender", nullable = false)
+    @Enumerated(EnumType.STRING) // Store as a string in the database
+    private Gender gender;
+    */
+    // ezt a nationalityt is nemtom hogy kéne megoldani szépen h ne kézzel írós legyen. - lehet fogyatékos a logikám majd elmondom
+    @Column(name = "nationality", nullable = false)
+    private String nationality;
+
+
+
     @ManyToOne
     private Team team;
 }

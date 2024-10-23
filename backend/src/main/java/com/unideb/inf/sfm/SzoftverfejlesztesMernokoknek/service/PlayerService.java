@@ -27,7 +27,10 @@ public class PlayerService {
                 player.getLastName(),
                 player.getNickName(),
                 player.getDateOfBirth(),
-                player.getTeam().getTeamName()
+                player.getTeam().getTeamName(),
+                player.getEvents(),
+                player.getGender(),
+                player.getNationality()
         );
     }
 
@@ -64,7 +67,10 @@ public class PlayerService {
                         player.getLastName(),
                         player.getNickName(),
                         player.getDateOfBirth(),
-                        player.getTeam().getTeamName())))
+                        player.getTeam().getTeamName(),
+                        player.getEvents(),
+                        player.getGender(),
+                        player.getNationality())))
                 .forEach(playerDTOS::add);
 
         return playerDTOS;

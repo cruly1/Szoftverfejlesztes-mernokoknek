@@ -18,4 +18,7 @@ public class PlayerDTO {
     private String nickName;
     private LocalDate birthDate;
     private String teamName;
+    private String events;
+    private String gender;
+    private String nationality;
 }
