@@ -29,7 +29,6 @@ public class EventController {
     @GetMapping("{id}")
     public ResponseEntity<EventDTO> getEventById(@PathVariable("id") Long id) {
         EventDTO eventDTO = eventService.getEventById(id);
-
         return ResponseEntity.ok(eventDTO);
     }
 

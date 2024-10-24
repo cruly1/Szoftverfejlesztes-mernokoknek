@@ -6,7 +6,6 @@ import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.BadRequestExce
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.ResourceNotFoundException;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.PlayerRepository;
 
-import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +14,6 @@ import java.util.List;
 
 @Service
 public class PlayerService {
-
-    @Autowired
-    private TeamRepository teamRepository;
 
     @Autowired
     private PlayerRepository playerRepository;
