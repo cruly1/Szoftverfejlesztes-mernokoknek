@@ -30,11 +30,9 @@ public class Event {
     @Column(name = "event_name", nullable = false, length = 50)
     private String eventName;
 
-    @Column(name = "event_year", nullable = false)
-    @Past
-    private int eventYear;
+    @Column(name = "event_date", nullable = false)
+    private LocalDate eventDate;
 
-    //continue
 
     @ManyToOne
     private Team team;

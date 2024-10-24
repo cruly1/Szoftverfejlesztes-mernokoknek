@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.cglib.core.Local;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -13,5 +15,5 @@ import org.springframework.cglib.core.Local;
 public class EventDTO {
     private Long id;
     private String eventName;
-    private int eventYear;
+    private LocalDate eventDate;
 }
