@@ -1,5 +1,5 @@
 .player-list {
-    display: inline;
+    display: block;
     text-align: center;
     margin: 20px;
     padding: auto;

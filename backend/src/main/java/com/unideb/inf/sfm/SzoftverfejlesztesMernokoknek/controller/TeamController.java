@@ -65,9 +65,10 @@ public class TeamController {
 
         List<TeamDTO> teamDTOS = new ArrayList<>();
 
-        List<String> players = new ArrayList<>();
+
 
         for (Team team : teams) {
+            List<String> players = new ArrayList<>();
             for (Player player : team.getPlayers()) {
                 players.add(player.getFirstName());
             }

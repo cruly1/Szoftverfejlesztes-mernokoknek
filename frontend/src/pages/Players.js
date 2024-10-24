@@ -32,7 +32,7 @@ function Players() {
         <h1 ref={headingRef}>Meet Our Players</h1> {/* Heading with ref for animation */}
       </div>
 
-      <div className="player-list" ref={playerListRef}> {/* Player list with ref */}
+      <div ref={playerListRef}> {/* Player list with ref */}
         <PlayerList /> {/* Assuming this component renders the actual player items */}
       </div>
     </div>

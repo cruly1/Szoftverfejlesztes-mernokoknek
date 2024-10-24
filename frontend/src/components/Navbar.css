@@ -20,6 +20,7 @@
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Diszkrétebb árnyék */
     transition: transform 0.3s ease, color 0.3s ease;
     cursor: pointer;
+    
 }
 
 .logo:hover {
