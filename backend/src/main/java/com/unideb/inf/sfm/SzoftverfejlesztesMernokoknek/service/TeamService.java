@@ -29,7 +29,6 @@ public class TeamService {
         }
 
         return new TeamDTO(
-                team.getId(),
                 team.getTeamName(),
                 players
         );
@@ -67,7 +66,6 @@ public class TeamService {
             }
 
             teamDTOS.add(new TeamDTO(
-                    team.getId(),
                     team.getTeamName(),
                     players
             ));

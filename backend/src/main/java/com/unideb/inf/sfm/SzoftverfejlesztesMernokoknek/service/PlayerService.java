@@ -2,9 +2,11 @@ package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.service;
 
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.dto.PlayerDTO;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.entity.Player;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.BadRequestException;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.ResourceNotFoundException;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.PlayerRepository;
 
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,9 @@ import java.util.List;
 public class PlayerService {
 
     @Autowired
+    private TeamRepository teamRepository;
+
+    @Autowired
     private PlayerRepository playerRepository;
 
     public PlayerDTO getPlayerById(Long playerId) {
@@ -22,20 +27,22 @@ public class PlayerService {
                 () -> new ResourceNotFoundException(playerId, "Player"));
 
         return new PlayerDTO(
-                player.getId(),
                 player.getFirstName(),
                 player.getLastName(),
                 player.getNickName(),
                 player.getDateOfBirth(),
                 player.getTeam().getTeamName(),
-                player.getEvent(),
                 player.getGender(),
                 player.getNationality()
         );
     }
 
     public Player addPlayer(Player player) {
-        return playerRepository.save(player);
+        try {
+            return playerRepository.save(player);
+        } catch (RuntimeException e) {
+            throw new BadRequestException();
+        }
     }
 
     public Player updatePlayer(Long playerId, Player updatedPlayer) {
@@ -62,13 +69,11 @@ public class PlayerService {
         List<PlayerDTO> playerDTOS = new ArrayList<>();
 
         players.stream().map((player -> new PlayerDTO(
-                        player.getId(),
                         player.getFirstName(),
                         player.getLastName(),
                         player.getNickName(),
                         player.getDateOfBirth(),
                         player.getTeam().getTeamName(),
-                        player.getEvent(),
                         player.getGender(),
                         player.getNationality())))
                 .forEach(playerDTOS::add);

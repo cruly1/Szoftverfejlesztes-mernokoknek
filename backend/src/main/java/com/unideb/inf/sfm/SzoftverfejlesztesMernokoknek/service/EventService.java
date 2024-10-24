@@ -21,7 +21,6 @@ public class EventService {
                 () -> new ResourceNotFoundException(id, "Event"));
 
         return new EventDTO(
-                event.getId(),
                 event.getEventName(),
                 event.getEventDate()
         );
@@ -54,7 +53,6 @@ public class EventService {
         List<EventDTO> eventDTOS = new ArrayList<>();
 
         events.stream().map((event -> new EventDTO(
-                        event.getId(),
                         event.getEventName(),
                         event.getEventDate())))
                 .forEach(eventDTOS::add);

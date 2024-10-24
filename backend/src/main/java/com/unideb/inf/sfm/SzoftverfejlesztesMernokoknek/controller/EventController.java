@@ -56,5 +56,4 @@ public class EventController {
         List<EventDTO> eventDTOS = eventService.getAllEvents();
         return ResponseEntity.ok(eventDTOS);
     }
-
 }
