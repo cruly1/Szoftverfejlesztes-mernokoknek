@@ -1,6 +1,6 @@
 package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.entity;
 
-public enum Gender {
+public enum EGender {
     MALE,
     FEMALE
 }

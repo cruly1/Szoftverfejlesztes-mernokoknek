@@ -1,7 +1,7 @@
 package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.dto;
 
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.entity.Event;
-import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.entity.Gender;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.entity.EGender;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +21,6 @@ public class PlayerDTO {
     private LocalDate birthDate;
     private String teamName;
     private Event event;
-    private Gender gender;
+    private EGender gender;
     private String nationality;
 }

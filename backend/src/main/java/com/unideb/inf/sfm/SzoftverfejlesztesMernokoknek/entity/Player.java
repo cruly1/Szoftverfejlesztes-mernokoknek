@@ -1,6 +1,12 @@
 package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Past;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,15 +40,11 @@ public class Player {
     @Past
     private LocalDate dateOfBirth;
 
-    @Column(name = "events", length = 50)
-    private Event event;
-
     @Column(name = "gender", nullable = false)
-    private Gender gender;
+    private EGender gender;
 
     @Column(name = "nationality", nullable = false)
     private String nationality;
-
 
     @ManyToOne
     private Team team;
