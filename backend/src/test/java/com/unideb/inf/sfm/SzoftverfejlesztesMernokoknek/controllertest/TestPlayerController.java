@@ -2,6 +2,7 @@ package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.controllertest;
 
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.controller.PlayerController;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.dto.PlayerDTO;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.entity.EGender;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.entity.Player;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.service.PlayerService;
 
@@ -76,7 +77,15 @@ public class TestPlayerController {
     @Test
     public void testGetAllPlayers_OnlyOnePlayerAdded() {
         // arrange
-        List<PlayerDTO> playersDTO = List.of(new PlayerDTO(2L, "Kupecz", "Levente", "Liquid"));
+        List<PlayerDTO> playersDTO = List.of(new PlayerDTO(
+                "Lajos",
+                "Balazs",
+                "xxxBazsikaxxx",
+                LocalDate.of(2005, 10, 10),
+                "Liquid",
+                EGender.MALE,
+                "hungarian"
+                ));
 
         // mock
         when(playerService.getAllPlayers()).thenReturn(playersDTO);
