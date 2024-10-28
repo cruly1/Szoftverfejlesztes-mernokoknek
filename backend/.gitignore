@@ -33,3 +33,4 @@ build/
 .vscode/
 DB.mv.db
 DB.trace.db
+asd.sql

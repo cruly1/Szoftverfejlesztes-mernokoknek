@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class ResourceNotFoundException extends RuntimeException {
 
     public ResourceNotFoundException(Long playerId, String entity) {
-        super(entity+ " not found with id number " + playerId);
+        super(entity + " not found with id number " + playerId);
     }
 }

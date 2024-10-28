@@ -7,7 +7,6 @@
   padding: 50px 20px;
   /* Kisebb padding */
   border-top: 2px solid #3a3a3a;
-
 }
 
 .twitch-container h2 {
@@ -16,14 +15,10 @@
   font-weight: 600;
   margin-bottom: 20px;
   letter-spacing: 1px;
-  text-transform: uppercase;
-  /* Nagybetűs cím */
-  border-bottom: 2px solid #17a2b8;
-  /* Színes alsó vonal */
-  display: inline-block;
-  /* Csak a szöveg alatt jelenik meg a vonal */
+  text-transform: uppercase; /* Nagybetűs cím */
+  border-bottom: 2px solid #17a2b8; /* Színes alsó vonal */
+  display: inline-block; /* Csak a szöveg alatt jelenik meg a vonal */
   padding-bottom: 10px;
-
 }
 
 

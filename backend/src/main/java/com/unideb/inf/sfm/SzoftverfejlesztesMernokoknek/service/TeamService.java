@@ -1,13 +1,16 @@
 package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.service;
 
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.dto.TeamDTO;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.entity.Player;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.entity.Team;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.ResourceNotFoundException;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.TeamRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TeamService {
@@ -15,11 +18,20 @@ public class TeamService {
     @Autowired
     private TeamRepository teamRepository;
 
-    public Optional<Team> getTeamById(Long teamId) {
+    public TeamDTO getTeamById(Long teamId) {
         Team team = teamRepository.findById(teamId).orElseThrow(
                 () -> new ResourceNotFoundException(teamId, "Team"));
 
-        return Optional.of(team);
+        List<String> players = new ArrayList<>();
+
+        for (Player player : team.getPlayersInTeam()) {
+            players.add(player.getNickName());
+        }
+
+        return new TeamDTO(
+                team.getTeamName(),
+                players
+        );
     }
 
     public Team addTeam(Team team) {
@@ -43,7 +55,22 @@ public class TeamService {
         return "Team deleted successfully.";
     }
 
-    public List<Team> getAllTeams() {
-        return teamRepository.findAll();
+    public List<TeamDTO> getAllTeams() {
+        List<Team> teams = teamRepository.findAll();
+        List<TeamDTO> teamDTOS = new ArrayList<>();
+
+        for (Team team : teams) {
+            List<String> players = new ArrayList<>();
+            for (Player player : team.getPlayersInTeam()) {
+                players.add(player.getNickName());
+            }
+
+            teamDTOS.add(new TeamDTO(
+                    team.getTeamName(),
+                    players
+            ));
+        }
+
+        return teamDTOS;
     }
 }
