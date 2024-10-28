@@ -25,6 +25,12 @@ public class PlayerController {
         return ResponseEntity.ok(playerDTO);
     }
 
+    @GetMapping(value = "search")
+    public ResponseEntity<PlayerDTO> getPlayerByNickName(@RequestParam("nickName") String nickName) {
+        PlayerDTO playerDTO = playerService.getPlayerByNickName(nickName);
+        return ResponseEntity.ok(playerDTO);
+    }
+
     @PostMapping
     public ResponseEntity<Player> createPlayer(@RequestBody Player player) {
         Player savedPlayer = playerService.addPlayer(player);

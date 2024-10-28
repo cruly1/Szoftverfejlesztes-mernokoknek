@@ -33,6 +33,21 @@ public class PlayerService {
         );
     }
 
+    public PlayerDTO getPlayerByNickName(String nickName) {
+        Player player = playerRepository.findByNickName(nickName).orElseThrow(
+                () -> new ResourceNotFoundException(-1L, "Player"));
+
+        return new PlayerDTO(
+                player.getFirstName(),
+                player.getLastName(),
+                player.getNickName(),
+                player.getDateOfBirth(),
+                player.getTeam().getTeamName(),
+                player.getGender(),
+                player.getNationality()
+        );
+    }
+
     public Player addPlayer(Player player) {
         try {
             return playerRepository.save(player);

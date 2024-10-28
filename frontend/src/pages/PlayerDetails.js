@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate} from 'react-router-dom';
 import axios from 'axios';
-import './PlayerDetails.css'; // Assuming you have a CSS file for styling
+import './PlayerDetails.css'; 
 
 function PlayerDetails() {
-  const { id } = useParams(); // Get the player ID from the URL
+  const { id: nickName } = useParams(); 
   const [player, setPlayer] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
+  
 
   useEffect(() => {
-    axios.get(`http://localhost:8080/api/players/${id}`) // Fetch player data by ID
+    axios.get(`http://localhost:8080/api/players/search?nickName=${nickName}`)
       .then(response => {
-        setPlayer(response.data); // Assuming the response contains player details
-        console.log(response.data);
-        navigate(`/players/${response.data.firstName}`);
+        setPlayer(response.data); 
+        
       })
       .catch(err => {
         console.log(err);
@@ -23,7 +22,7 @@ function PlayerDetails() {
       .finally(() => {
         setLoading(false);
       });
-  }, [id, navigate]); // The effect runs whenever the ID in the URL changes
+  }, [nickName]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
@@ -32,7 +31,8 @@ function PlayerDetails() {
   return (
     <div className="player-detail">
       <h1>{player.firstName} {player.lastName}</h1>
-      <p><strong>Date of Birth:</strong> {player.dateOfBirth}</p>
+      <p><strong>Date of Birth:</strong> {player.birthDate}</p>
+       <p><strong>Nickname:</strong> {player.nickName}</p>
       <p><strong>Team:</strong> {player.teamName ? player.teamName : 'No team'}</p>
     </div>
   );
