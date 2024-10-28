@@ -1,6 +1,6 @@
 .main-section {
     padding: 20px;
-    background-color: #282c34;
+    background-color: #212529;
     color: #ffffff;
 }
 
@@ -16,11 +16,14 @@
 .player-column {
     flex: 1;
     margin: 0 10px;
-    background-color: #444;
+    background-color: #343a40;
     padding: 20px;
     border-radius: 8px;
     transition: transform 0.3s;
     text-align: center;
+    box-shadow: 0 0 7px black;
+    border: 1px solid black;
+
 }
 
 .player-column h3 {
@@ -35,51 +38,72 @@
     transition: color 0.3s, text-shadow 0.3s;
 }
 
-.player-column h3 .link:hover,
-.events-list .link:hover,
-.team-row h2 .link:hover {
-    color: #17a2b8;
-    text-shadow: 1px 1px 3px rgba(23, 162, 184, 0.7);
-}
-
 /* Styling for the events under each team */
 .team-events {
-    margin-top: 20px;
-    background-color: #333;
-    padding: 10px;
-    border-radius: 8px;
-    text-align: left;
+    margin-top: 30px;
+    background-color: #343a40; /* Sötétebb, elegáns háttér */
+    padding: 20px;
+    border-radius: 10px; /* Lekerekített sarkok */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); /* Lágy árnyék */
+    transition: all 0.3s ease;
+    text-align: center; /* Középre igazítva */
+    box-shadow: 0 0 7px black;
+    border: 1px solid black;
 }
 
 .team-events h3 {
-    color: #17a2b8;
+    color: #17a2b8; /* A már megszokott világoskék szín */
+    margin-bottom: 20px;
+    font-size: 1.4rem; /* Növelt betűméret */
+    font-weight: bold;
+    text-transform: uppercase; /* Nagybetűsítés */
 }
 
 .events-list {
-    list-style-type: none;
-    padding-left: 0;
-    margin-top: 10px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center; /* Középre igazítva */
+    gap: 15px; /* Kisebb távolság az elemek között */
+    flex-wrap: wrap; /* Törés kisebb képernyőkön */
 }
 
 .events-list li {
-    padding: 5px 0;
-    font-size: 0.9rem;
+    padding: 10px 15px; /* Belső párnázás */
+    border-radius: 8px; /* Lekerekített sarkok */
+    background-color: white; /* Háttérszín */
+    color: #212529; /* Betűszín */
+    font-size: 0.95rem; /* Betűméret */
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s; /* Átmenet a háttérszín és az árnyék változására */
+    text-align: center; /* Középre igazítva */
+    min-width: 120px; /* Minimum szélesség */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Finomabb árnyék */
+    box-shadow: 0 0 7px black;
+    border: 1px solid black;
+}
+
+.events-list li:hover {
+    transform: scale(1.05); /* Finom nagyítás hoverre */
+    background-color: #f8f9fa; /* Világos háttér hoverre */
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3); /* Mélyebb árnyék hoverre */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Átmenet a hover hatásra */
 }
 
 .events-list li .link {
-    color: #ffffff;
-    text-decoration: none;
-    transition: color 0.3s, text-shadow 0.3s;
+    color: black; /* Betűszín */
+    text-decoration: none; /* Nincs aláhúzás */
+    transition: color 0.3s; /* Átmenet a színváltozásra */
 }
 
 .events-list li .link:hover {
-    color: #17a2b8;
-    text-shadow: 1px 1px 3px rgba(23, 162, 184, 0.7);
+    color: #17a2b8; /* Színváltozás hoverre */
+    text-decoration: underline; /* Aláhúzás hoverre */
 }
 
 /* Hover effect for player columns */
 .player-column:hover {
-    transform: scale(1.05);
+    transform: translateY(-5px);
 }
 
 /* Separate teams visually */
