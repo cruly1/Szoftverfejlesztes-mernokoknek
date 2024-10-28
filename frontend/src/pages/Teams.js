@@ -1,15 +1,38 @@
-import React from 'react';
-import MainSection from '../components/MainSection';
-import './Teams.css'; // Új CSS fájl importálása
+import React, { useEffect, useState } from 'react';
+import TeamList from '../components/TeamList';
+import axios from 'axios';
+import './Teams.css';
 
 function Teams() {
+  const [teams, setTeams] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    axios.get("http://localhost:8080/api/teams/getAllTeams")
+      .then(response => {
+        setTeams(response.data);
+      })
+      .catch(err => {
+        console.error(err);
+        setError("Error fetching teams.");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return <div>Loading teams...</div>;
+  if (error) return <div>{error}</div>;
+
   return (
-    <div className="teams-container">
-      <h1 className="teams-title">Teams</h1>
-      <p className="teams-description">
-        Welcome to the teams page! Here you can learn more about the different teams and their players.
-      </p>
-      <MainSection />
+    <div className="teams-page">
+      <h1>Teams</h1>
+      <div className="teams-list">
+        {teams.map(team => (
+          <TeamList key={team.id} team={team} /> 
+        ))}
+      </div>
     </div>
   );
 }

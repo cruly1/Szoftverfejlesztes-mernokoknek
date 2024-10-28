@@ -17,3 +17,15 @@
     font-size: 1.2rem; /* Betűméret */
     margin-bottom: 30px; /* Margó a szöveg alatt */
 }
+.teams-page {
+  display: flex;
+  flex-direction: column;
+  padding-top: 40px;
+  background-color: #101010;
+  color: white;
+  min-height: 100vh;
+}
+
+.teams-list {
+  width: 100%;
+}

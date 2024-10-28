@@ -1,0 +1,62 @@
+.team-item {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.team-button {
+  width: 50%;
+  padding: 15px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: left;
+  background-color: #282c34;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.team-button:hover {
+  background-color: #17a2b8;
+}
+
+.players-dropdown {
+  display: flex;
+  flex-wrap: wrap; /* Allows wrapping to multiple rows */
+  gap: 10px; /* Space between items */
+  list-style: none;
+  padding: 15px 20px;
+  background-color: #1c1c1c;
+  border-radius: 5px;
+  margin-top: 10px;
+  justify-content: center; /* Centers the items in the dropdown */
+}
+
+.player-item {
+  width: calc(20% - 10px); /* 20% width for up to 5 items per row */
+  margin: 10px 0; /* Adds spacing around each player item */
+  display: flex;
+  justify-content: center;
+}
+
+.player-link {
+  display: flex;
+  flex-direction: column; /* Stacks image and text vertically */
+  align-items: center; /* Centers items horizontally */
+  text-decoration: none;
+  color: #ffffff;
+  transition: color 0.3s, background-color 0.3s;
+  text-align: center; /* Center text in the container */
+  width: 100%;
+}
+
+
+.player-image {
+  width: 80px; /* Larger size for the player image */
+  height: 80px;
+  border-radius: 50%;
+  margin-bottom: 8px; /* Space between the image and nickname */
+  object-fit: cover;
+  border: 2px solid #17a2b8;
+}
