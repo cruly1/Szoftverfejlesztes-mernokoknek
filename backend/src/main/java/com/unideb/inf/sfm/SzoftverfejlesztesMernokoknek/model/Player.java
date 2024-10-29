@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.TableGenerator;
 import jakarta.validation.constraints.Past;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,7 +29,16 @@ import java.time.LocalDate;
 public class Player {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "player_gen")
+    @TableGenerator(
+            name = "player_gen",
+            table = "id_gen_table",
+            pkColumnName = "gen_name",
+            valueColumnName = "gen_value",
+            pkColumnValue = "player_id",
+            initialValue = 2000,
+            allocationSize = 1
+    )
     private Long id;
 
     @Column(name = "first_name", nullable = false, length = 50)

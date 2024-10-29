@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.TableGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,10 +25,19 @@ import java.util.List;
 public class Team {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "team_gen")
+    @TableGenerator(
+            name = "team_gen",
+            table = "id_gen_table",
+            pkColumnName = "gen_name",
+            valueColumnName = "gen_value",
+            pkColumnValue = "team_id",
+            initialValue = 3000,
+            allocationSize = 1
+    )
     private Long id;
 
-    @Column(name = "team_name", nullable = false, length = 20)
+    @Column(name = "team_name", nullable = false, unique = true, length = 20)
     private String teamName;
 
     @OneToMany(mappedBy = "team")

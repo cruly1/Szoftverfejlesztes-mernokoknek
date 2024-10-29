@@ -18,8 +18,8 @@ public class PlayerDTO {
     private String lastName;
     private String nickName;
     private EIngameRoles ingameRole;
-    private LocalDate birthDate;
-    private String teamName;
+    private LocalDate dateOfBirth;
     private EGender gender;
     private String nationality;
+    private String teamName;
 }

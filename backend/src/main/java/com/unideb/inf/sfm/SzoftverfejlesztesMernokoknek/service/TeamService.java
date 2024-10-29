@@ -1,6 +1,9 @@
 package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.service;
 
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.dto.PlayerDTO;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.dto.TeamDTO;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.mapper.PlayerMapper;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.mapper.TeamMapper;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Player;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Team;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.ResourceNotFoundException;
@@ -18,20 +21,22 @@ public class TeamService {
     @Autowired
     private TeamRepository teamRepository;
 
+    @Autowired
+    private PlayerMapper playerMapper;
+
+    @Autowired
+    private TeamMapper teamMapper;
+
     public TeamDTO getTeamById(Long teamId) {
         Team team = teamRepository.findById(teamId).orElseThrow(
                 () -> new ResourceNotFoundException(teamId, "Team"));
 
-        List<String> players = new ArrayList<>();
+//        List<PlayerDTO> players = new ArrayList<>();
+//
+//        team.getPlayersInTeam()
+//                .forEach(player -> players.add(playerMapper.toDTO(player)));
 
-        for (Player player : team.getPlayersInTeam()) {
-            players.add(player.getNickName());
-        }
-
-        return new TeamDTO(
-                team.getTeamName(),
-                players
-        );
+        return teamMapper.toDTO(team);
     }
 
     public Team addTeam(Team team) {
@@ -59,17 +64,7 @@ public class TeamService {
         List<Team> teams = teamRepository.findAll();
         List<TeamDTO> teamDTOS = new ArrayList<>();
 
-        for (Team team : teams) {
-            List<String> players = new ArrayList<>();
-            for (Player player : team.getPlayersInTeam()) {
-                players.add(player.getNickName());
-            }
-
-            teamDTOS.add(new TeamDTO(
-                    team.getTeamName(),
-                    players
-            ));
-        }
+        teams.forEach(team -> teamDTOS.add(teamMapper.toDTO(team)));
 
         return teamDTOS;
     }
