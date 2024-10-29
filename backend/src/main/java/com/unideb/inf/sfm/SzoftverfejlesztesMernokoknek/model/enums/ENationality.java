@@ -249,5 +249,5 @@ public enum ENationality {
     YT,
     ZA,
     ZM,
-    ZW,
+    ZW
 }
