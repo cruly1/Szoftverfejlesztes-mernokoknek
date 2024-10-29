@@ -1,6 +1,7 @@
 package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.controller;
 
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.dto.PlayerDTO;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.mapper.PlayerMapper;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Player;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.service.PlayerService;
 
@@ -28,6 +29,9 @@ public class PlayerController {
     @Autowired
     private PlayerService playerService;
 
+    @Autowired
+    private PlayerMapper playerMapper;
+
     @GetMapping("{id}")
     public ResponseEntity<PlayerDTO> getPlayerById(@PathVariable("id") Long playerId) {
         PlayerDTO playerDTO = playerService.getPlayerById(playerId);
@@ -41,15 +45,15 @@ public class PlayerController {
     }
 
     @PostMapping
-    public ResponseEntity<Player> createPlayer(@RequestBody Player player) {
+    public ResponseEntity<PlayerDTO> createPlayer(@RequestBody Player player) {
         Player savedPlayer = playerService.addPlayer(player);
-        return new ResponseEntity<>(savedPlayer, HttpStatus.CREATED);
+        return new ResponseEntity<>(playerMapper.toDTO(savedPlayer), HttpStatus.CREATED);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Player> updatePlayer(@PathVariable("id") Long playerId, @RequestBody Player updatedPlayer) {
+    public ResponseEntity<PlayerDTO> updatePlayer(@PathVariable("id") Long playerId, @RequestBody Player updatedPlayer) {
         Player player = playerService.updatePlayer(playerId, updatedPlayer);
-        return ResponseEntity.ok(player);
+        return ResponseEntity.ok(playerMapper.toDTO(player));
     }
 
     @DeleteMapping("{id}")

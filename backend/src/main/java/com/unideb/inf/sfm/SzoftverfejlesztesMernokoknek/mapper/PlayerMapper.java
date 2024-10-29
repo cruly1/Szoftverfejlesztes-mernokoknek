@@ -10,9 +10,11 @@ public interface PlayerMapper {
 
     @Mapping(source = "team.teamName", target = "teamName")
     @Mapping(source = "dateOfBirth", target = "dateOfBirth")
+    @Mapping(source = "nationality", target = "nationality")
     PlayerDTO toDTO(Player player);
 
     @Mapping(source = "teamName", target = "team.teamName")
     @Mapping(source = "dateOfBirth", target = "dateOfBirth")
+    @Mapping(source = "nationality", target = "nationality")
     Player toEntity(PlayerDTO playerDTO);
 }

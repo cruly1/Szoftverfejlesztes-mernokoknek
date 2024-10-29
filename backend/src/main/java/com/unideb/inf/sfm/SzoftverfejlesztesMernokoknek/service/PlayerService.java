@@ -91,7 +91,6 @@ public class PlayerService {
         }
 
         try {
-            player.setTeam(team);
             return playerRepository.save(player);
         } catch (RuntimeException e) {
             throw new InvalidParametersException();

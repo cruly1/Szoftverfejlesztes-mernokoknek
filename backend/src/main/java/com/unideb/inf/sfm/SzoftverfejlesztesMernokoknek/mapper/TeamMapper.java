@@ -7,7 +7,7 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring", uses = PlayerMapper.class)
 public interface TeamMapper {
-    
+
     @Mapping(source = "playersInTeam", target = "players")
     TeamDTO toDTO(Team team);
 
