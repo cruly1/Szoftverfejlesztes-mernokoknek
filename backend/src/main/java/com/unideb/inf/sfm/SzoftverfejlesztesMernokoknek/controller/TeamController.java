@@ -1,6 +1,7 @@
 package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.controller;
 
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.dto.TeamDTO;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.mapper.TeamMapper;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Team;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.service.TeamService;
 
@@ -27,6 +28,9 @@ public class TeamController {
     @Autowired
     private TeamService teamService;
 
+    @Autowired
+    private TeamMapper teamMapper;
+
     @GetMapping("{id}")
     public ResponseEntity<TeamDTO> getTeamById(@PathVariable("id") Long teamId) {
         TeamDTO teamDTO = teamService.getTeamById(teamId);
@@ -34,15 +38,15 @@ public class TeamController {
     }
 
     @PostMapping
-    public ResponseEntity<Team> createTeam(@RequestBody Team team) {
+    public ResponseEntity<TeamDTO> createTeam(@RequestBody Team team) {
         Team savedTeam = teamService.addTeam(team);
-        return new ResponseEntity<>(savedTeam, HttpStatus.CREATED);
+        return new ResponseEntity<>(teamMapper.toDTO(savedTeam), HttpStatus.CREATED);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Team> updateTeam(@PathVariable("id") Long teamId, @RequestBody Team updatedTeam) {
+    public ResponseEntity<TeamDTO> updateTeam(@PathVariable("id") Long teamId, @RequestBody Team updatedTeam) {
         Team team = teamService.updateTeam(teamId, updatedTeam);
-        return ResponseEntity.ok(team);
+        return ResponseEntity.ok(teamMapper.toDTO(team));
     }
 
     @DeleteMapping("{id}")
