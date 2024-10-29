@@ -2,6 +2,7 @@ package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model;
 
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.enums.EGender;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.enums.EIngameRoles;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.enums.ENationality;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -63,7 +64,8 @@ public class Player {
     private EGender gender;
 
     @Column(name = "nationality", nullable = false)
-    private String nationality;
+    @Enumerated(EnumType.STRING)
+    private ENationality nationality;
 
     @ManyToOne
     private Team team;
