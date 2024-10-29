@@ -11,6 +11,13 @@ function TeamList({ team }) {
     setIsOpen(!isOpen);
   };
 
+  // Sort players to place "COACH" at the end
+  const sortedPlayers = [...team.players].sort((a, b) => {
+    if (a.ingameRole === "COACH") return 1; // Move COACH to the end
+    if (b.ingameRole === "COACH") return -1;
+    return 0; // Otherwise, maintain the existing order
+  });
+
   return (
     <div className="team-item">
       <button className="team-button" onClick={toggleDropdown}>
@@ -18,15 +25,18 @@ function TeamList({ team }) {
       </button>
       {isOpen && (
         <ul className="players-dropdown">
-          {team.players.map(player => (
-            <li key={player} className="player-item">
-              <Link to={`/players/${player}`} className="player-link">
+          {sortedPlayers.map(player => (
+            <li key={player.nickName} className="player-item">
+              <Link to={`/players/${player.nickName}`} className="player-link">
                 <img 
                   src={placeholderImage} 
-                  alt={player}
+                  alt={`${player.firstName} ${player.lastName}`}
                   className="player-image"
                 />
-                {player}
+                <div className="player-nickname">"{player.nickName}"</div>
+                <div className="player-role">
+                  {player.ingameRole === "IGL" ? player.ingameRole : player.ingameRole.toLowerCase()}
+                </div>
               </Link>
             </li>
           ))}

@@ -1,70 +1,80 @@
 .player-detail {
-    
-    background-color: #1c1c1c !important;
-    color: #ffffff;
-    text-align: center;
-    width: 100%;
-    padding: 40px;
-    min-height: 100vh;
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+  background-color: #1c1c1c;
+  
+  color: white;
+  min-height: 100vh;
+  min-width: 100vw;
 }
 
-
-.player-info-row {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin-bottom: 50px;
+.player-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
-.player-info {
-    font-size: 2rem;
-    flex: 1; 
-    margin-right: 20px;
-    text-align: left;
+.player-icon {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 2px solid #17a2b8;
+  object-fit: cover;
 }
 
-.team-info {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.player-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.team-logo {
-    width: 250px;
-    height: 250px;
-    border-radius: 50%;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+.player-name h1 {
+  font-size: 2rem;
+  color: #17a2b8;
 }
 
-
-.team-members {
-    font-size: 2rem;
-    margin-top: 40px;
+.flag-icon {
+  width: 48px;
+  height: 36px;
+  border-radius: 5px;
 }
 
-.team-members ul {
-    display: flex;
-    justify-content: center;
-    gap: 40px; 
-    padding: 0;
-    list-style-type: none;
+.divider {
+  margin: 20px 0;
+  border: 0;
+  height: 1px;
+  background: #17a2b8;
 }
 
-.team-members li {
-    font-size: 1.8rem;
+.chart-placeholder {
+  background-color: #333;
+  height: 200px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+  margin-bottom: 20px;
 }
 
-.teammate-link {
-    color: #ffffff;
-    text-decoration: none;
-    padding: 10px 20px;
-    background-color: #282c34;
-    border-radius: 5px;
-    transition: transform 0.3s ease, background-color 0.3s ease;
+.player-info-box {
+  padding: 15px;
+  background-color: #282c34;
+  border-radius: 10px;
 }
 
-.teammate-link:hover {
-    background-color: #17a2b8;
-    transform: scale(1.1);
+.player-info-box p {
+  font-size: 1.1rem;
+  margin: 10px 0;
+}
+.chart-placeholder {
+  background-color: #333;
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aaa;
+  margin-bottom: 20px;
 }
