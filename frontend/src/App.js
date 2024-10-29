@@ -7,6 +7,7 @@ import Players from './pages/Players';
 import PlayerDetails from './pages/PlayerDetails';
 import Teams from './pages/Teams';
 import Events from './pages/Events';
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/teams" element={<Teams />} />
           <Route path="/events" element={<Events />} />
           <Route path="/players/:id" element={<PlayerDetails />} /> {/* Dynamic route for player details */}
+          <Route path="/profile" element={<Profile />} />
         </Routes>
 
         <Footer />
@@ -30,5 +32,6 @@ function App() {
     </Router>
   );
 }
+
 
 export default App;

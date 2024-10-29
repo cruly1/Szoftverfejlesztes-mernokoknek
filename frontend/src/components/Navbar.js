@@ -11,6 +11,7 @@ function Navbar() {
         <li><Link to="/players" className="nav-link">Players</Link></li>
         <li><Link to="/teams" className="nav-link">Teams</Link></li>
         <li><Link to="/events" className="nav-link">Events</Link></li>
+        <li><Link to="/profile" className="nav-link">Profile</Link></li>
       </ul>
     </nav>
   );
