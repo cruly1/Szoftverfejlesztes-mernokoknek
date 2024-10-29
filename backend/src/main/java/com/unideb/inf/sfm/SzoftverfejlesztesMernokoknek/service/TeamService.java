@@ -1,8 +1,8 @@
 package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.service;
 
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.dto.TeamDTO;
-import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.entity.Player;
-import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.entity.Team;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Player;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Team;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.ResourceNotFoundException;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.TeamRepository;
 

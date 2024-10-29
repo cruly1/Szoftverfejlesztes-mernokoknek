@@ -1,6 +1,7 @@
 package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.dto;
 
-import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.entity.EGender;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.enums.EGender;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.enums.EIngameRoles;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ public class PlayerDTO {
     private String firstName;
     private String lastName;
     private String nickName;
+    private EIngameRoles ingameRole;
     private LocalDate birthDate;
     private String teamName;
     private EGender gender;

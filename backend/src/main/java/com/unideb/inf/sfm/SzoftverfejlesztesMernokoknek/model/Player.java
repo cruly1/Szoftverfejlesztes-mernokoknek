@@ -1,6 +1,16 @@
-package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.entity;
+package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model;
 
-import jakarta.persistence.*;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.enums.EGender;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.enums.EIngameRoles;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Past;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,6 +39,10 @@ public class Player {
 
     @Column(name = "nick_name", nullable = false, unique = true, length = 24)
     private String nickName;
+
+    @Column(name = "ingame_role", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private EIngameRoles ingameRole;
 
     @Column(name = "date_of_birth", nullable = false)
     @Past

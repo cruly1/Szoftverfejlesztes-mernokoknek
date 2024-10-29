@@ -2,8 +2,8 @@ package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.controllertest;
 
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.controller.PlayerController;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.dto.PlayerDTO;
-import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.entity.EGender;
-import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.entity.Player;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.enums.EGender;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Player;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.service.PlayerService;
 
 import org.junit.jupiter.api.Assertions;

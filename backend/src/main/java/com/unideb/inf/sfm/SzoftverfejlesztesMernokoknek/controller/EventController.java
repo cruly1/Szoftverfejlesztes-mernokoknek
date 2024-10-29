@@ -1,7 +1,7 @@
 package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.controller;
 
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.dto.EventDTO;
-import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.entity.Event;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Event;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

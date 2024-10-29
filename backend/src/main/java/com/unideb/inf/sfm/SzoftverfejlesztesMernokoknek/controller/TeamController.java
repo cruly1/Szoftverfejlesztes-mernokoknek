@@ -1,7 +1,7 @@
 package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.controller;
 
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.dto.TeamDTO;
-import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.entity.Team;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Team;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.service.TeamService;
 
 import org.springframework.beans.factory.annotation.Autowired;
