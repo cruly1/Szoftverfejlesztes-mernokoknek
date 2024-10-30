@@ -50,17 +50,26 @@
   justify-content: center;
 }
 
-.player-link {
-  display: flex;
-  flex-direction: column; /* Stacks image and text vertically */
-  align-items: center; /* Centers items horizontally */
-  text-decoration: none;
-  color: #ffffff;
-  transition: color 0.3s, background-color 0.3s;
-  text-align: center; /* Center text in the container */
-  width: 100%;
+.team-player-link {
+  display: inline-block;
+    width: 100%;
+    text-align: center;
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: white;
+    background-color: #343a40;
+    padding: 15px 20px;
+    border-radius: 10px;
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 7px black;
+    border: 2px solid black;
 }
 
+.team-player-link:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(23, 162, 184, 0.7);
+}
 
 .player-image {
   width: 80px; /* Larger size for the player image */

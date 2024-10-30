@@ -27,7 +27,7 @@ function TeamList({ team }) {
         <ul className="players-dropdown">
           {sortedPlayers.map(player => (
             <li key={player.nickName} className="player-item">
-              <Link to={`/players/${player.nickName}`} className="player-link">
+              <Link to={`/players/${player.nickName}`} className="team-player-link">
                 <img 
                   src={placeholderImage} 
                   alt={`${player.firstName} ${player.lastName}`}
