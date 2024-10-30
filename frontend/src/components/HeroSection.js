@@ -8,7 +8,7 @@ function HeroSection() {
     const loginBtnRef = useRef(null);
 
     useEffect(() => {
-        // Animate the text paragraph
+        setTimeout(() => {// Animate the text paragraph
         gsap.fromTo(
             heroTextRef.current, 
             { opacity: 0, y: 50 },
@@ -26,6 +26,7 @@ function HeroSection() {
             { x: 200, opacity: 0 },
             { x: 0, opacity: 1, duration: 1, ease: "power2.out", delay: 1.2 }
         );
+        }, 500);
     }, []);
 
     return (

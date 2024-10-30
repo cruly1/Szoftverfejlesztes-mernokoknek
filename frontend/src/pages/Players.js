@@ -11,7 +11,7 @@ function Players() {
     // Animate the heading (letter by letter)
     const headingChars = headingRef.current.innerText.split('').map(char => `<span>${char}</span>`).join('');
     headingRef.current.innerHTML = headingChars;
-
+    setTimeout(() => {
     gsap.fromTo(
       headingRef.current.children,
       { opacity: 0, y: -50 }, // Start invisible and above the view
@@ -24,6 +24,7 @@ function Players() {
       { opacity: 0, y: 50 }, // Start invisible and below the view
       { opacity: 1, y: 0, duration: 1, stagger: 0.1, ease: "power2.out", delay: 1 } // Stagger and slide up
     );
+    }, 500);
   }, []);
 
   return (

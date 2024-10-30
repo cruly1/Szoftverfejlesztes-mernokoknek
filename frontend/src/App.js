@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -8,32 +8,45 @@ import PlayerDetails from './pages/PlayerDetails';
 import Teams from './pages/Teams';
 import Events from './pages/Events';
 import Profile from './pages/Profile';
-import ErrorPage from './pages/ErrorPage'; // Importáld az ErrorPage komponenst
+import ErrorPage from './pages/ErrorPage';
+import LoadingCS2 from './components/LoadingCS2';
 
 function App() {
-  return (
-    <Router>
-      <div className="App">
-        <header className="App-header">
-          <Navbar />
-        </header>
-        
-        <Routes>
-          {/* Alapértelmezett oldalak */}
-          <Route path="/" element={<Home />} />
-          <Route path="/players" element={<Players />} />
-          <Route path="/teams" element={<Teams />} />
-          <Route path="/events" element={<Events />} />
-          <Route path="/players/:id" element={<PlayerDetails />} />
-          <Route path="/profile" element={<Profile />} />
+  const [loading, setLoading] = useState(false);
+  const location = useLocation();
 
-          {/* Hibaoldal nem létező útvonalakra */}
-          <Route path="*" element={<ErrorPage />} />
-        </Routes>
-        
-        <Footer />
-      </div>
-    </Router>
+  useEffect(() => {
+    // Trigger loading animation on route change
+    setLoading(true);
+    const timer = setTimeout(() => {
+      setLoading(false); // Hide loading after a short delay
+    }, 700); // Adjust delay to fit the animation duration
+
+    return () => clearTimeout(timer); // Clear timeout on component unmount
+  }, [location]);
+
+  return (
+    
+    <div className="App">
+      {loading && <LoadingCS2 />} {/* CS2 Loading Animation */}
+
+      <header className="App-header">
+        <Navbar />
+      </header>
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/players" element={<Players />} />
+        <Route path="/teams" element={<Teams />} />
+        <Route path="/events" element={<Events />} />
+        <Route path="/players/:id" element={<PlayerDetails />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="*" element={<ErrorPage />} />
+      </Routes>
+
+      <Footer />
+    </div>
+    
   );
 }
 
