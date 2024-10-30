@@ -3,6 +3,8 @@ import TeamList from '../components/TeamList';
 import axios from 'axios';
 import './Teams.css';
 
+
+
 function Teams() {
   const [teams, setTeams] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -11,7 +13,7 @@ function Teams() {
   useEffect(() => {
     axios.get("http://localhost:8080/api/teams/getAllTeams")
       .then(response => {
-        setTeams(response.data);
+      setTeams(response.data);
       })
       .catch(err => {
         console.error(err);

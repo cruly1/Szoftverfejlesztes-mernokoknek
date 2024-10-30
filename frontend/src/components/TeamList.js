@@ -1,16 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { capitalize } from '../utils/utils.js'; // Adjust path as needed
 import './TeamList.css';
 
-const placeholderImage = "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg"; // Path to the placeholder image
+const placeholderImage = "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg"; // Placeholder image URL
+
 
 function TeamList({ team }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
+  useEffect(() => {
+    // Load initial state from local storage if available
+    const storedState = JSON.parse(localStorage.getItem(`dropdownState-${team.teamName}`));
+    if (storedState !== null) {
+      setIsOpen(storedState);
+    }
+  }, [team.teamName]);
 
+  const toggleDropdown = () => {
+    const newState = !isOpen;
+    setIsOpen(newState);
+    // Store the new state in local storage
+    localStorage.setItem(`dropdownState-${team.teamName}`, JSON.stringify(newState));
+  };
   // Sort players to place "COACH" at the end
   const sortedPlayers = [...team.players].sort((a, b) => {
     if (a.ingameRole === "COACH") return 1; // Move COACH to the end
@@ -18,10 +30,12 @@ function TeamList({ team }) {
     return 0; // Otherwise, maintain the existing order
   });
 
+  
+
   return (
     <div className="team-item">
       <button className="team-button" onClick={toggleDropdown}>
-        {team.teamName} {isOpen ? '▲' : '▼'} {/* Dropdown indicator */}
+        {team.teamName} {isOpen ? '▲' : '▼'}
       </button>
       {isOpen && (
         <ul className="players-dropdown">
@@ -33,9 +47,10 @@ function TeamList({ team }) {
                   alt={`${player.firstName} ${player.lastName}`}
                   className="player-image"
                 />
-                <div className="player-nickname">"{player.nickName}"</div>
+                <div className="player-nickname">{player.nickName}</div>
                 <div className="player-role">
-                  {player.ingameRole === "IGL" ? player.ingameRole : player.ingameRole.toLowerCase()}
+                <br></br>
+                  {player.ingameRole === "IGL" || player.ingameRole === "AWP" ? player.ingameRole : capitalize(player.ingameRole)}
                 </div>
               </Link>
             </li>

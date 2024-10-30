@@ -5,6 +5,6 @@ public enum EIngameRoles {
     ENTRY,
     SUPPORT,
     LURKER,
-    AWPER,
+    AWP,
     COACH
 }

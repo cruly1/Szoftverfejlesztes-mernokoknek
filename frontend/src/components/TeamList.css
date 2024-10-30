@@ -4,23 +4,23 @@
 }
 
 .team-button {
-  width: 40%; /* Kisebb szélesség */
-  padding: 10px; /* Kisebb padding */
-  font-size: 1.2rem; /* Kisebb betűméret */
+  width: 40%; 
+  padding: 10px; 
+  font-size: 1.2rem; 
   font-weight: bold;
   text-align: left;
   background-color: #343a40;
   color: #ffffff;
-  border: 2px solid black; /* Szegély hozzáadása */
+  border: 2px solid black; 
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s; /* Transzformáció hozzáadása */
-  margin: 10px 0 10px 20px; /* Fent, alul és balra távolság */
+  transition: background-color 0.3s, transform 0.2s; 
+  margin: 10px 0 10px 20px; 
 }
 
 .team-button:hover {
-  background-color: #17a2b8; /* Háttérszín változás hover állapotban */
-  transform: translateY(-2px); /* Enyhén felemeli a gombot hover állapotban */
+  background-color: #17a2b8; 
+  transform: translateY(-2px); 
 }
 
 
@@ -29,41 +29,41 @@
 }
 .players-dropdown {
   display: flex;
-  flex-wrap: wrap; /* Allows wrapping to multiple rows */
-  gap: 10px; /* Space between items */
+  flex-wrap: wrap; 
+  gap: 10px; 
   list-style: none;
   padding: 15px 20px;
-  background-color: #1c1c1c; /* Eredeti háttérszín */
+  background-color: #1c1c1c; 
   border-radius: 5px;
   margin-top: 10px;
-  justify-content: center; /* Centers the items in the dropdown */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Enyhe árnyék */
+  justify-content: center; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
   border: 2px solid black;
   box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.5);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
 .player-item {
-  width: calc(20% - 10px); /* 20% width for up to 5 items per row */
-  margin: 10px 0; /* Adds spacing around each player item */
+  width: calc(20% - 10px); 
+  margin: 10px 0; 
   display: flex;
   justify-content: center;
 }
 
 .team-player-link {
   display: inline-block;
-    width: 100%;
-    text-align: center;
-    font-size: 1.5rem;
-    text-decoration: none;
-    color: white;
-    background-color: #343a40;
-    padding: 15px 20px;
-    border-radius: 10px;
-    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    box-shadow: 0 0 7px black;
-    border: 2px solid black;
+  width: 100%;
+  text-align: center;
+  font-size: 1.5rem;
+  text-decoration: none;
+  color: white;
+  background-color: #343a40;
+  padding: 15px 20px;
+  border-radius: 10px;
+  transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 7px black;
+  border: 2px solid black;
 }
 
 .team-player-link:hover {
