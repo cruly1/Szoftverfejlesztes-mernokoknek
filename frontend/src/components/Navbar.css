@@ -12,18 +12,17 @@
     border-bottom: 2px solid #3a3a3a; /* Vékonyabb border */
 }
 
-.logo {
-    font-size: 1.8rem; /* Kisebb betűméret */
-    color: #17a2b8;
-    font-weight: bold;
-    letter-spacing: 1.5px; /* Kisebb betűtávolság */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Diszkrétebb árnyék */
+.logo img {
+    max-width: 60px; /* Maximális szélesség beállítása */
+    height: auto; /* Arány megőrzése */
+    display: block; /* Kép megjelenítése blokk elemként */
+    margin: 0 auto; /* Középre igazítás (ha szükséges) */
+    mix-blend-mode: screen;
     transition: transform 0.3s ease, color 0.3s ease;
-    cursor: pointer;
 }
 
-.logo:hover {
-    transform: scale(1.05); /* Kevésbé látványos hover */
+.logo img:hover {
+    transform: scale(1.1); /* Kevésbé látványos hover */
     color: #1de9b6;
 }
 

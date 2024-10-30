@@ -28,7 +28,7 @@ function PlayerList() {
 
   return (
     <div className="player-list">
-      <h1>Our Players</h1>
+      
       <ul>
         {players.map(player => (
           <li key={player.nickName}>

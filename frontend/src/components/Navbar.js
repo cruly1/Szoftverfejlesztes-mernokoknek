@@ -5,7 +5,11 @@ import './Navbar.css';
 function Navbar() {
   return (
     <nav className="navbar">
-      <div className="logo">manageYself</div>
+      <div className="logo">
+        <img 
+        src={`${process.env.PUBLIC_URL}/aaa.png`}  
+          />
+      </div>
       <ul className="nav-links">
         <li><Link to="/" className="nav-link">Home</Link></li>
         <li><Link to="/players" className="nav-link">Players</Link></li>
