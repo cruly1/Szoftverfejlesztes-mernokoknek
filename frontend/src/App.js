@@ -8,30 +8,33 @@ import PlayerDetails from './pages/PlayerDetails';
 import Teams from './pages/Teams';
 import Events from './pages/Events';
 import Profile from './pages/Profile';
+import ErrorPage from './pages/ErrorPage'; // Importáld az ErrorPage komponenst
 
 function App() {
   return (
     <Router>
       <div className="App">
-        
         <header className="App-header">
-            <Navbar />
+          <Navbar />
         </header>
+        
         <Routes>
-          {/* Define Routes for Different Pages */}
+          {/* Alapértelmezett oldalak */}
           <Route path="/" element={<Home />} />
           <Route path="/players" element={<Players />} />
           <Route path="/teams" element={<Teams />} />
           <Route path="/events" element={<Events />} />
-          <Route path="/players/:id" element={<PlayerDetails />} /> {/* Dynamic route for player details */}
+          <Route path="/players/:id" element={<PlayerDetails />} />
           <Route path="/profile" element={<Profile />} />
-        </Routes>
 
+          {/* Hibaoldal nem létező útvonalakra */}
+          <Route path="*" element={<ErrorPage />} />
+        </Routes>
+        
         <Footer />
       </div>
     </Router>
   );
 }
-
 
 export default App;
