@@ -38,11 +38,6 @@ public class Team {
     @OneToMany(mappedBy = "team")
     private List<Player> playersInTeam = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(
-            name = "team_event",
-            joinColumns = @JoinColumn(name = "team_id"),
-            inverseJoinColumns = @JoinColumn(name = "event_id")
-    )
+    @ManyToMany(mappedBy = "teams")
     private Set<Event> events = new HashSet<>();
 }

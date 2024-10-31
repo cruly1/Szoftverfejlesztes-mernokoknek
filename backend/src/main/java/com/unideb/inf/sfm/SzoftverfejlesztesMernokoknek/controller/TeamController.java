@@ -58,4 +58,9 @@ public class TeamController {
         List<TeamDTO> teamDTOS = teamService.getAllTeams();
         return ResponseEntity.ok(teamDTOS);
     }
+
+    @PostMapping("{teamId}/events/{eventId}")
+    public String addTeamToEvent(@PathVariable("teamId") Long teamId, @PathVariable("eventId") Long eventId) {
+        return teamService.addTeamToEvent(teamId, eventId);
+    }
 }

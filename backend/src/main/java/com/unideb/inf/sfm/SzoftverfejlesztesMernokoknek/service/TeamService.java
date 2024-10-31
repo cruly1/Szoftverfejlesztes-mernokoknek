@@ -1,10 +1,13 @@
 package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.service;
 
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.dto.TeamDTO;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.InvalidParametersException;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.TeamAlreadyExistsException;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.mapper.TeamMapper;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Event;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Team;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.ResourceNotFoundException;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.EventRepository;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.TeamRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +21,9 @@ public class TeamService {
 
     @Autowired
     private TeamRepository teamRepository;
+
+    @Autowired
+    private EventRepository eventRepository;
 
     @Autowired
     private TeamMapper teamMapper;
@@ -42,6 +48,24 @@ public class TeamService {
         }
 
         return teamRepository.save(team);
+    }
+
+    public String addTeamToEvent(Long teamId, Long eventId) {
+        Team team = teamRepository.findById(teamId).orElseThrow(
+                () -> new ResourceNotFoundException(-1L, "Team"));
+
+        Event event = eventRepository.findById(eventId).orElseThrow(
+                () -> new ResourceNotFoundException(-1L, "Event"));
+
+        try {
+            event.getTeams().add(team);
+            team.getEvents().add(event);
+            teamRepository.save(team);
+            eventRepository.save(event);
+            return "Team added to event successfully.";
+        } catch (RuntimeException e) {
+            throw new InvalidParametersException();
+        }
     }
 
     public Team updateTeam(Long teamId, Team updatedTeam) {

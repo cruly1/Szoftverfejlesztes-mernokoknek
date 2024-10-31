@@ -56,6 +56,11 @@ public class Event {
     @JsonIgnore
     private Set<Player> players = new HashSet<>();
 
-    @ManyToMany(mappedBy = "events")
+    @ManyToMany
+    @JoinTable(
+            name = "event_team",
+            joinColumns = @JoinColumn(name = "event_id"),
+            inverseJoinColumns = @JoinColumn(name = "team_id")
+    )
     private Set<Team> teams = new HashSet<>();
 }
