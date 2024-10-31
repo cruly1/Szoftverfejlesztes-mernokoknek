@@ -8,6 +8,24 @@ const placeholderImage = "https://www.shutterstock.com/image-vector/default-avat
 
 function TeamList({ team }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrollingEvents, setScrollingEvents] = useState([]);
+  const maxVisibleEvents = 5; // Maximum events visible at one time
+
+  useEffect(() => {
+    // Duplicate events to create an infinite scroll illusion
+    setScrollingEvents([...team.events, ...team.events]);
+  }, [team.events]);
+
+  useEffect(() => {
+  const intervalId = setInterval(() => {
+    // Move the first event to the end to create the loop
+    setScrollingEvents(prevEvents => {
+      const [firstEvent, ...rest] = prevEvents;
+      return [...rest, firstEvent];
+    });
+  }, 3000); // Adjust timing for scroll speed
+  return () => clearInterval(intervalId); // Cleanup interval on component unmount
+  }, [scrollingEvents]);
 
   useEffect(() => {
     // Load initial state from local storage if available
@@ -37,6 +55,18 @@ function TeamList({ team }) {
       <button className="team-button" onClick={toggleDropdown}>
         {team.teamName} {isOpen ? '▲' : '▼'}
       </button>
+    
+      {/* Scrolling Events Container */}
+      <div className="scrolling-events-container">
+        <div className="scrolling-events">
+          {team.events.map((event, index) => (
+            <span key={`${event.eventName}-${index}`} className="scrolling-event-text">
+              {event.eventName} ({event.eventDate})
+            </span>
+          ))}
+        </div>
+      </div>
+
       {isOpen && (
         <ul className="players-dropdown">
           {sortedPlayers.map(player => (

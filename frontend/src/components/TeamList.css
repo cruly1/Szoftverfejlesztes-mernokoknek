@@ -79,3 +79,35 @@
   object-fit: cover;
   border: 2px solid #17a2b8;
 }
+
+/* Scrolling Events Container */
+.scrolling-events-container {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 50%;
+  margin-left: 20px;
+}
+
+.scrolling-events {
+  display: inline-flex;
+  animation: scroll-left 20s linear infinite; /* Smooth continuous scroll */
+}
+
+.scrolling-event-text {
+  display: inline-block;
+  padding: 0 40px; /* Consistent padding to prevent overlap */
+  min-width: 150px; /* Ensures uniform width */
+  color: #17a2b8;
+  font-size: 1rem;
+  text-align: center;
+}
+
+/* Keyframes for scrolling effect */
+@keyframes scroll-left {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
