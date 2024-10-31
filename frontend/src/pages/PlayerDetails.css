@@ -3,7 +3,6 @@
   margin: auto;
   padding: 20px;
   background-color: #1c1c1c;
-  
   color: white;
   min-height: 100vh;
   min-width: 100vw;
@@ -47,34 +46,35 @@
   background: #17a2b8;
 }
 
+.chart-info-container {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  flex-wrap: wrap; /* Makes items stack on smaller screens */
+}
+
 .chart-placeholder {
+  flex: 1;
   background-color: #333;
-  height: 200px;
+  padding: 50px;
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #aaa;
-  margin-bottom: 20px;
+  max-width: 600px;
+  height: 400px;
 }
 
 .player-info-box {
+  flex: 1;
   padding: 15px;
   background-color: #282c34;
   border-radius: 10px;
+  min-width: 250px; /* Ensures info box has minimum width */
 }
 
 .player-info-box p {
   font-size: 1.1rem;
   margin: 10px 0;
-}
-.chart-placeholder {
-  background-color: #333;
-  padding: 20px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #aaa;
-  margin-bottom: 20px;
 }

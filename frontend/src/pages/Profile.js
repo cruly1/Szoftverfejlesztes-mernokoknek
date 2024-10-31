@@ -40,7 +40,7 @@ function Profile() {
         console.log("Saving data:", jsonData); // Log the data being sent
 
         // API call to save the updated data
-        axios.put("http://localhost:8080/api/players/2001", jsonData, {
+        axios.put("http://localhost:8080/api/players/2001", {
             headers: {
                 'Content-Type': 'application/json'
             }

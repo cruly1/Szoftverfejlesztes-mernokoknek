@@ -1,29 +1,23 @@
 .hero-section {
-    height: 100vh;
-    background: #143353 url('https://wallpapers.com/images/hd/1920-x-1080-hd-gaming-buu1xho2onmsr8rf.jpg') center center no-repeat;
-    background-size: cover; /* A kép teljesen kitölti a rendelkezésre álló területet */
+    height: 90vh;
+    max-width: 100vw;
+    background: #143353 url('C:\Users\farag\Desktop\Szoftverfejlesztes-mernokoknek\frontend\public\HeroPicture.png') center center no-repeat;
+    background-size: cover;
     display: flex;
-    align-items: center;
+    align-items: flex-end; /* Aligns content to the bottom */
     justify-content: center;
     position: relative;
+    overflow: hidden;
+    padding-bottom: 20px; /* Adds spacing from the bottom */
 }
 
-.hero-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.6); /* Sötét áttetsző réteg a kép fölött */
-    z-index: 1;
-}
 
 .hero-content {
     position: relative;
-    z-index: 2; /* A tartalom a sötét réteg felett jelenik meg */
+    z-index: 2;
     text-align: center;
     color: #ffffff;
+    padding: 10px 50px; /* Optional padding for content spacing */
 }
 
 h1 {
@@ -32,17 +26,18 @@ h1 {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
-p {
-    font-size: 1.2rem;
+.hero-content p {
+    font-size: 2rem;
     margin: 20px 0;
 }
 
 .cta-buttons {
     margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .btn {
-    padding: 12px 24px;
+    padding: 15px 40px;
     border: none;
     border-radius: 5px;
     text-transform: uppercase;
@@ -57,6 +52,7 @@ p {
     background-color: #17a2b8;
     color: #ffffff;
     margin-right: 10px;
+    
 }
 
 .primary-btn:hover {

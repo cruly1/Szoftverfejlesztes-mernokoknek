@@ -10,10 +10,15 @@ body {
     max-width: 600px;
     margin: 2rem auto;
     padding: 2rem;
-    background-color: #ffffff;
+    background-color: #343a40;
     border-radius: 8px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    color: #343a40; /* Frissített szöveg szín */
+    color: #ffffff;
+    box-shadow: 0 0 7px black;
+    border: 2px solid black;
+/*  min-height: 70vh;
+    hogy leerjen az aljara a footer
+*/
 }
 
 /* Profile Info */
