@@ -67,4 +67,9 @@ public class PlayerController {
         List<PlayerDTO> playerDTOS = playerService.getAllPlayers();
         return ResponseEntity.ok(playerDTOS);
     }
+
+    @PostMapping("{playerId}/events/{eventId}")
+    public String addPlayerToEvent(@PathVariable("playerId") Long playerId, @PathVariable("eventId") Long eventId) {
+        return playerService.addPlayerToEvent(playerId, eventId);
+    }
 }

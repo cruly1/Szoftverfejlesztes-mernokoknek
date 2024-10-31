@@ -1,11 +1,14 @@
 package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.TableGenerator;
 import lombok.AllArgsConstructor;
@@ -14,6 +17,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "events")
@@ -42,6 +47,15 @@ public class Event {
     @Column(name = "event_date", nullable = false)
     private LocalDate eventDate;
 
-    @ManyToOne
-    private Team team;
+    @ManyToMany
+    @JoinTable(
+            name = "event_player",
+            joinColumns = @JoinColumn(name = "event_id"),
+            inverseJoinColumns = @JoinColumn(name = "player_id")
+    )
+    @JsonIgnore
+    private Set<Player> players = new HashSet<>();
+
+    @ManyToMany(mappedBy = "events")
+    private Set<Team> teams = new HashSet<>();
 }

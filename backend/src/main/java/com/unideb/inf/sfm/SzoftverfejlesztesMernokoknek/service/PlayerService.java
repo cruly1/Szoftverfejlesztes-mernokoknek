@@ -4,11 +4,13 @@ import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.dto.PlayerDTO;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.DuplicateRoleException;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.TeamLimitExceededException;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.mapper.PlayerMapper;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Event;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Player;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.InvalidParametersException;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.ResourceNotFoundException;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Team;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.enums.EIngameRoles;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.EventRepository;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.PlayerRepository;
 
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.TeamRepository;
@@ -16,8 +18,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PlayerService {
@@ -27,6 +29,9 @@ public class PlayerService {
 
     @Autowired
     private TeamRepository teamRepository;
+
+    @Autowired
+    private EventRepository eventRepository;
 
     @Autowired
     private PlayerMapper playerMapper;
@@ -46,24 +51,46 @@ public class PlayerService {
     }
 
     public Player addPlayer(Player player) {
-        Team team = teamRepository.findByTeamName(player.getTeam().getTeamName())
-                .orElseThrow(() -> new ResourceNotFoundException(-1L, "Team"));
+        Team team = player.getTeam() != null ?
+                teamRepository.findByTeamName(player.getTeam().getTeamName())
+                        .orElseThrow(() -> new ResourceNotFoundException(-1L, "Team"))
+                : null;
 
-        if (team.getPlayersInTeam().size() >= 6) {
-            throw new TeamLimitExceededException("Only 6 members are allowed to join each team.");
-        }
+        if (team != null) {
+            if (team.getPlayersInTeam().size() >= 6) {
+                throw new TeamLimitExceededException("Only 6 members are allowed to join each team.");
+            }
 
-        EIngameRoles role = player.getIngameRole();
-        boolean isRoleTaken = team.getPlayersInTeam().stream()
-                .anyMatch(existingPlayer -> existingPlayer.getIngameRole().equals(role));
+            EIngameRoles role = player.getIngameRole();
+            boolean isRoleTaken = team.getPlayersInTeam().stream()
+                    .anyMatch(existingPlayer -> existingPlayer.getIngameRole().equals(role));
 
-        if (isRoleTaken) {
-            throw new DuplicateRoleException("This role is already taken.");
+            if (isRoleTaken) {
+                throw new DuplicateRoleException("This role is already taken.");
+            }
         }
 
         try {
             player.setTeam(team);
             return playerRepository.save(player);
+        } catch (RuntimeException e) {
+            throw new InvalidParametersException();
+        }
+    }
+
+    public String addPlayerToEvent(Long playerId, Long eventId) {
+        Player player = playerRepository.findById(playerId).orElseThrow(
+                () -> new ResourceNotFoundException(-1L, "Player"));
+
+        Event event = eventRepository.findById(eventId).orElseThrow(
+                () -> new ResourceNotFoundException(-1L, "Event"));
+
+        try {
+            event.getPlayers().add(player);
+            player.getEvents().add(event);
+            playerRepository.save(player);
+            eventRepository.save(event);
+            return "Player added to event successfully.";
         } catch (RuntimeException e) {
             throw new InvalidParametersException();
         }
@@ -84,6 +111,7 @@ public class PlayerService {
 
         EIngameRoles role = player.getIngameRole();
         boolean isRoleTaken = team.getPlayersInTeam().stream()
+                .filter(existingPlayer -> !existingPlayer.getId().equals(playerId))
                 .anyMatch(existingPlayer -> existingPlayer.getIngameRole().equals(role));
 
         if (isRoleTaken) {
@@ -91,6 +119,7 @@ public class PlayerService {
         }
 
         try {
+            player.setTeam(team);
             return playerRepository.save(player);
         } catch (RuntimeException e) {
             throw new InvalidParametersException();
@@ -107,10 +136,9 @@ public class PlayerService {
 
     public List<PlayerDTO> getAllPlayers() {
         List<Player> players = playerRepository.findAll();
-        List<PlayerDTO> playerDTOS = new ArrayList<>();
 
-        players.forEach(player -> playerDTOS.add(playerMapper.toDTO(player)));
-
-        return playerDTOS;
+        return players.stream()
+                .map(playerMapper::toDTO)
+                .collect(Collectors.toList());
     }
 }

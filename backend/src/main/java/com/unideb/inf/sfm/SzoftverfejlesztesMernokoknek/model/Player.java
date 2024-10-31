@@ -3,16 +3,7 @@ package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.enums.EGender;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.enums.EIngameRoles;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.enums.ENationality;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import jakarta.persistence.TableGenerator;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Past;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,6 +11,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "players")
@@ -69,4 +62,7 @@ public class Player {
 
     @ManyToOne
     private Team team;
+
+    @ManyToMany(mappedBy = "players")
+    private Set<Event> events = new HashSet<>();
 }

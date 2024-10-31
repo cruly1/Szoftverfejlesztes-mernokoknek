@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: SzoftverfejlesztesMernokoknek
+
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:file:./DB
+    username: admin
+    password: admin
+
+  h2:
+    console:
+      enabled: true
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+      # ddl-auto: update
+
+web:
+  cors:
+    allowedOrigins: "*"
+    allowedMethods: "GET, POST, PUT, DELETE, OPTIONS"
+    allowedHeaders: "Requestor-Type"
+    exposedHeaders: "X-Get-Header"

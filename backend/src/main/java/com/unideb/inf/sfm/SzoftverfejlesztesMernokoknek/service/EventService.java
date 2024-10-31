@@ -1,6 +1,7 @@
 package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.service;
 
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.dto.EventDTO;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.mapper.EventMapper;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Event;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.ResourceNotFoundException;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.EventRepository;
@@ -16,14 +17,21 @@ public class EventService {
     @Autowired
     EventRepository eventRepository;
 
+    @Autowired
+    EventMapper eventMapper;
+
     public EventDTO getEventById(Long id){
         Event event = eventRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException(id, "Event"));
 
-        return new EventDTO(
-                event.getEventName(),
-                event.getEventDate()
-        );
+        return eventMapper.toDTO(event);
+    }
+
+    public EventDTO getEventByEventName(String eventName) {
+        Event event = eventRepository.findByEventName(eventName).orElseThrow(
+                () -> new ResourceNotFoundException(-1L, "Player"));
+
+        return eventMapper.toDTO(event);
     }
 
     public Event addEvent(Event event) {
@@ -52,10 +60,7 @@ public class EventService {
         List<Event> events = eventRepository.findAll();
         List<EventDTO> eventDTOS = new ArrayList<>();
 
-        events.stream().map((event -> new EventDTO(
-                        event.getEventName(),
-                        event.getEventDate())))
-                .forEach(eventDTOS::add);
+        events.forEach(event -> eventDTOS.add(eventMapper.toDTO(event)));
 
         return eventDTOS;
     }

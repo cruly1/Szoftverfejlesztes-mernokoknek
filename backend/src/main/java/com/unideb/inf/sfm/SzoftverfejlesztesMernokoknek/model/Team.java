@@ -1,20 +1,15 @@
 package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import jakarta.persistence.TableGenerator;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "teams")
@@ -42,4 +37,12 @@ public class Team {
 
     @OneToMany(mappedBy = "team")
     private List<Player> playersInTeam = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "team_event",
+            joinColumns = @JoinColumn(name = "team_id"),
+            inverseJoinColumns = @JoinColumn(name = "event_id")
+    )
+    private Set<Event> events = new HashSet<>();
 }
