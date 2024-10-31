@@ -8,10 +8,12 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface EventMapper {
 
-    @Mapping(source = "eventDate", target = "eventDate")
+    @Mapping(source = "eventStartDate", target = "eventStartDate")
+    @Mapping(source = "eventEndDate", target = "eventEndDate")
     EventDTO toDTO(Event event);
 
-    @Mapping(source = "eventDate", target = "eventDate")
+    @Mapping(source = "eventStartDate", target = "eventStartDate")
+    @Mapping(source = "eventEndDate", target = "eventEndDate")
     Event toEntity(EventDTO eventDTO);
 
     EventDTO toSimpleDTO(Event event);
