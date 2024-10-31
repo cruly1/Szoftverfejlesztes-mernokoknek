@@ -42,7 +42,8 @@ public class EventService {
         Event event = eventRepository.findById(eventId).orElseThrow(
                 () -> new ResourceNotFoundException(eventId, "Event"));
 
-        event.setEventDate(updatedEvent.getEventDate());
+        event.setEventStartDate(updatedEvent.getEventStartDate());
+        event.setEventEndDate(updatedEvent.getEventEndDate());
         event.setEventName(updatedEvent.getEventName());
 
         return eventRepository.save(event);

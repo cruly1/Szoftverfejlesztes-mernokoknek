@@ -13,5 +13,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class EventDTO {
     private String eventName;
-    private LocalDate eventDate;
+    private LocalDate eventEndDate;
+    private LocalDate eventStartDate;
 }

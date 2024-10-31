@@ -44,8 +44,11 @@ public class Event {
     @Column(name = "event_name", nullable = false, length = 50)
     private String eventName;
 
-    @Column(name = "event_date", nullable = false)
-    private LocalDate eventDate;
+    @Column(name = "event_start_date", nullable = false)
+    private LocalDate eventStartDate;
+
+    @Column(name = "event_end_date", nullable = false)
+    private LocalDate eventEndDate;
 
     @ManyToMany
     @JoinTable(
