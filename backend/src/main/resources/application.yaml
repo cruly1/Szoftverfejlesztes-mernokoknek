@@ -25,6 +25,7 @@ web:
     allowedHeaders: "Requestor-Type"
     exposedHeaders: "X-Get-Header"
 
+
 application:
   security:
     jwt:

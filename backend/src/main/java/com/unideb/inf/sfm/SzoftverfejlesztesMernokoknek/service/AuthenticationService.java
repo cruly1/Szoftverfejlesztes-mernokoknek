@@ -8,7 +8,6 @@ import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.User;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.enums.ERole;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.UserRepository;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.security.jwt.JwtService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

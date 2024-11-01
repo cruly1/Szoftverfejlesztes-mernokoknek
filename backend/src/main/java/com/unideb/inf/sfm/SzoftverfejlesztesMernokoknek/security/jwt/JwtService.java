@@ -1,6 +1,7 @@
 package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.security.jwt;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -65,12 +66,17 @@ public class JwtService {
     }
 
     private Claims extractAllClaims(String jwtToken) {
-        return Jwts
-                .parserBuilder()
-                .setSigningKey(getSignInKey())
-                .build()
-                .parseClaimsJws(jwtToken)
-                .getBody();
+        try {
+            return Jwts
+                    .parserBuilder()
+                    .setSigningKey(getSignInKey())
+                    .build()
+                    .parseClaimsJws(jwtToken)
+                    .getBody();
+        } catch (JwtException e) {
+            System.err.println("Hiba a token érvényesítés során: " + e.getMessage());
+            throw new IllegalArgumentException("Érvénytelen JWT token", e);
+        }
     }
 
     private Key getSignInKey() {
