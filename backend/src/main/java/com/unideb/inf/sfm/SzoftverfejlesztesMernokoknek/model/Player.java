@@ -35,13 +35,13 @@ public class Player {
     )
     private Long id;
 
-    @Column(name = "first_name", nullable = false, length = 50)
+    @Column(name = "first_name", nullable = false, length = 18)
     private String firstName;
 
-    @Column(name = "last_name", nullable = false, length = 50)
+    @Column(name = "last_name", nullable = false, length = 18)
     private String lastName;
 
-    @Column(name = "nick_name", nullable = false, unique = true, length = 24)
+    @Column(name = "nick_name", nullable = false, unique = true, length = 18)
     private String nickName;
 
     @Column(name = "ingame_role", nullable = false)

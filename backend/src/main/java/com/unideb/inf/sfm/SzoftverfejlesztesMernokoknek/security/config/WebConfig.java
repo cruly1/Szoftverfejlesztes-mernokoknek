@@ -1,4 +1,4 @@
-package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.security;
+package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.security.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
