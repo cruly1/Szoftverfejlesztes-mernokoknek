@@ -30,6 +30,7 @@ function Teams() {
   return (
     <div className="teams-page">
       <h1>Teams</h1>
+      
       <div className="teams-list">
         {teams.map(team => (
           <TeamList key={team.id} team={team} /> 

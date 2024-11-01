@@ -10,6 +10,7 @@ import Events from './pages/Events';
 import Profile from './pages/Profile';
 import ErrorPage from './pages/ErrorPage';
 import LoadingCS2 from './components/LoadingCS2';
+import EventDetails from './pages/EventDetails';
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -40,6 +41,7 @@ function App() {
         <Route path="/teams" element={<Teams />} />
         <Route path="/events" element={<Events />} />
         <Route path="/players/:id" element={<PlayerDetails />} />
+        <Route path="/events/:eventName" element={<EventDetails />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>

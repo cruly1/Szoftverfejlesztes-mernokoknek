@@ -1,0 +1,26 @@
+.event-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.event-item {
+  width: 100%;
+  max-width: 600px;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  transition: transform 0.3s;
+}
+
+.event-link {
+  text-decoration: none;
+  color: white;
+}
+
+.event-item:hover {
+  transform: scale(1.05);
+  background-color: rgba(23, 162, 184, 0.2);
+}

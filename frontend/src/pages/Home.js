@@ -49,6 +49,7 @@ function Home() {
         }
       },
     });
+    
   }, []);
 
   return (

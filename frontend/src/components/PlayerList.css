@@ -19,7 +19,6 @@
     padding: 20px;
 }
 
-
 .player-list li {
     list-style: none;
     width: 200px;
@@ -29,11 +28,13 @@
 
 .player-link {
     display: flex;
-    width: 100%;
-    height: 90px;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
+    width: 100%;
+    height: 100px;
     text-align: center;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     text-decoration: none;
     color: white;
     background-color: #343a40;
@@ -41,13 +42,19 @@
     border-radius: 10px;
     transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    box-shadow: 0 0 7px black;
     border: 2px solid black;
+    overflow: hidden;
+}
+
+.player-link span {
+    display: block;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Adds ellipsis for overflowed text */
 }
 
 .player-link:hover {
     transform: scale(1.05);
     box-shadow: 0 6px 15px rgba(23, 162, 184, 0.7);
 }
-
-

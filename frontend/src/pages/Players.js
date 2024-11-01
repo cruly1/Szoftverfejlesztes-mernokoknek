@@ -25,6 +25,7 @@ function Players() {
       { opacity: 1, y: 0, duration: 1, stagger: 0.1, ease: "power2.out", delay: 1 } // Stagger and slide up
     );
     }, 500);
+    
   }, []);
 
   return (
