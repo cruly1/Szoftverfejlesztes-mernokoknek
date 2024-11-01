@@ -3,6 +3,8 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './PlayerList.css'; 
 
+
+
 function PlayerList() {
   const [players, setPlayers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -10,13 +12,26 @@ function PlayerList() {
 
  
   useEffect(() => {
-    axios.get('http://localhost:8080/api/players/getAllPlayers') 
+    const token = localStorage.getItem('token'); 
+
+    if (!token) {
+      setError('Unauthorized access. Please log in.');
+      setLoading(false);
+      return;
+    }
+    // Set up headers with the Bearer token
+    console.log("Token:", token);
+    axios.get('http://localhost:8080/api/players/getAllPlayers', {
+      headers: { Authorization: `Bearer ${token}` },
+      withCredentials: true
+    })
       .then(response => {
         setPlayers(response.data); 
         
       })
-      .catch(err => {
-        setError('Failed to fetch players');
+      .catch((error) => {
+        console.error("Error fetching players:", error);
+        setError(error.response?.data?.message || 'Failed to fetch players');
       })
       .finally(() => {
         setLoading(false);

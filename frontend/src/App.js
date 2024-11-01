@@ -11,6 +11,9 @@ import Profile from './pages/Profile';
 import ErrorPage from './pages/ErrorPage';
 import LoadingCS2 from './components/LoadingCS2';
 import EventDetails from './pages/EventDetails';
+import axios from 'axios';
+
+axios.defaults.withCredentials = true;
 
 function App() {
   const [loading, setLoading] = useState(false);
