@@ -27,6 +27,7 @@ function Register({ onRegisterSuccess }) {
                 <input name="username" type="text"value={formData.username} onChange={handleChange} placeholder="Username" required />
                 <input name="password" type="password" value={formData.password} onChange={handleChange} placeholder="Password" required />
                 <input name="email" type="email" value={formData.email} onChange={handleChange} placeholder="Email" required />
+                
                 <button type="submit">Register</button>
             </form>
         </div>

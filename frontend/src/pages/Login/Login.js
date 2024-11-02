@@ -27,6 +27,7 @@ function Login({ onLogin }) {
       <form onSubmit={handleSubmit}>
         <input name="username" type="text"value={credentials.username} onChange={handleChange} placeholder="Username" required />
         <input name="password" type="password" value={credentials.password} onChange={handleChange} placeholder="Password" required />
+        
         <button type="submit">Login</button>
       </form>
     </div>
