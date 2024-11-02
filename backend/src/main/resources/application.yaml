@@ -18,14 +18,6 @@ spring:
 #       ddl-auto: update
 
 
-web:
-  cors:
-    allowedOrigins: "*"
-    allowedMethods: "GET, POST, PUT, DELETE, OPTIONS"
-    allowedHeaders: "Requestor-Type"
-    exposedHeaders: "X-Get-Header"
-
-
 application:
   security:
     jwt:
