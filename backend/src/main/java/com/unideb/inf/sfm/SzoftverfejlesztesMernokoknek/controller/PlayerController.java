@@ -55,9 +55,9 @@ public class PlayerController {
         return new ResponseEntity<>(playerMapper.toDTO(savedPlayer), HttpStatus.CREATED);
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<PlayerDTO> updatePlayer(@PathVariable("id") Long playerId, @RequestBody Player updatedPlayer) {
-        Player player = playerService.updatePlayer(playerId, updatedPlayer);
+    @PutMapping("updatePlayer/search")
+    public ResponseEntity<PlayerDTO> updatePlayer(@RequestParam("nickName") String nickName, @RequestBody Player updatedPlayer) {
+        Player player = playerService.updatePlayer(nickName, updatedPlayer);
         return ResponseEntity.ok(playerMapper.toDTO(player));
     }
 

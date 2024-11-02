@@ -108,9 +108,9 @@ public class PlayerService {
         }
     }
 
-    public Player updatePlayer(Long playerId, Player updatedPlayer) {
-        Player player = playerRepository.findById(playerId).orElseThrow(
-                () -> new ResourceNotFoundException(playerId, "Player"));
+    public Player updatePlayer(String nickName, Player updatedPlayer) {
+        Player player = playerRepository.findByNickName(nickName).orElseThrow(
+                () -> new ResourceNotFoundException(1L, "Player"));
 
         BeanUtils.copyProperties(updatedPlayer, player, "id");
 
@@ -123,7 +123,7 @@ public class PlayerService {
 
         EIngameRoles role = player.getIngameRole();
         boolean isRoleTaken = team.getPlayersInTeam().stream()
-                .filter(existingPlayer -> !existingPlayer.getId().equals(playerId))
+                .filter(existingPlayer -> !existingPlayer.getId().equals(player.getId()))
                 .anyMatch(existingPlayer -> existingPlayer.getIngameRole().equals(role));
 
         if (isRoleTaken) {
