@@ -114,15 +114,17 @@ public class PlayerService {
 
         BeanUtils.copyProperties(updatedPlayer, player, "id");
 
-        Team team = teamRepository.findByTeamName(player.getTeam().getTeamName())
-                .orElseThrow(() -> new ResourceNotFoundException(-1L, "Team"));
+        Team team = player.getTeam() != null ?
+                teamRepository.findByTeamName(player.getTeam().getTeamName())
+                        .orElseThrow(() -> new ResourceNotFoundException(-1L, "Team"))
+                : null;
 
-        if (team.getPlayersInTeam().size() >= 6) {
+        if (team != null && team.getPlayersInTeam().size() >= 6) {
             throw new TeamLimitExceededException("Only 6 members are allowed to join each team.");
         }
 
         EIngameRoles role = player.getIngameRole();
-        boolean isRoleTaken = team.getPlayersInTeam().stream()
+        boolean isRoleTaken = team != null && team.getPlayersInTeam().stream()
                 .filter(existingPlayer -> !existingPlayer.getId().equals(player.getId()))
                 .anyMatch(existingPlayer -> existingPlayer.getIngameRole().equals(role));
 
