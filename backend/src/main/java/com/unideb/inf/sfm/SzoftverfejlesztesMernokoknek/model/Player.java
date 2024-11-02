@@ -3,6 +3,7 @@ package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.enums.EGender;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.enums.EIngameRoles;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.enums.ENationality;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.validation.MinAge;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Past;
 import lombok.AllArgsConstructor;
@@ -49,6 +50,7 @@ public class Player {
     private EIngameRoles ingameRole;
 
     @Column(name = "date_of_birth", nullable = false)
+    @MinAge(value = 14, message = "Player must be at least 14 years old to register.")
     @Past
     private LocalDate dateOfBirth;
 
