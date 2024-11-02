@@ -6,18 +6,32 @@ function Profile() {
     const [userData, setUserData] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editedData, setEditedData] = useState({});
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
+    // Fetch current user profile data
     useEffect(() => {
-        // API call to load user data
-        axios.get("http://localhost:8080/api/players/2001") // Modify to the appropriate API endpoint
-            .then(response => {
-                setUserData(response.data);
-                setEditedData(response.data); // Set initial data
-            })
-            .catch(err => {
-                console.error("Error fetching user data:", err);
-                // Error handling, e.g., displaying an error message
-            });
+        const token = localStorage.getItem('token');
+        if (!token) {
+            setError("Unauthorized: No token found. Please log in.");
+            setLoading(false);
+            return;
+        }
+
+        axios.get(`http://localhost:8080/api/players/szulok`, { // Endpoint changed to fetch current user
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+        .then(response => {
+            setUserData(response.data);
+            setEditedData(response.data); // Set initial data for editing
+        })
+        .catch(err => {
+            console.error("Error fetching user data:", err);
+            setError("Failed to load profile data.");
+        })
+        .finally(() => setLoading(false));
     }, []);
 
     const handleEdit = () => {
@@ -28,36 +42,32 @@ function Profile() {
         const { name, value } = e.target;
         setEditedData({
             ...editedData,
-            [name]: value
+            [name]: value,
         });
     };
 
     const handleSave = (e) => {
         e.preventDefault();
-
-        // Convert the editedData object into JSON format
-        const jsonData = JSON.stringify(editedData);
-        console.log("Saving data:", jsonData); // Log the data being sent
-
-        // API call to save the updated data
-        axios.put("http://localhost:8080/api/players/2001", {
+        const token = localStorage.getItem('token');
+        
+        axios.put(`http://localhost:8080/api/players/szulok`, editedData, { // Adjusted endpoint
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
             }
         })
         .then(response => {
-            console.log("Response:", response.data); // Log the response data
-            setUserData(response.data); // Set updated data
-            setIsModalOpen(false);
+            setUserData(response.data); // Update displayed data
+            setIsModalOpen(false); // Close modal
         })
         .catch(err => {
-            console.error("Error during save:", err); // Log any errors
-            // Error handling, e.g., displaying an error message
+            console.error("Error during save:", err);
+            setError("Failed to update profile.");
         });
     };
 
-    // Check if user data has loaded
-    if (!userData) return <div>Loading profile...</div>;
+    if (loading) return <div>Loading profile...</div>;
+    if (error) return <div>{error}</div>;
 
     return (
         <div className="profile-container">
@@ -87,13 +97,12 @@ function Profile() {
                                             value={editedData[key]}
                                             onChange={handleChange}
                                         >
-                                            <option value="male">Male</option>
-                                            <option value="female">Female</option>
-                                            <option value="other">Other</option>
+                                            <option value="MALE">Male</option>
+                                            <option value="FEMALE">Female</option>
                                         </select>
                                     ) : (
                                         <input
-                                            type={key === 'date_of_birth' ? 'date' : 'text'}
+                                            type={key === 'dateOfBirth' ? 'date' : 'text'}
                                             name={key}
                                             value={editedData[key]}
                                             onChange={handleChange}

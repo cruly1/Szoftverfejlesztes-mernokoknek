@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { capitalize } from '../utils/utils.js'; 
+import { capitalize } from '../../../utils/utils.js'; 
 import './TeamList.css';
 
 const placeholderImage = "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg"; 
@@ -10,19 +10,19 @@ function TeamList({ team }) {
   const [scrollingEvents, setScrollingEvents] = useState([]);
 
   useEffect(() => {
-    // Duplicate events to create an infinite scroll illusion
-    setScrollingEvents([...team.events, ...team.events]);
+    // Check if team.events exists and is an array; if not, use an empty array
+    const events = team.events ? team.events : [];
+    setScrollingEvents([...events, ...events]);
   }, [team.events]);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      // Move the first event to the end to create the loop
       setScrollingEvents(prevEvents => {
         const [firstEvent, ...rest] = prevEvents;
         return [...rest, firstEvent];
       });
-    }, 3000); // Adjust timing for scroll speed
-    return () => clearInterval(intervalId); // Cleanup interval on component unmount
+    }, 3000); 
+    return () => clearInterval(intervalId); 
   }, [scrollingEvents]);
 
   const toggleDropdown = () => {
@@ -45,13 +45,20 @@ function TeamList({ team }) {
           {team.teamName} {isOpen ? '▲' : '▼'}
         </button>
       
+        {/* Display scrolling events only if there are events */}
         <div className="scrolling-events-container">
           <div className="scrolling-events">
-            {scrollingEvents.map((event, index) => (
-              <span key={`${event.eventName}-${index}`} className="scrolling-event-text">
-                {event.eventName} ({event.eventDate})
-              </span>
-            ))}
+            {scrollingEvents.length > 0 ? (
+              scrollingEvents.map((event, index) => (
+                event && event.eventName && event.eventDate ? ( // Check if event and properties exist
+                  <span key={`${event.eventName}-${index}`} className="scrolling-event-text">
+                    {event.eventName} ({event.eventDate})
+                  </span>
+                ) : null // If the event is undefined or lacks properties, render nothing
+              ))
+            ) : (
+              <span className="no-event-text">No events available</span>
+            )}
           </div>
         </div>
       </div>

@@ -13,7 +13,11 @@ function EventDetails() {
 
   // Fetch event details
   useEffect(() => {
-    axios.get(`http://localhost:8080/api/events/search?eventName=${eventName}`)
+    const token = localStorage.getItem('token'); 
+    axios.get(`http://localhost:8080/api/events/search?eventName=${eventName}`, {
+      headers: { Authorization: `Bearer ${token}` },
+      withCredentials: true
+    })
       .then(response => {
         setEvent(response.data);
       })
@@ -25,8 +29,12 @@ function EventDetails() {
 
   // Fetch players and teams to find participants
   useEffect(() => {
+    const token = localStorage.getItem('token'); 
     // Fetch players
-    axios.get("http://localhost:8080/api/players/getAllPlayers")
+    axios.get("http://localhost:8080/api/players/getAllPlayers", {
+      headers: { Authorization: `Bearer ${token}` },
+      withCredentials: true
+    })
       .then(response => {
         const allPlayers = response.data;
         const participatingPlayers = allPlayers.filter(player =>
@@ -39,7 +47,10 @@ function EventDetails() {
       });
 
     // Fetch teams
-    axios.get("http://localhost:8080/api/teams/getAllTeams")
+    axios.get("http://localhost:8080/api/teams/getAllTeams", {
+      headers: { Authorization: `Bearer ${token}` },
+      withCredentials: true
+    })
       .then(response => {
         const allTeams = response.data;
         const participatingTeams = allTeams.filter(team =>

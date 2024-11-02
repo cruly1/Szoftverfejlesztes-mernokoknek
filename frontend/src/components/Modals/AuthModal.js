@@ -1,11 +1,16 @@
-import React from 'react';
-import { useState } from 'react';
-import Register from '../pages/Register';
-import Login from '../pages/Login';
+import React, { useState } from 'react';
+import Register from '../../pages/Login/Register';
+import Login from '../../pages/Login/Login';
 import './AuthModal.css';
 
 function AuthModal({ isOpen, onClose, onLogin }) {
     const [isRegister, setIsRegister] = useState(true);
+    const [isRegistered, setIsRegistered] = useState(false);
+
+    const handleRegisterSuccess = () => {
+        setIsRegistered(true);
+        setIsRegister(false); // Switch to login after successful registration
+    };
 
     if (!isOpen) return null;
 
@@ -17,7 +22,8 @@ function AuthModal({ isOpen, onClose, onLogin }) {
                     <button onClick={() => setIsRegister(true)} className={isRegister ? 'active' : ''}>Register</button>
                     <button onClick={() => setIsRegister(false)} className={!isRegister ? 'active' : ''}>Login</button>
                 </div>
-                {isRegister ? <Register /> : <Login onLogin={onLogin} />}
+                {isRegistered && <p>Registration successful! You can now log in.</p>}
+                {isRegister ? <Register onRegisterSuccess={handleRegisterSuccess} /> : <Login onLogin={onLogin} />}
             </div>
         </div>
     );

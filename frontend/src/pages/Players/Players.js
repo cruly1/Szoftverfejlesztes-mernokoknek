@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import PlayerList from '../components/PlayerList';
+import PlayerList from '../../components/Lists/PlayerList/PlayerList';
 import './Players.css';
 import { gsap } from 'gsap'; // Import GSAP
 
