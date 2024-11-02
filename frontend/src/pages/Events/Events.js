@@ -1,5 +1,5 @@
 import React from 'react';
-import EventList from '../components/EventList'; // Assuming you created an EventList component for the events
+import EventList from '../../components/Lists/EventList/EventList'; // Assuming you created an EventList component for the events
 import './Events.css';
 
 function Events() {

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import HeroSection from '../components/HeroSection';
+import HeroSection from '../../components/HeroSection/HeroSection';
 import './Home.css'; // Ensure you have your custom styles here
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';

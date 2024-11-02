@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, useLocation } from 'react-router-dom';
 import App from './App';
-import LoadingCS2 from './components/LoadingCS2'; // Adjust path if needed
+import LoadingCS2 from './components/LoadingCS2/LoadingCS2'; // Adjust path if needed
 
 function LoadingWrapper() {
   const [loading, setLoading] = useState(false);

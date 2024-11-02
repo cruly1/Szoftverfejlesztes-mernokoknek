@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Radar } from 'react-chartjs-2';
 import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend } from 'chart.js';
 import './PlayerDetails.css';
-import { capitalize } from '../utils/utils.js';
+import { capitalize } from '../../../utils/utils.js';
 
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
 
@@ -31,9 +31,15 @@ function PlayerDetails() {
       .then(teamName => {
         if (teamName) {
           return axios.get(`http://localhost:8080/api/teams/search?teamName=${teamName}`, {
+<<<<<<< HEAD:frontend/src/pages/PlayerDetails.js
             headers: { Authorization: `Bearer ${token}` },
             withCredentials: true
           });
+=======
+      headers: { Authorization: `Bearer ${token}` },
+      withCredentials: true
+    });
+>>>>>>> a37edd8b9432105f1cc15cbf699e7f311c36eb6b:frontend/src/pages/Players/PlayerDetails/PlayerDetails.js
         }
       })
       .then(response => {

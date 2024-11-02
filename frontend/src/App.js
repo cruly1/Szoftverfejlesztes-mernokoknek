@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import Home from './pages/Home';
-import Players from './pages/Players';
-import PlayerDetails from './pages/PlayerDetails';
-import Teams from './pages/Teams';
-import Events from './pages/Events';
-import Profile from './pages/Profile';
-import ErrorPage from './pages/ErrorPage';
-import LoadingCS2 from './components/LoadingCS2';
-import EventDetails from './pages/EventDetails';
+import Navbar from './components/Navbar/Navbar';
+import Footer from './components/Footer/Footer';
+import Home from './pages/Home/Home';
+import Players from './pages/Players/Players';
+import PlayerDetails from './pages/Players/PlayerDetails/PlayerDetails';
+import Teams from './pages/Teams/Teams';
+import Events from './pages/Events/Events';
+import Profile from './pages/Profile/Profile';
+import ErrorPage from './pages/ErrorPage/ErrorPage';
+import LoadingCS2 from './components/LoadingCS2/LoadingCS2';
+import EventDetails from './pages/Events/EventDetails/EventDetails';
 import axios from 'axios';
 
 axios.defaults.withCredentials = true;

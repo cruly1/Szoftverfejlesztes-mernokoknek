@@ -9,7 +9,11 @@ function EventList() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/events/getAllEvents')
+    const token = localStorage.getItem('token'); 
+    axios.get('http://localhost:8080/api/events/getAllEvents', {
+      headers: { Authorization: `Bearer ${token}` },
+      withCredentials: true
+    })
       .then(response => {
         setEvents(response.data);
       })
