@@ -24,9 +24,9 @@ function Register({ onRegisterSuccess }) {
             <h2>Register</h2>
             {error && <p>{error}</p>}
             <form onSubmit={handleSubmit}>
-                <input name="username" value={formData.username} onChange={handleChange} placeholder="Username" required />
+                <input name="username" type="text"value={formData.username} onChange={handleChange} placeholder="Username" required />
                 <input name="password" type="password" value={formData.password} onChange={handleChange} placeholder="Password" required />
-                <input name="email" value={formData.email} onChange={handleChange} placeholder="Email" required />
+                <input name="email" type="email" value={formData.email} onChange={handleChange} placeholder="Email" required />
                 <button type="submit">Register</button>
             </form>
         </div>

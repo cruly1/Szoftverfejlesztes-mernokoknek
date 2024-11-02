@@ -9,21 +9,23 @@ function AuthModal({ isOpen, onClose, onLogin }) {
 
     const handleRegisterSuccess = () => {
         setIsRegistered(true);
-        setIsRegister(false); // Switch to login after successful registration
+        setIsRegister(false);
     };
 
     if (!isOpen) return null;
 
     return (
-        <div className="modal-overlay" onClick={onClose}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                <button className="close-btn" onClick={onClose}>X</button>
-                <div className="modal-toggle">
-                    <button onClick={() => setIsRegister(true)} className={isRegister ? 'active' : ''}>Register</button>
-                    <button onClick={() => setIsRegister(false)} className={!isRegister ? 'active' : ''}>Login</button>
+        <div className="auth-modal-overlay" onClick={onClose}>
+            <div className={`auth-modal-content ${isRegister ? 'register' : 'login'}`} onClick={(e) => e.stopPropagation()}>
+                <button className="auth-close-btn" onClick={onClose}>X</button>
+                <div className="auth-modal-toggle">
+                    <button onClick={() => setIsRegister(true)} className={`auth-toggle-btn ${isRegister ? 'active' : ''}`}>Register</button>
+                    <button onClick={() => setIsRegister(false)} className={`auth-toggle-btn ${!isRegister ? 'active' : ''}`}>Login</button>
                 </div>
-                {isRegistered && <p>Registration successful! You can now log in.</p>}
-                {isRegister ? <Register onRegisterSuccess={handleRegisterSuccess} /> : <Login onLogin={onLogin} />}
+                {isRegistered && <p className="auth-success-message">Registration successful! You can now log in.</p>}
+                <div className={`auth-form-container ${isRegister ? 'slide-right' : 'slide-left'}`}>
+                    {isRegister ? <Register onRegisterSuccess={handleRegisterSuccess} /> : <Login onLogin={onLogin} />}
+                </div>
             </div>
         </div>
     );

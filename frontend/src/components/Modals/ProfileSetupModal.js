@@ -2,9 +2,15 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './ProfileSetupModal.css';
 
-function ProfileSetupModal({ onClose }) {
+function ProfileSetupModal({ onClose, username }) { // Accept username as prop
     const [profileData, setProfileData] = useState({
-        firstName: '', lastName: '', nickName: '', ingameRole: '', dateOfBirth: '', gender: '', nationality: ''
+        firstName: '', 
+        lastName: '', 
+        nickName: '', 
+        ingameRole: '', 
+        dateOfBirth: '', 
+        gender: '', 
+        nationality: ''
     });
 
     const handleChange = (e) => {
@@ -14,11 +20,14 @@ function ProfileSetupModal({ onClose }) {
 
     const handleSave = () => {
         const token = localStorage.getItem('token');
-        axios.post('http://localhost:8080/api/players/', profileData, {
+        
+        const url = `http://localhost:8080/api/players/addPlayer/search?username=${username}`;
+        axios.post(url, profileData, {
             headers: { Authorization: `Bearer ${token}` }
         })
         .then(() => {
-            alert("Profile setup successful!"); //DELETE FOR FUTURE PATRIK
+            alert("Profile setup successful!"); // DELETE FOR FUTURE PATRIK
+            localStorage.setItem('nickname', profileData.nickName);
             onClose();
         })
         .catch((err) => console.error('Error saving profile data:', err));

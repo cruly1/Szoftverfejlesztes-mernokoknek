@@ -14,7 +14,7 @@ function Login({ onLogin }) {
     try {
       const response = await axios.post('http://localhost:8080/api/auth/authenticate', credentials, { withCredentials: true });
       const { token } = response.data;
-      onLogin(token); // Pass the token to the parent component or store it in local storage
+      onLogin(token, credentials.username); // Pass token and username
     } catch (err) {
       setError('Authentication failed. Please check your credentials.');
     }
@@ -25,7 +25,7 @@ function Login({ onLogin }) {
       <h2>Login</h2>
       {error && <p>{error}</p>}
       <form onSubmit={handleSubmit}>
-        <input name="username" value={credentials.username} onChange={handleChange} placeholder="Username" required />
+        <input name="username" type="text"value={credentials.username} onChange={handleChange} placeholder="Username" required />
         <input name="password" type="password" value={credentials.password} onChange={handleChange} placeholder="Password" required />
         <button type="submit">Login</button>
       </form>

@@ -9,11 +9,14 @@ function HeroSection() {
     const registerBtnRef = useRef(null);
     const loginBtnRef = useRef(null);
     const [token, setToken] = useState(localStorage.getItem('token'));
+    const [username, setUsername] = useState(null);
     const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
     const [isProfileSetupOpen, setIsProfileSetupOpen] = useState(false);
+    const [initialView, setInitialView] = useState("register");
 
-    const handleLogin = (newToken) => {
+    const handleLogin = (newToken, username) => {
         setToken(newToken);
+        setUsername(username);
         localStorage.setItem('token', newToken);
         setIsAuthModalOpen(false);
         setIsProfileSetupOpen(true);
@@ -21,6 +24,7 @@ function HeroSection() {
 
     const handleLogout = () => {
         setToken(null);
+        setUsername(null);
         localStorage.removeItem('token');
     };
 
@@ -41,14 +45,14 @@ function HeroSection() {
                         <button onClick={handleLogout}>Logout</button>
                     ) : (
                         <>
-                            <button className="btn primary-btn" onClick={() => setIsAuthModalOpen(true)} ref={registerBtnRef}>Register</button>
-                            <button className="btn secondary-btn" onClick={() => setIsAuthModalOpen(true)} ref={loginBtnRef}>Login</button>
+                            <button className="btn primary-btn" onClick={() => { setInitialView("register"); setIsAuthModalOpen(true);}} ref={registerBtnRef}>Register</button>
+                            <button className="btn secondary-btn" onClick={() => { setInitialView("login"); setIsAuthModalOpen(true);}} ref={loginBtnRef}>Login</button>
                         </>
                     )}
                 </div>
             </div>
-            <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} onLogin={handleLogin} />
-            {isProfileSetupOpen && <ProfileSetupModal onClose={() => setIsProfileSetupOpen(false)} />}
+            <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} onLogin={handleLogin} initialView={initialView}/>
+            {isProfileSetupOpen && <ProfileSetupModal username={username} onClose={() => setIsProfileSetupOpen(false)} />}
         </section>
     );
 }

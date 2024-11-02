@@ -1,23 +1,4 @@
-.modal-overlay {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.6);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-}
 
-.modal-content {
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    max-width: 400px;
-    width: 100%;
-    position: relative;
-}
 
 .close-btn {
     position: absolute;
@@ -28,22 +9,140 @@
     cursor: pointer;
 }
 
-.modal-toggle {
+
+/* Blurred Overlay Background */
+.auth-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
     display: flex;
+    align-items: center;
     justify-content: center;
-    margin-bottom: 20px;
+    z-index: 1000;
 }
 
-.modal-toggle button {
-    flex: 1;
+/* Modal Content */
+.auth-modal-content {
+    background-color: #1c1c1c;
+    color: #fff;
+    padding: 25px;
+    width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    animation: fadeIn 0.4s ease-out;
+}
+
+/* Input Field Styles */
+.auth-modal-content input[type="text"],
+.auth-modal-content input[type="password"],
+.auth-modal-content input[type="email"] {
+    width: 100%;
     padding: 10px;
-    background: #f0f0f0;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ffffff;
+    background-color: #2d2d2d;
+    color: #fff;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.auth-modal-content input[type="text"]:focus,
+.auth-modal-content input[type="password"]:focus,
+.auth-modal-content input[type="email"]:focus {
+    border-color: #17a2b8;
+    outline: none;
+}
+
+/* Success Message */
+.auth-success-message {
+    color: #28a745;
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+/* Close Button */
+.auth-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: transparent;
     border: none;
+    color: #ccc;
+    font-size: 1.2rem;
     cursor: pointer;
 }
 
-.modal-toggle .active {
+/* Toggle Buttons */
+.auth-modal-toggle {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.auth-toggle-btn {
+    flex: 1;
+    padding: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: #ccc;
+    transition: color 0.3s;
+}
+
+.auth-toggle-btn.active {
+    color: #17a2b8;
     font-weight: bold;
-    background-color: #17a2b8;
-    color: white;
+}
+
+/* Form Container for Slide Animation */
+.auth-form-container {
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
+
+.slide-left {
+    animation-name: slideLeft;
+}
+
+.slide-right {
+    animation-name: slideRight;
+}
+
+@keyframes slideLeft {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideRight {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
