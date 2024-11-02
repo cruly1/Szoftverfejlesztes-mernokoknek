@@ -18,7 +18,11 @@ function PlayerDetails() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get(`http://localhost:8080/api/players/search?nickName=${nickName}`)
+    const token = localStorage.getItem('token'); 
+    axios.get(`http://localhost:8080/api/players/search?nickName=${nickName}`, {
+      headers: { Authorization: `Bearer ${token}` },
+      withCredentials: true
+    })
       .then(response => {
         const playerData = response.data;
         setPlayer(playerData);
@@ -26,7 +30,10 @@ function PlayerDetails() {
       })
       .then(teamName => {
         if (teamName) {
-          return axios.get(`http://localhost:8080/api/teams/search?teamName=${teamName}`);
+          return axios.get(`http://localhost:8080/api/teams/search?teamName=${teamName}`, {
+            headers: { Authorization: `Bearer ${token}` },
+            withCredentials: true
+          });
         }
       })
       .then(response => {

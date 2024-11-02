@@ -1,19 +1,18 @@
 package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.service;
 
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.dto.PlayerDTO;
-import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.DuplicateRoleException;
-import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.TeamLimitExceededException;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.*;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.mapper.PlayerMapper;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Event;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Player;
-import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.InvalidParametersException;
-import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.ResourceNotFoundException;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Team;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.User;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.enums.EIngameRoles;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.EventRepository;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.PlayerRepository;
 
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.TeamRepository;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.UserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +33,9 @@ public class PlayerService {
     private EventRepository eventRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private PlayerMapper playerMapper;
 
     public PlayerDTO getPlayerById(Long playerId) {
@@ -50,7 +52,15 @@ public class PlayerService {
         return playerMapper.toDTO(player);
     }
 
-    public Player addPlayer(Player player) {
+    public Player addPlayer(Player player, Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new ResourceNotFoundException(-1L, "User")
+        );
+
+        if (user.getPlayer() != null) {
+            throw new PlayerAlreadyExistsException("User already has a player assigned.");
+        }
+
         Team team = player.getTeam() != null ?
                 teamRepository.findByTeamName(player.getTeam().getTeamName())
                         .orElseThrow(() -> new ResourceNotFoundException(-1L, "Team"))
@@ -72,6 +82,8 @@ public class PlayerService {
 
         try {
             player.setTeam(team);
+            user.setPlayer(player);
+            player.setUser(user);
             return playerRepository.save(player);
         } catch (RuntimeException e) {
             throw new InvalidParametersException();
@@ -88,8 +100,8 @@ public class PlayerService {
         try {
             event.getPlayers().add(player);
             player.getEvents().add(event);
-            playerRepository.save(player);
             eventRepository.save(event);
+            playerRepository.save(player);
             return "Player added to event successfully.";
         } catch (RuntimeException e) {
             throw new InvalidParametersException();

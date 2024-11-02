@@ -44,9 +44,14 @@ public class PlayerController {
         return ResponseEntity.ok(playerDTO);
     }
 
-    @PostMapping
-    public ResponseEntity<PlayerDTO> createPlayer(@RequestBody Player player) {
-        Player savedPlayer = playerService.addPlayer(player);
+    @PostMapping("{playerId}/events/{eventId}")
+    public String addPlayerToEvent(@PathVariable("playerId") Long playerId, @PathVariable("eventId") Long eventId) {
+        return playerService.addPlayerToEvent(playerId, eventId);
+    }
+
+    @PostMapping("addPlayer/{userId}")
+    public ResponseEntity<PlayerDTO> createPlayer(@RequestBody Player player, @PathVariable("userId") Long userId) {
+        Player savedPlayer = playerService.addPlayer(player, userId);
         return new ResponseEntity<>(playerMapper.toDTO(savedPlayer), HttpStatus.CREATED);
     }
 
@@ -66,10 +71,5 @@ public class PlayerController {
     public ResponseEntity<List<PlayerDTO>> getAllPlayers() {
         List<PlayerDTO> playerDTOS = playerService.getAllPlayers();
         return ResponseEntity.ok(playerDTOS);
-    }
-
-    @PostMapping("{playerId}/events/{eventId}")
-    public String addPlayerToEvent(@PathVariable("playerId") Long playerId, @PathVariable("eventId") Long eventId) {
-        return playerService.addPlayerToEvent(playerId, eventId);
     }
 }

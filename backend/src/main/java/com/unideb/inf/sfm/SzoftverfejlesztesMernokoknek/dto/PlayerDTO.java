@@ -26,4 +26,5 @@ public class PlayerDTO {
     private ENationality nationality;
     private String teamName;
     private Set<EventDTO> events = new HashSet<>();
+    private String username;
 }

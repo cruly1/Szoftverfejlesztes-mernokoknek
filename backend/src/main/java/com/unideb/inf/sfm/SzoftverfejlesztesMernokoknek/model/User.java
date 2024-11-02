@@ -33,11 +33,19 @@ public class User implements UserDetails {
     )
     private Long id;
 
+    @Column(nullable = false, unique = true)
     private String username;
 
+    @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false, unique = true)
+    @Email
     private String email;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "player_id", referencedColumnName = "id")
+    private Player player;
 
     @Enumerated(EnumType.STRING)
     private ERole role;

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AuthenticationResponse {
-    private String token;
+public class AuthRequest {
+    private String username;
+    private String password;
 }

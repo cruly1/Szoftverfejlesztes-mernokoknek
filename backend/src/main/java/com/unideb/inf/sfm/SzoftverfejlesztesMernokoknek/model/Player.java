@@ -63,6 +63,9 @@ public class Player {
     @ManyToOne
     private Team team;
 
+    @OneToOne(mappedBy = "player", fetch = FetchType.EAGER)
+    private User user;
+
     @ManyToMany(mappedBy = "players")
     private Set<Event> events = new HashSet<>();
 }
