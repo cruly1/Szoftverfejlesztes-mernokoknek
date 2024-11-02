@@ -49,9 +49,9 @@ public class PlayerController {
         return playerService.addPlayerToEvent(playerId, eventId);
     }
 
-    @PostMapping("addPlayer/{userId}")
-    public ResponseEntity<PlayerDTO> createPlayer(@RequestBody Player player, @PathVariable("userId") Long userId) {
-        Player savedPlayer = playerService.addPlayer(player, userId);
+    @PostMapping("addPlayer/search")
+    public ResponseEntity<PlayerDTO> createPlayer(@RequestBody Player player, @RequestParam("username") String username) {
+        Player savedPlayer = playerService.addPlayer(player, username);
         return new ResponseEntity<>(playerMapper.toDTO(savedPlayer), HttpStatus.CREATED);
     }
 
