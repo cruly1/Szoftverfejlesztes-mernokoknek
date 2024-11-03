@@ -2,7 +2,6 @@ package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.security.config;
 
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.security.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,16 +21,14 @@ import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfiguration {
+
+    private final JwtAuthenticationFilter jwtAuthFilter;
+    private final AuthenticationProvider authenticationProvider;
 
     @Value("${application.security.jwt.requestMatchers}")
     private String requestMatchers;
-
-    @Autowired
-    private JwtAuthenticationFilter jwtAuthFilter;
-
-    @Autowired
-    private AuthenticationProvider authenticationProvider;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {

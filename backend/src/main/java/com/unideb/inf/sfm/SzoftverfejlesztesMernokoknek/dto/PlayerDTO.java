@@ -27,4 +27,6 @@ public class PlayerDTO {
     private String teamName;
     private Set<EventDTO> events = new HashSet<>();
     private String username;
+    private String profileImageName;
+    private String profileImageType;
 }

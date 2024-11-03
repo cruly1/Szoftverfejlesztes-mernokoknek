@@ -3,10 +3,12 @@ package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.controller;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.dto.PlayerDTO;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.mapper.PlayerMapper;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Player;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.service.ImageService;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.service.PlayerService;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,19 +20,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @CrossOrigin("http://localhost:3000")
 @RestController
 @RequestMapping("/api/players/")
+@RequiredArgsConstructor
 public class PlayerController {
 
-    @Autowired
-    private PlayerService playerService;
-
-    @Autowired
-    private PlayerMapper playerMapper;
+    private final PlayerService playerService;
+    private final ImageService imageService;
+    private final PlayerMapper playerMapper;
 
     @GetMapping("{id}")
     public ResponseEntity<PlayerDTO> getPlayerById(@PathVariable("id") Long playerId) {

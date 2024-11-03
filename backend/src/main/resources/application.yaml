@@ -17,6 +17,17 @@ spring:
       ddl-auto: create
 #       ddl-auto: update
 
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+
+
+server:
+  tomcat:
+    max-swallow-size: 100MB
+
 
 application:
   security:

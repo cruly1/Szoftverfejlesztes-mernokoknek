@@ -3,7 +3,7 @@ package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.controller;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.dto.EventDTO;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Event;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.service.EventService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,10 +12,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/events/")
+@RequiredArgsConstructor
 public class EventController {
 
-    @Autowired
-    private EventService eventService;
+    private final EventService eventService;
 
     @GetMapping("{id}")
     public ResponseEntity<EventDTO> getEventById(@PathVariable("id") Long id) {

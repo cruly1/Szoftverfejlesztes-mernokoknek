@@ -4,17 +4,17 @@ import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.dto.security.AuthRequest
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.dto.security.AuthResponse;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.dto.security.RegisterRequest;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.service.AuthService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin("http://localhost:3000")
 @RestController
 @RequestMapping("/api/auth/")
+@RequiredArgsConstructor
 public class AuthController {
 
-    @Autowired
-    private AuthService authService;
+    private final AuthService authService;
 
     @PostMapping("register")
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {

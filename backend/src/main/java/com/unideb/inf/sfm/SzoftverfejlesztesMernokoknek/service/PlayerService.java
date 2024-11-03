@@ -1,42 +1,38 @@
 package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.service;
 
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.dto.PlayerDTO;
-import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.*;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.DuplicateRoleException;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.InvalidParametersException;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.PlayerAlreadyExistsException;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.ResourceNotFoundException;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.TeamLimitExceededException;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.mapper.PlayerMapper;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Event;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Player;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Team;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.User;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.enums.EIngameRoles;
+
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.EventRepository;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.PlayerRepository;
-
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.TeamRepository;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class PlayerService {
 
-    @Autowired
-    private PlayerRepository playerRepository;
-
-    @Autowired
-    private TeamRepository teamRepository;
-
-    @Autowired
-    private EventRepository eventRepository;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private PlayerMapper playerMapper;
+    private final PlayerRepository playerRepository;
+    private final TeamRepository teamRepository;
+    private final EventRepository eventRepository;
+    private final UserRepository userRepository;
+    private final PlayerMapper playerMapper;
 
     public PlayerDTO getPlayerById(Long playerId) {
         Player player = playerRepository.findById(playerId).orElseThrow(

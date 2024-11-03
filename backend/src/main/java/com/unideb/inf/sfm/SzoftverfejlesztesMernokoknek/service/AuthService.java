@@ -8,26 +8,20 @@ import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.User;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.enums.ERole;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.UserRepository;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.security.jwt.JwtService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class AuthService {
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private JwtService jwtService;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
 
     public AuthResponse register(RegisterRequest request) {
         var user = User

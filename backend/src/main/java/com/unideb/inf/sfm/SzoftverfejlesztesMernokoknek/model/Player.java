@@ -6,10 +6,7 @@ import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.enums.ENationality
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.validation.MinAge;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Past;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -19,6 +16,7 @@ import java.util.Set;
 @Table(name = "players")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Player {
@@ -70,4 +68,7 @@ public class Player {
 
     @ManyToMany(mappedBy = "players")
     private Set<Event> events = new HashSet<>();
+
+    private String profileImageName;
+    private String profileImageType;
 }

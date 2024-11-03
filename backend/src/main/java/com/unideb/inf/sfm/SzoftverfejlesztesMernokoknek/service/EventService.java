@@ -5,20 +5,18 @@ import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.mapper.EventMapper;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Event;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.ResourceNotFoundException;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.EventRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class EventService {
 
-    @Autowired
-    EventRepository eventRepository;
-
-    @Autowired
-    EventMapper eventMapper;
+    private final EventRepository eventRepository;
+    private final EventMapper eventMapper;
 
     public EventDTO getEventById(Long id){
         Event event = eventRepository.findById(id).orElseThrow(

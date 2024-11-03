@@ -5,7 +5,7 @@ import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.mapper.TeamMapper;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Team;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.service.TeamService;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,13 +15,11 @@ import java.util.List;
 @CrossOrigin("http://localhost:3000")
 @RestController
 @RequestMapping("/api/teams/")
+@RequiredArgsConstructor
 public class TeamController {
 
-    @Autowired
-    private TeamService teamService;
-
-    @Autowired
-    private TeamMapper teamMapper;
+    private final TeamService teamService;
+    private final TeamMapper teamMapper;
 
     @GetMapping("{id}")
     public ResponseEntity<TeamDTO> getTeamById(@PathVariable("id") Long teamId) {

@@ -10,23 +10,19 @@ import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.ResourceNotFou
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.EventRepository;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.TeamRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class TeamService {
 
-    @Autowired
-    private TeamRepository teamRepository;
-
-    @Autowired
-    private EventRepository eventRepository;
-
-    @Autowired
-    private TeamMapper teamMapper;
+    private final TeamRepository teamRepository;
+    private final EventRepository eventRepository;
+    private final TeamMapper teamMapper;
 
     public TeamDTO getTeamById(Long teamId) {
         Team team = teamRepository.findById(teamId).orElseThrow(
