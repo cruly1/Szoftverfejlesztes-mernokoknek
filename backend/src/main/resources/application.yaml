@@ -18,16 +18,18 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
   mail:
+    debug: true
     host: mail.manageyself.com
     port: 465
-    username: info@manageyself.com
+    username: esport@manageyself.com
     password: ...
     properties:
       mail:
         smtp:
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
           auth: true
-          ssl:
-            enable: true
+          starttls.enable: true
 
 
 server:
