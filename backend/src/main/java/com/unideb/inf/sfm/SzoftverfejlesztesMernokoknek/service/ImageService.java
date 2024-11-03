@@ -23,7 +23,7 @@ public class ImageService {
 
     public byte[] downloadImage(String fileName) {
         Optional<Image> dbImageData = imageRepository.findByName(fileName);
-        return imageUtils.decompressImage(dbImageData.get().getImageData());
+        return dbImageData.map(image -> imageUtils.decompressImage(image.getImageData())).orElse(null);
     }
 
     public String uploadImage(MultipartFile file, String nickName) throws IOException {
