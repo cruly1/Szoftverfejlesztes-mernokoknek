@@ -6,7 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger); // Register ScrollTrigger
 
-function Home() {
+function Home({onLogin, loggedIn}) {
   const twitchHeadingRef = useRef(null);
   const twitchIframeRef = useRef(null);
 
@@ -55,7 +55,7 @@ function Home() {
   return (
     <div>
       {/* Keep HeroSection unchanged */}
-      <HeroSection /> 
+      <HeroSection onLogin={onLogin} loggedIn={loggedIn}/> 
 
       {/* Twitch Embed */}
       <div className="twitch-container">

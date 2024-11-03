@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './Profile.css';
+import ProfileImageUploader from './ProfileImageUploader';
 
 function Profile() {
     const [userData, setUserData] = useState(null);
@@ -9,16 +10,15 @@ function Profile() {
     const [editedData, setEditedData] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [ageError, setAgeError] = useState(null); // For age validation error
+    const [ageError, setAgeError] = useState(null);
     const [isUnderAge, setIsUnderAge] = useState(false);
-
 
     const roles = ["IGL", "ENTRY", "SUPPORT", "LURKER", "AWP", "COACH"];
 
-    // Fetch current user profile data using the stored nickname
+    // Fetch current user profile data
     useEffect(() => {
         const token = localStorage.getItem('token');
-        const nickname = localStorage.getItem('nickname'); // Get nickname from localStorage
+        const nickname = localStorage.getItem('nickname');
 
         if (!token || !nickname) {
             setError("Unauthorized: No token or nickname found. Please log in.");
@@ -26,14 +26,15 @@ function Profile() {
             return;
         }
 
-        axios.get(`http://localhost:8080/api/players/search?nickName=${nickname}`, {
+        axios.get(`http://localhost:8080/api/players/getByNickName/search?nickName=${nickname}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
+                
             },
         })
         .then(response => {
             setUserData(response.data);
-            setEditedData(response.data); // Set initial data for editing
+            setEditedData(response.data);
         })
         .catch(err => {
             console.error("Error fetching user data:", err);
@@ -42,9 +43,8 @@ function Profile() {
         .finally(() => setLoading(false));
     }, []);
 
-    const handleEdit = () => {
-        setIsModalOpen(true);
-    };
+    const handleEdit = () => setIsModalOpen(true);
+
     const calculateAge = (dateString) => {
         const birthDate = new Date(dateString);
         const today = new Date();
@@ -55,45 +55,40 @@ function Profile() {
         }
         return age;
     };
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setEditedData({
             ...editedData,
             [name]: value,
         });
-         if (name === 'dateOfBirth') {
+        if (name === 'dateOfBirth') {
             const age = calculateAge(value);
-            const isUnderAgeLimit = age < 14;
             setAgeError(age < 14 ? "User must be at least 14 years old." : null);
-            setIsUnderAge(isUnderAgeLimit);
-            if (isUnderAgeLimit) {
-                setIsErrorModalOpen(true);
-            }
+            setIsUnderAge(age < 14);
+            if (age < 14) setIsErrorModalOpen(true);
         }
     };
 
-    
-
     const handleSave = (e) => {
         e.preventDefault();
-        // Check if user is under age limit
         if (isUnderAge) {
             setIsErrorModalOpen(true);
-            return; // Stop save action if user is under age limit
+            return;
         }
         const token = localStorage.getItem('token');
         const oldNickname = localStorage.getItem('nickname');
-        console.log("Edited data:", editedData);
+        
         axios.put(`http://localhost:8080/api/players/updatePlayer/search?nickName=${oldNickname}`, editedData, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`,
+                
             }
         })
         .then(response => {
-            setUserData(response.data); // Update displayed data
-            setIsModalOpen(false); // Close modal
-            // Update nickname in local storage if it has changed
+            setUserData(response.data);
+            setIsModalOpen(false);
             if (editedData.nickName && editedData.nickName !== oldNickname) {
                 localStorage.setItem('nickname', editedData.nickName);
             }
@@ -107,9 +102,17 @@ function Profile() {
     if (loading) return <div>Loading profile...</div>;
     if (error) return <div>{error}</div>;
 
+    const nickname = localStorage.getItem('nickname'); // Get the nickname to pass to ImageUpload
+
     return (
         <div className="profile-container">
             <h1>Profile</h1>
+
+            {/* Image Upload Component */}
+            
+            <ProfileImageUploader nickname={nickname} profileImageName={userData.profileImageName} />
+
+
             <div className="profile-info">
                 <p><strong>First Name:</strong> {userData.firstName}</p>
                 <p><strong>Last Name:</strong> {userData.lastName}</p>
@@ -127,7 +130,7 @@ function Profile() {
                         <h2>Edit Profile</h2>
                         <form onSubmit={handleSave}>
                             {Object.keys(userData).map((key) => (
-                                key !== 'teamName' && key !== 'events' && key !== 'username' &&
+                                key !== 'teamName' && key !== 'events' && key !== 'username' && key !== 'profileImageName' && key !== 'profileImageType' &&
                                 <div className="form-group" key={key}>
                                     <label>{key.replace(/_/g, ' ').toUpperCase()}</label>
                                     {key === 'gender' ? (

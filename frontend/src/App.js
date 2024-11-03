@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 import Home from './pages/Home/Home';
@@ -17,29 +17,47 @@ axios.defaults.withCredentials = true;
 
 function App() {
   const [loading, setLoading] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(!!localStorage.getItem('token'));
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Trigger loading animation on route change
     setLoading(true);
     const timer = setTimeout(() => {
       setLoading(false); // Hide loading after a short delay
-    }, 700); // Adjust delay to fit the animation duration
+    }, 700);
 
-    return () => clearTimeout(timer); // Clear timeout on component unmount
+    return () => clearTimeout(timer);
   }, [location]);
 
+  // Define handleLogin function
+  const handleLogin = (token) => {
+    localStorage.setItem('token', token);
+    setLoggedIn(true); // Update loggedIn state immediately
+  };
+
+  // Function to handle logout
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setLoggedIn(false); // Update loggedIn state immediately
+    navigate("/"); // Redirect to home page after logout
+  };
+
+  const handleProfileSetupComplete = () => {
+    setLoggedIn(true); // Update the loggedIn state after profile setup
+  };
+
   return (
-    
     <div className="App">
       {loading && <LoadingCS2 />} {/* CS2 Loading Animation */}
 
       <header className="App-header">
-        <Navbar />
+        <Navbar loggedIn={loggedIn} onLogout={handleLogout} />
       </header>
 
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home onLogin={handleLogin} loggedIn={loggedIn} onProfileSetupComplete={handleProfileSetupComplete}/>} />
         <Route path="/players" element={<Players />} />
         <Route path="/teams" element={<Teams />} />
         <Route path="/events" element={<Events />} />
@@ -51,7 +69,6 @@ function App() {
 
       <Footer />
     </div>
-    
   );
 }
 

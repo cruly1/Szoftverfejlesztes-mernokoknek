@@ -71,3 +71,42 @@ h1 {
     color: #ffffff;
     transform: scale(1.05);
 }
+
+/* Adjustments for tablets */
+@media (max-width: 768px) {
+  .hero-section {
+    height: 70vh;
+    padding: 20px;
+  }
+
+  .hero-content p {
+    font-size: 1.5rem;
+  }
+
+  .btn {
+    padding: 12px 30px;
+  }
+}
+
+/* Adjustments for mobile devices */
+@media (max-width: 480px) {
+  .hero-section {
+    height: 60vh;
+    padding: 10px;
+    
+  }
+
+  .hero-content p {
+    font-size: 1.2rem;
+  }
+
+  .btn {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+}

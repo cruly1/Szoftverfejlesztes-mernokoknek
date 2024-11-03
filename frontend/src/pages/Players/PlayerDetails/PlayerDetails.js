@@ -19,7 +19,7 @@ function PlayerDetails() {
 
   useEffect(() => {
     const token = localStorage.getItem('token'); 
-    axios.get(`http://localhost:8080/api/players/search?nickName=${nickName}`, {
+    axios.get(`http://localhost:8080/api/players/getByNickName/search?nickName=${nickName}`, {
       headers: { Authorization: `Bearer ${token}` },
       withCredentials: true
     })

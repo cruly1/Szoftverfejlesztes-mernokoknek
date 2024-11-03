@@ -3,8 +3,9 @@ import './HeroSection.css';
 import AuthModal from '../Modals/AuthModal';
 import ProfileSetupModal from '../Modals/ProfileSetupModal';
 import { gsap } from 'gsap';
+import axios from 'axios';
 
-function HeroSection() {
+function HeroSection({ onLogin, loggedIn, onProfileSetupComplete }) {
     const heroTextRef = useRef(null);
     const registerBtnRef = useRef(null);
     const loginBtnRef = useRef(null);
@@ -14,12 +15,32 @@ function HeroSection() {
     const [isProfileSetupOpen, setIsProfileSetupOpen] = useState(false);
     const [initialView, setInitialView] = useState("register");
 
-    const handleLogin = (newToken, username) => {
+    const handleLogin = async (newToken, username) => {
         setToken(newToken);
         setUsername(username);
         localStorage.setItem('token', newToken);
         setIsAuthModalOpen(false);
         setIsProfileSetupOpen(true);
+         
+        try {
+            // Check if the user already has a player
+            const response = await axios.get(`http://localhost:8080/api/players/getByUsername/search?username=${username}`, {
+            headers: { Authorization: `Bearer ${newToken}` },
+            withCredentials: true
+            });
+            const player = response.data;
+
+            if (!player) {
+                // If no player exists, open ProfileSetupModal
+                setIsProfileSetupOpen(true);
+            } else {
+                // If player exists, close any open modals
+                setIsProfileSetupOpen(false);
+            }
+            onLogin(newToken);
+        } catch (error) {
+            console.error("Error checking for existing player:", error);
+        }
     };
 
     const handleLogout = () => {
@@ -41,8 +62,8 @@ function HeroSection() {
             <div className="hero-content">
                 <p ref={heroTextRef}>Manage players, teams, and events easily!</p>
                 <div className="cta-buttons">
-                    {token ? (
-                        <button onClick={handleLogout}>Logout</button>
+                    {loggedIn ? (
+                        <p ></p>
                     ) : (
                         <>
                             <button className="btn primary-btn" onClick={() => { setInitialView("register"); setIsAuthModalOpen(true);}} ref={registerBtnRef}>Register</button>
@@ -52,7 +73,13 @@ function HeroSection() {
                 </div>
             </div>
             <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} onLogin={handleLogin} initialView={initialView}/>
-            {isProfileSetupOpen && <ProfileSetupModal username={username} onClose={() => setIsProfileSetupOpen(false)} />}
+            {isProfileSetupOpen && (
+                <ProfileSetupModal 
+                    username={username} 
+                    onClose={() => setIsProfileSetupOpen(false)}
+                    onProfileSetupComplete={onProfileSetupComplete} 
+                />
+            )}
         </section>
     );
 }

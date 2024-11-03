@@ -1,81 +1,71 @@
 .navbar {
-    background-color: #1c1c1c; /* Marad az eredeti háttérszín */
+    background-color: #1c1c1c;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px; /* Kisebb padding */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Kisebb árnyék */
+    padding: 10px 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     position: sticky;
     top: 0;
     z-index: 1000;
     transition: background 0.3s ease;
-    border-bottom: 2px solid #3a3a3a; /* Vékonyabb border */
+    border-bottom: 2px solid #3a3a3a;
 }
 
 .logo img {
-    max-width: 60px; /* Maximális szélesség beállítása */
-    height: auto; /* Arány megőrzése */
-    display: block; /* Kép megjelenítése blokk elemként */
-    margin: 0 auto; /* Középre igazítás (ha szükséges) */
+    max-width: 60px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
     mix-blend-mode: screen;
     transition: transform 0.3s ease, color 0.3s ease;
-}
-
-.logo img:hover {
-    transform: scale(1.1); /* Kevésbé látványos hover */
-    color: #1de9b6;
 }
 
 .nav-links {
     list-style: none;
     display: flex;
-    gap: 20px; /* Kisebb gap */
+    gap: 20px;
     transition: transform 0.3s ease;
 }
 
 .nav-links a {
     color: #f0f0f0;
     text-decoration: none;
-    padding: 8px 12px; /* Kisebb padding */
-    border-radius: 25px; /* Lekerekített, diszkrét formák */
-    font-size: 1rem; /* Kisebb betűméret */
-    font-weight: 400; /* Kevésbé vastag betűk */
-    letter-spacing: 1px; /* Kisebb távolság */
+    padding: 8px 12px;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 1px;
     transition: color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
     position: relative;
-    background: rgba(255, 255, 255, 0.05); /* Enyhén áttetsző háttér */
-}
-
-.nav-links a::before {
-    content: '';
-    position: absolute;
-    left: 50%;
-    bottom: -6px;
-    width: 0%;
-    height: 1px; /* Vékonyabb vonal */
-    background: #17a2b8;
-    transition: width 0.3s ease;
-    transform: translateX(-50%);
-}
-
-.nav-links a:hover::before {
-    width: 60%; /* Kisebb kiemelés */
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .nav-links a:hover {
     color: #17a2b8;
-    box-shadow: 0 3px 8px rgba(23, 162, 184, 0.3); /* Kevésbé hangsúlyos árnyék */
-    background: rgba(255, 255, 255, 0.1); /* Kisebb háttérváltozás */
+    box-shadow: 0 3px 8px rgba(23, 162, 184, 0.3);
+    background: rgba(255, 255, 255, 0.1);
 }
 
-.nav-links a:active {
-    transform: translateY(1px); /* Finomabb nyomás effekt */
+.hamburger {
+    display: none;
+    cursor: pointer;
+    flex-direction: column;
+    gap: 5px;
 }
 
+.hamburger div {
+    width: 25px;
+    height: 2px;
+    background: #f0f0f0;
+    transition: transform 0.3s ease;
+}
+
+/* Responsive adjustments */
 @media (max-width: 768px) {
     .nav-links {
         flex-direction: column;
-        gap: 12px; /* Kisebb gap mobil nézetben */
+        gap: 12px;
         position: absolute;
         top: 100%;
         right: 0;
@@ -84,6 +74,7 @@
         transform: translateX(100%);
         opacity: 0;
         transition: transform 0.5s ease, opacity 0.5s ease;
+        padding: 10px 0;
     }
 
     .nav-links.active {
@@ -92,33 +83,18 @@
     }
 
     .hamburger {
-        display: block;
-        cursor: pointer;
+        display: flex;
+    }
+
+    .hamburger.active div:nth-child(1) {
+        transform: rotate(45deg) translateY(6px);
+    }
+
+    .hamburger.active div:nth-child(2) {
+        opacity: 0;
+    }
+
+    .hamburger.active div:nth-child(3) {
+        transform: rotate(-45deg) translateY(-6px);
     }
 }
-
-.hamburger {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.hamburger div {
-    width: 25px; /* Kisebb méretű hamburger */
-    height: 2px; /* Vékonyabb vonalak */
-    background: #f0f0f0;
-    transition: transform 0.3s ease;
-}
-
-.hamburger.active div:nth-child(1) {
-    transform: rotate(45deg) translateY(6px);
-}
-
-.hamburger.active div:nth-child(2) {
-    opacity: 0;
-}
-
-.hamburger.active div:nth-child(3) {
-    transform: rotate(-45deg) translateY(-6px);
-}
-

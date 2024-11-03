@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './ProfileSetupModal.css';
 
-function ProfileSetupModal({ onClose, username }) { // Accept username as prop
+function ProfileSetupModal({ onClose, username, onProfileSetupComplete }) { // Accept username as prop
     const [profileData, setProfileData] = useState({
         firstName: '', 
         lastName: '', 
