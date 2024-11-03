@@ -8,6 +8,7 @@ import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.User;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.enums.ERole;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.UserRepository;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.security.jwt.JwtService;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,12 +30,12 @@ public class AuthService {
                 .builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
-//                .email(request.getEmail())
+                .email(request.getEmail())
                 .role(ERole.USER)
                 .build();
 
         userRepository.save(user);
-//        emailService.sendRegistrationEmail(user.getEmail());
+        // emailService.sendRegistrationEmail(user.getEmail());
         var jwtToken = jwtService.generateToken(user);
 
         return AuthResponse.builder()
