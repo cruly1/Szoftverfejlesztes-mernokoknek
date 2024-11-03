@@ -8,7 +8,6 @@ import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.service.PlayerService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,9 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 @CrossOrigin("http://localhost:3000")
@@ -32,7 +29,6 @@ import java.util.List;
 public class PlayerController {
 
     private final PlayerService playerService;
-    private final ImageService imageService;
     private final PlayerMapper playerMapper;
 
     @GetMapping("{id}")
@@ -41,9 +37,15 @@ public class PlayerController {
         return ResponseEntity.ok(playerDTO);
     }
 
-    @GetMapping(value = "search")
+    @GetMapping(value = "getByNickName/search")
     public ResponseEntity<PlayerDTO> getPlayerByNickName(@RequestParam("nickName") String nickName) {
         PlayerDTO playerDTO = playerService.getPlayerByNickName(nickName);
+        return ResponseEntity.ok(playerDTO);
+    }
+
+    @GetMapping(value = "getByUsername/search")
+    public ResponseEntity<PlayerDTO> getPlayerByUsername(@RequestParam("username") String username) {
+        PlayerDTO playerDTO = playerService.getPlayerByUsername(username);
         return ResponseEntity.ok(playerDTO);
     }
 

@@ -48,6 +48,17 @@ public class PlayerService {
         return playerMapper.toDTO(player);
     }
 
+    public PlayerDTO getPlayerByUsername(String username) {
+        User user = userRepository.findByUsername(username).orElseThrow(
+                () -> new ResourceNotFoundException(-1L, "User")
+        );
+
+        Player player = playerRepository.findByUser(user).orElseThrow(
+                () -> new ResourceNotFoundException(-1L, "Player"));
+
+        return playerMapper.toDTO(player);
+    }
+
     public Player addPlayer(Player player, String username) {
         User user = userRepository.findByUsername(username).orElseThrow(
                 () -> new ResourceNotFoundException(-1L, "User")

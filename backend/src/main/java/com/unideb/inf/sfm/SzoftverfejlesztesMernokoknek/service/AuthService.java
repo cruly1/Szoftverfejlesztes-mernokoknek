@@ -22,17 +22,19 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final EmailService emailService;
 
     public AuthResponse register(RegisterRequest request) {
         var user = User
                 .builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .email(request.getEmail())
+//                .email(request.getEmail())
                 .role(ERole.USER)
                 .build();
 
         userRepository.save(user);
+//        emailService.sendRegistrationEmail(user.getEmail());
         var jwtToken = jwtService.generateToken(user);
 
         return AuthResponse.builder()
