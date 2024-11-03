@@ -1,0 +1,60 @@
+.player-list h1 {
+    font-size: 2.5rem;
+    color: #17a2b8;
+}
+
+.player-list ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Centers list items */
+    gap: 20px; /* Space between items */
+}
+
+/* Enhancing the PlayerList Styling */
+.player-list {
+    width: 100%;
+    max-width: 900px;
+    padding: 20px;
+}
+
+.player-list li {
+    list-style: none;
+    width: 200px;
+    margin: 10px;
+    padding: 10px;
+}
+
+.player-link {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100px;
+    text-align: center;
+    font-size: 1.2rem;
+    text-decoration: none;
+    color: white;
+    background-color: #343a40;
+    padding: 15px 20px;
+    border-radius: 10px;
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    border: 2px solid black;
+    overflow: hidden;
+}
+
+.player-link span {
+    display: block;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Adds ellipsis for overflowed text */
+}
+
+.player-link:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(23, 162, 184, 0.7);
+}

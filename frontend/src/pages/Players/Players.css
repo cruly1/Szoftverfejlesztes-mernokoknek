@@ -1,0 +1,26 @@
+/* General Styling for the Players Page */
+.players-page {
+    background-color: #212529;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 40px;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Header Section */
+.players-header {
+    text-align: center;
+    margin-bottom: 40px;
+    max-width: 800px;
+    padding: 20px;
+}
+
+.players-header h1 {
+    font-size: 3rem;
+    color: #17a2b8;
+    margin-bottom: 10px;
+}
+

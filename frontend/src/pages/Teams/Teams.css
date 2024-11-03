@@ -1,0 +1,92 @@
+.teams-container {
+    padding: 20px; /* Párnázás */
+    background-color: #212529; /* Háttérszín */
+    color: #ffffff; /* Betűszín */
+    /* Árnyék */
+}
+
+.teams-title {
+    text-align: center; /* Középre igazítás */
+    color: #17a2b8; /* Szín a címhez */
+    margin-bottom: 20px; /* Margó a cím alatt */
+    font-size: 2rem; /* Betűméret */
+}
+
+.teams-description {
+    text-align: center; /* Középre igazítás */
+    font-size: 1.2rem; /* Betűméret */
+    margin-bottom: 30px; /* Margó a szöveg alatt */
+}
+.teams-page {
+  display: flex;
+  flex-direction: column;
+  padding-top: 40px;
+  background-color: #212529;
+  color: white;
+  min-height: 100vh;
+}
+
+.teams-list {
+  width: 100%;
+}
+h1 {
+  font-size: 2.5rem; /* Nagyobb betűméret */
+  font-weight: bold; /* Félkövér szöveg */
+  color: #17a2b8; /* Szín beállítása, amely illik a gombhoz */
+  text-align: left; /* Balra igazítás */
+  margin: 20px 0; /* Fent és lent margó */
+  margin-left: 20px; /* A bal oldalról való távolság */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Szövegéles árnyék */
+}
+
+.add-team-button {
+  margin: 20px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: #17a2b8;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.add-team-button:hover {
+  background-color: #138496;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  text-align: center;
+}
+
+.modal-content input[type="text"],
+.modal-content input[type="file"] {
+  width: 100%;
+  padding: 8px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.modal-content button {
+  margin: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+}

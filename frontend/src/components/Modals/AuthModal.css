@@ -1,0 +1,66 @@
+/* Ensure modal content does not exceed viewport width */
+.auth-modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+    max-width: 100%;
+    max-height: 100vh;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.auth-modal-toggle {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.auth-toggle-btn {
+    flex: 1;
+    padding: 10px;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    color: #333;
+    transition: background-color 0.3s;
+    margin: 0 5px;
+}
+
+.auth-toggle-btn.active {
+    background-color: #333;
+    color: #fff;
+}
+
+.auth-steam-login {
+    margin-top: 20px;
+}
+
+.steam-login-btn {
+    background-color: #ffffff;
+    color: #1b2838;
+    border: none;
+    padding: 12px 20px;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
+}
+
+.steam-login-btn:hover {
+    background-color: #f9fbff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .auth-toggle-btn {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+}

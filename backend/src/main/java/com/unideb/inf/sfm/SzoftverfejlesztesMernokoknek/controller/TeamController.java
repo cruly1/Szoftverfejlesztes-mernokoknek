@@ -1,31 +1,25 @@
 package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.controller;
 
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.dto.TeamDTO;
-import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.entity.Team;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.mapper.TeamMapper;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Team;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.service.TeamService;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin("*")
+@CrossOrigin("http://localhost:3000")
 @RestController
 @RequestMapping("/api/teams/")
+@RequiredArgsConstructor
 public class TeamController {
 
-    @Autowired
-    private TeamService teamService;
+    private final TeamService teamService;
+    private final TeamMapper teamMapper;
 
     @GetMapping("{id}")
     public ResponseEntity<TeamDTO> getTeamById(@PathVariable("id") Long teamId) {
@@ -33,16 +27,22 @@ public class TeamController {
         return ResponseEntity.ok(teamDTO);
     }
 
+    @GetMapping(value = "search")
+    public ResponseEntity<TeamDTO> getTeamByTeamName(@RequestParam("teamName") String teamName) {
+        TeamDTO teamDTO = teamService.getTeamByTeamName(teamName);
+        return ResponseEntity.ok(teamDTO);
+    }
+
     @PostMapping
-    public ResponseEntity<Team> createTeam(@RequestBody Team team) {
+    public ResponseEntity<TeamDTO> createTeam(@RequestBody Team team) {
         Team savedTeam = teamService.addTeam(team);
-        return new ResponseEntity<>(savedTeam, HttpStatus.CREATED);
+        return new ResponseEntity<>(teamMapper.toDTO(savedTeam), HttpStatus.CREATED);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Team> updateTeam(@PathVariable("id") Long teamId, @RequestBody Team updatedTeam) {
+    public ResponseEntity<TeamDTO> updateTeam(@PathVariable("id") Long teamId, @RequestBody Team updatedTeam) {
         Team team = teamService.updateTeam(teamId, updatedTeam);
-        return ResponseEntity.ok(team);
+        return ResponseEntity.ok(teamMapper.toDTO(team));
     }
 
     @DeleteMapping("{id}")
@@ -55,5 +55,10 @@ public class TeamController {
     public ResponseEntity<List<TeamDTO>> getAllTeams() {
         List<TeamDTO> teamDTOS = teamService.getAllTeams();
         return ResponseEntity.ok(teamDTOS);
+    }
+
+    @PostMapping("{teamId}/events/{eventId}")
+    public String addTeamToEvent(@PathVariable("teamId") Long teamId, @PathVariable("eventId") Long eventId) {
+        return teamService.addTeamToEvent(teamId, eventId);
     }
 }

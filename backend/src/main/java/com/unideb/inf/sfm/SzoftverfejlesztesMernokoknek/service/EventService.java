@@ -1,29 +1,35 @@
 package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.service;
 
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.dto.EventDTO;
-import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.entity.Event;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.mapper.EventMapper;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Event;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.ResourceNotFoundException;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.EventRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class EventService {
 
-    @Autowired
-    EventRepository eventRepository;
+    private final EventRepository eventRepository;
+    private final EventMapper eventMapper;
 
     public EventDTO getEventById(Long id){
         Event event = eventRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException(id, "Event"));
 
-        return new EventDTO(
-                event.getEventName(),
-                event.getEventDate()
-        );
+        return eventMapper.toDTO(event);
+    }
+
+    public EventDTO getEventByEventName(String eventName) {
+        Event event = eventRepository.findByEventName(eventName).orElseThrow(
+                () -> new ResourceNotFoundException(-1L, "Player"));
+
+        return eventMapper.toDTO(event);
     }
 
     public Event addEvent(Event event) {
@@ -34,7 +40,8 @@ public class EventService {
         Event event = eventRepository.findById(eventId).orElseThrow(
                 () -> new ResourceNotFoundException(eventId, "Event"));
 
-        event.setEventDate(updatedEvent.getEventDate());
+        event.setEventStartDate(updatedEvent.getEventStartDate());
+        event.setEventEndDate(updatedEvent.getEventEndDate());
         event.setEventName(updatedEvent.getEventName());
 
         return eventRepository.save(event);
@@ -52,10 +59,7 @@ public class EventService {
         List<Event> events = eventRepository.findAll();
         List<EventDTO> eventDTOS = new ArrayList<>();
 
-        events.stream().map((event -> new EventDTO(
-                        event.getEventName(),
-                        event.getEventDate())))
-                .forEach(eventDTOS::add);
+        events.forEach(event -> eventDTOS.add(eventMapper.toDTO(event)));
 
         return eventDTOS;
     }

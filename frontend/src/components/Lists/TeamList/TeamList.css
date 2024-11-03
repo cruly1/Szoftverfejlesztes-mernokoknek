@@ -1,0 +1,112 @@
+.team-item {
+  margin-bottom: 20px;
+  width: 100%;
+}
+.team-header {
+  display: flex;
+  align-items: center;
+}
+.team-button {
+  width: 25%; 
+  padding: 10px; 
+  font-size: 1.2rem; 
+  font-weight: bold;
+  background-color: #343a40;
+  color: #ffffff;
+  border: 2px solid black; 
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 10px 0;
+  transition: background-color 0.3s, transform 0.2s; 
+}
+
+.team-button:hover {
+  background-color: #17a2b8; 
+  transform: translateY(-2px); 
+}
+
+
+.team-button:hover {
+  background-color: #17a2b8;
+}
+.players-dropdown {
+  display: flex;
+  flex-wrap: wrap; 
+  gap: 10px; 
+  list-style: none;
+  padding: 15px 20px;
+  background-color: #1c1c1c; 
+  border-radius: 5px;
+  margin-top: 10px;
+  justify-content: center; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+  border: 2px solid black;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.player-item {
+  width: calc(20% - 10px); 
+  margin: 10px 0; 
+  display: flex;
+  justify-content: center;
+}
+
+.team-player-link {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  font-size: 1.5rem;
+  text-decoration: none;
+  color: white;
+  background-color: #343a40;
+  padding: 15px 20px;
+  border-radius: 10px;
+  transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 7px black;
+  border: 2px solid black;
+}
+
+.team-player-link:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(23, 162, 184, 0.7);
+}
+
+.player-image {
+  width: 80px; /* Larger size for the player image */
+  height: 80px;
+  border-radius: 50%;
+  margin-bottom: 8px; /* Space between the image and nickname */
+  object-fit: cover;
+  border: 2px solid #17a2b8;
+}
+
+.scrolling-events-container {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 75%; 
+  margin-left: 15px; 
+}
+
+.scrolling-events {
+  display: inline-flex;
+  animation: scroll-left 20s linear infinite; /* Smooth continuous scroll */
+}
+
+.scrolling-event-text {
+  display: inline-block;
+  padding: 0 40px;
+  color: #17a2b8;
+  font-size: 1rem;
+  text-align: center;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}

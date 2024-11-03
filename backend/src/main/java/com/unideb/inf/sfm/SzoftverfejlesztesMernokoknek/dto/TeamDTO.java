@@ -5,7 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -13,5 +16,6 @@ import java.util.List;
 @NoArgsConstructor
 public class TeamDTO {
     private String teamName;
-    private List<String> players;
+    private List<PlayerDTO> players = new ArrayList<>();
+    private Set<EventDTO> events = new HashSet<>();
 }

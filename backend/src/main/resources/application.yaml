@@ -1,0 +1,47 @@
+spring:
+  application:
+    name: SzoftverfejlesztesMernokoknek
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:file:./DB
+    username: admin
+    password: admin
+  h2:
+    console:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: create
+#       ddl-auto: update
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+  mail:
+    host: mail.manageyself.com
+    port: 465
+    username: esport@manageyself.com
+    password: ...
+    properties:
+      mail:
+        smtp:
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+          auth: true
+          starttls.enable: true
+
+
+server:
+  tomcat:
+    max-swallow-size: 100MB
+
+
+application:
+  security:
+    jwt:
+      secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      expiration: 86400000
+      refresh-token:
+        expiration: 604800000
+      requestMatchers: "/api/auth/**"
