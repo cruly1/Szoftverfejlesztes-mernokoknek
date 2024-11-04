@@ -110,17 +110,17 @@ function Profile() {
 
             {/* Image Upload Component */}
             
-            <ProfileImageUploader nickname={nickname} profileImageName={userData.profileImageName} />
+            <ProfileImageUploader nickname={nickname} profileImageName={userData?.profileImageName} />
 
 
             <div className="profile-info">
-                <p><strong>First Name:</strong> {userData.firstName}</p>
-                <p><strong>Last Name:</strong> {userData.lastName}</p>
-                <p><strong>Nick Name:</strong> {userData.nickName}</p>
-                <p><strong>In-game Role:</strong> {userData.ingameRole}</p>
-                <p><strong>Date of Birth:</strong> {userData.dateOfBirth}</p>
-                <p><strong>Gender:</strong> {userData.gender}</p>
-                <p><strong>Nationality:</strong> {userData.nationality}</p>
+                <p><strong>First Name:</strong> {userData?.firstName}</p>
+                <p><strong>Last Name:</strong> {userData?.lastName}</p>
+                <p><strong>Nick Name:</strong> {userData?.nickName}</p>
+                <p><strong>In-game Role:</strong> {userData?.ingameRole}</p>
+                <p><strong>Date of Birth:</strong> {userData?.dateOfBirth}</p>
+                <p><strong>Gender:</strong> {userData?.gender}</p>
+                <p><strong>Nationality:</strong> {userData?.nationality}</p>
             </div>
             <button type="button" className="edit-button" onClick={handleEdit}>Edit</button>
 
@@ -129,10 +129,10 @@ function Profile() {
                     <div className="modal-content">
                         <h2>Edit Profile</h2>
                         <form onSubmit={handleSave}>
-                            {Object.keys(userData).map((key) => (
+                            {Object.keys(userData)?.map((key) => (
                                 key !== 'teamName' && key !== 'events' && key !== 'username' && key !== 'profileImageName' && key !== 'profileImageType' &&
                                 <div className="form-group" key={key}>
-                                    <label>{key.replace(/_/g, ' ').toUpperCase()}</label>
+                                    <label>{key?.replace(/_/g, ' ').toUpperCase()}</label>
                                     {key === 'gender' ? (
                                         <select
                                             name={key}
@@ -144,7 +144,7 @@ function Profile() {
                                         </select>
                                     ) : key === 'ingameRole' ? (
                                         <select name={key} value={editedData[key]} onChange={handleChange}>
-                                            {roles.map(role => <option key={role} value={role}>{role}</option>)}
+                                            {roles?.map(role => <option key={role} value={role}>{role}</option>)}
                                         </select>
                                     ) : (
                                         <input
