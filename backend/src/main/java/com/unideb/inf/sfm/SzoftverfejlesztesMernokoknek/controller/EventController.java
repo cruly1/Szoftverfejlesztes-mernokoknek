@@ -10,18 +10,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin("http://localhost:3000")
 @RestController
 @RequestMapping("/api/events/")
 @RequiredArgsConstructor
 public class EventController {
 
     private final EventService eventService;
-
-    @GetMapping("{id}")
-    public ResponseEntity<EventDTO> getEventById(@PathVariable("id") Long id) {
-        EventDTO eventDTO = eventService.getEventById(id);
-        return ResponseEntity.ok(eventDTO);
-    }
 
     @GetMapping(value = "search")
     public ResponseEntity<EventDTO> getEventByEventName(@RequestParam("eventName") String eventName) {
@@ -35,9 +30,9 @@ public class EventController {
         return new ResponseEntity<>(savedEvent, HttpStatus.CREATED);
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<Event> updateEvent(@PathVariable("id") Long eventId, @RequestBody Event updatedEvent) {
-        Event event = eventService.updateEvent(eventId, updatedEvent);
+    @PutMapping(value = "search")
+    public ResponseEntity<Event> updateEvent(@RequestParam("eventName") String eventName, @RequestBody Event updatedEvent) {
+        Event event = eventService.updateEvent(eventName, updatedEvent);
         return ResponseEntity.ok(event);
     }
 

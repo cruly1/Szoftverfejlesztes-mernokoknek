@@ -3,8 +3,8 @@ package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.service;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.dto.EventDTO;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.mapper.EventMapper;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Event;
-import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.ResourceNotFoundException;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.EventRepository;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.utils.EventServiceUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,18 +17,10 @@ public class EventService {
 
     private final EventRepository eventRepository;
     private final EventMapper eventMapper;
-
-    public EventDTO getEventById(Long id){
-        Event event = eventRepository.findById(id).orElseThrow(
-                () -> new ResourceNotFoundException(id, "Event"));
-
-        return eventMapper.toDTO(event);
-    }
+    private final EventServiceUtils eventServiceUtils;
 
     public EventDTO getEventByEventName(String eventName) {
-        Event event = eventRepository.findByEventName(eventName).orElseThrow(
-                () -> new ResourceNotFoundException(-1L, "Player"));
-
+        Event event = eventServiceUtils.findByEventName(eventName);
         return eventMapper.toDTO(event);
     }
 
@@ -36,9 +28,8 @@ public class EventService {
         return eventRepository.save(event);
     }
 
-    public Event updateEvent(Long eventId, Event updatedEvent) {
-        Event event = eventRepository.findById(eventId).orElseThrow(
-                () -> new ResourceNotFoundException(eventId, "Event"));
+    public Event updateEvent(String eventName, Event updatedEvent) {
+        Event event = eventServiceUtils.findByEventName(eventName);
 
         event.setEventStartDate(updatedEvent.getEventStartDate());
         event.setEventEndDate(updatedEvent.getEventEndDate());
@@ -47,11 +38,9 @@ public class EventService {
         return eventRepository.save(event);
     }
 
-    public String deleteEventById(Long eventId) {
-        Event event = eventRepository.findById(eventId).orElseThrow(
-                () -> new ResourceNotFoundException(eventId, "Event"));
-
-        eventRepository.deleteById(eventId);
+    public String deleteEventById(Long id) {
+        Event event = eventServiceUtils.findById(id);
+        eventRepository.deleteById(event.getId());
         return "Event deleted successfully.";
     }
 

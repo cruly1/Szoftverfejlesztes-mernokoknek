@@ -3,7 +3,6 @@ package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.controller;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.dto.PlayerDTO;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.mapper.PlayerMapper;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Player;
-import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.service.ImageService;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.service.PlayerService;
 
 import lombok.RequiredArgsConstructor;
@@ -31,12 +30,6 @@ public class PlayerController {
     private final PlayerService playerService;
     private final PlayerMapper playerMapper;
 
-    @GetMapping("{id}")
-    public ResponseEntity<PlayerDTO> getPlayerById(@PathVariable("id") Long playerId) {
-        PlayerDTO playerDTO = playerService.getPlayerById(playerId);
-        return ResponseEntity.ok(playerDTO);
-    }
-
     @GetMapping(value = "getByNickName/search")
     public ResponseEntity<PlayerDTO> getPlayerByNickName(@RequestParam("nickName") String nickName) {
         PlayerDTO playerDTO = playerService.getPlayerByNickName(nickName);
@@ -49,9 +42,9 @@ public class PlayerController {
         return ResponseEntity.ok(playerDTO);
     }
 
-    @PostMapping("{playerId}/events/{eventId}")
-    public String addPlayerToEvent(@PathVariable("playerId") Long playerId, @PathVariable("eventId") Long eventId) {
-        return playerService.addPlayerToEvent(playerId, eventId);
+    @PostMapping("search/events/search")
+    public String addPlayerToEvent(@RequestParam("nickName") String nickName, @RequestParam("eventName") String eventName) {
+        return playerService.addPlayerToEvent(nickName, eventName);
     }
 
     @PostMapping("addPlayer/search")
