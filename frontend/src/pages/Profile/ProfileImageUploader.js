@@ -4,17 +4,43 @@ import axios from 'axios';
 function ProfileImageUploader({ nickname }) {
     const [selectedFile, setSelectedFile] = useState(null);
     const [profileImage, setProfileImage] = useState(null);
+    const [profileImageName, setProfileImageName] = useState(null);
     const placeholderImage = "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg";
+    
+    const TARGET_WIDTH = 300;
+    const TARGET_HEIGHT = 300;
 
-    // Function to fetch the profile image after upload
+    useEffect(() => {
+        const fetchProfileData = async () => {
+            const token = localStorage.getItem('token');
+            try {
+                const response = await axios.get(`http://localhost:8080/api/players/getByNickName/search?nickName=${nickname}`, {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+                const imageName = response.data.profileImageName;
+                setProfileImageName(imageName);
+            } catch (err) {
+                console.error("Error fetching player data:", err);
+                setProfileImage(placeholderImage);
+            }
+        };
+        fetchProfileData();
+    }, [nickname]);
+
+    useEffect(() => {
+        if (profileImageName) {
+            fetchProfileImage(profileImageName);
+        }
+    }, [profileImageName]);
+
     const fetchProfileImage = (imageName) => {
         const token = localStorage.getItem('token');
-
+        if (!token) {
+            console.error("No authorization token found. Please log in again.");
+            return;
+        }
         axios.get(`http://localhost:8080/api/images/${imageName}`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                
-            },
+            headers: { Authorization: `Bearer ${token}` },
             responseType: 'blob',
         })
         .then(response => {
@@ -23,17 +49,40 @@ function ProfileImageUploader({ nickname }) {
         })
         .catch(err => {
             console.error("Error fetching profile image:", err);
-            setProfileImage(placeholderImage); // Use placeholder image if there's an error
+            setProfileImage(placeholderImage);
         });
     };
 
-    // Handle file selection
-    const handleFileChange = (e) => {
-        setSelectedFile(e.target.files[0]);
-        console.log("File selected:", e.target.files[0]);
+    const handleFileChange = async (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const timestampedFile = await addTimestampToFile(file, TARGET_WIDTH, TARGET_HEIGHT);
+            setSelectedFile(timestampedFile);
+        }
     };
 
-    // Upload the image using a POST request and fetch the image afterward
+    const addTimestampToFile = (file, width, height) => {
+        return new Promise((resolve) => {
+            const img = new Image();
+            img.src = URL.createObjectURL(file);
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+
+                const timestamp = Date.now(); // Unique timestamp
+                const newFilename = `${nickname}-${timestamp}-${file.name}`; // Add timestamp and nickname
+
+                canvas.toBlob((blob) => {
+                    const timestampedFile = new File([blob], newFilename, { type: file.type });
+                    resolve(timestampedFile);
+                }, file.type);
+            };
+        });
+    };
+
     const uploadImage = async () => {
         if (!selectedFile) {
             alert("Please select an image to upload.");
@@ -42,29 +91,29 @@ function ProfileImageUploader({ nickname }) {
 
         const formData = new FormData();
         formData.append('image', selectedFile);
-        console.log("FormData content:", formData.get('image'));
-        console.log(selectedFile instanceof File);
         const token = localStorage.getItem('token');
 
         try {
-            // POST request to upload the image
-            const response = await axios.post(`http://localhost:8080/api/images/search?nickName=${nickname}`, formData, {
+            await axios.post(`http://localhost:8080/api/images/search?nickName=${nickname}`, formData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'multipart/form-data',
-                    
                 },
             });
             
-            const uploadedImageName = response.data.profileImageName; // Assuming this is returned in the response
             alert("Image uploaded successfully!");
-            setSelectedFile(null); // Clear the file input
+            setSelectedFile(null);
 
-            // Immediately fetch the image by the uploaded image name
-            fetchProfileImage(uploadedImageName);
+            // Fetch the player data to get the updated profileImageName
+            const response = await axios.get(`http://localhost:8080/api/players/getByNickName/search?nickName=${nickname}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+
+            const updatedImageName = response.data.profileImageName;
+            setProfileImageName(updatedImageName);
+            fetchProfileImage(updatedImageName); 
 
         } catch (err) {
-            console.log(formData)
             console.error("Error uploading image:", err);
             if (err.response && err.response.status === 403) {
                 alert("Upload failed: Unauthorized or forbidden. Please check your permissions.");
@@ -76,12 +125,9 @@ function ProfileImageUploader({ nickname }) {
 
     return (
         <div className="image-upload-container">
-            {/* Display Profile Image */}
             <div className="profile-image">
                 <img src={profileImage || placeholderImage} alt="Profile" />
             </div>
-
-            {/* File Input and Upload Button */}
             <input type="file" name="image" onChange={handleFileChange} />
             <button onClick={uploadImage}>Upload Image</button>
         </div>
