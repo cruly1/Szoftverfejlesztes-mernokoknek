@@ -1,14 +1,15 @@
 /* Events.css */
 
 .events-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
   height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  background-color: #212529; /* Dark background for the page */
   color: white;
-  overflow: hidden; /* To prevent any content from extending beyond the container */
+  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Smooth and clean font */
 }
 
 /* Blurry background container */
@@ -22,17 +23,118 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  filter: blur(10px); /* Apply blur only here */
+  filter: blur(15px); /* Enhanced blur for focus on the content */
   z-index: 1;
+  animation: backgroundAnimation 15s infinite ease-in-out; /* Smooth background animation */
 }
 
-/* Content container */
+/* Content area where the text and elements are */
 .events-content {
   position: relative;
-  z-index: 2; /* Bring content above the blurred background */
-  background-color: rgba(0, 0, 0, 0.6); /* Dark overlay for readability */
-  padding: 20px;
-  border-radius: 10px;
-  max-width: 800px;
+  z-index: 2;
+  background: rgba(33, 37, 41, 0.85); /* Darker overlay with subtle opacity */
+  padding: 30px 40px; /* Reduced padding for compactness */
+  border-radius: 15px;
+  max-width: 700px; /* Smaller width */
   text-align: center;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5); /* Soft shadow for depth */
+  animation: fadeIn 1s ease-out; /* Fade-in effect for content */
+  border: 2px solid black; /* Light blue border for emphasis */
+  border-radius: 10px;
+  box-shadow: 0 0 7px black;
+
+}
+
+
+
+/* Smooth gradient animation for background */
+@keyframes backgroundAnimation {
+  0% {
+    filter: blur(15px) brightness(0.8);
+  }
+  50% {
+    filter: blur(10px) brightness(1);
+  }
+  100% {
+    filter: blur(15px) brightness(0.8);
+  }
+}
+
+
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Title Styling */
+.events-content h1 {
+  font-size: 2.5rem; /* Smaller title for a more compact look */
+  font-weight: 700; /* Bold text */
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  color: #17a2b8; /* Light blue color for the title */
+  text-transform: uppercase; /* Uppercase for emphasis */
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Light shadow for extra contrast */
+}
+
+/* Paragraph and text style */
+.events-content p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #eaeaea; /* Light gray for readability */
+  margin-bottom: 20px;
+  letter-spacing: 0.5px;
+}
+
+/* Button Styling */
+.events-content .cta-button {
+  display: inline-block;
+  padding: 12px 30px;
+  background-color: #17a2b8; /* Button background in blue */
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Subtle button shadow */
+}
+
+.events-content .cta-button:hover {
+  background-color: #138496; /* Darker blue on hover */
+  transform: translateY(-5px); /* Lift effect */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4); /* More prominent shadow */
+}
+
+/* Media Query for small screens */
+@media (max-width: 768px) {
+  .events-page {
+    padding: 20px;
+  }
+
+  .events-content {
+    padding: 25px;
+    max-width: 90%; /* Full width with small margins */
+  }
+
+  .events-content h1 {
+    font-size: 2.2rem; /* Adjust title size for smaller screens */
+  }
+
+  .events-content p {
+    font-size: 1rem;
+  }
+
+  .events-content .cta-button {
+    font-size: 1rem;
+    padding: 10px 25px;
+  }
 }

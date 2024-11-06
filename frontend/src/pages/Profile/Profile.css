@@ -203,3 +203,220 @@ body {
     display: block;
     margin-bottom: 1rem;
 }
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #212529;
+}
+
+/* Profile Container */
+.profile-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #2b2f33;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    color: #ffffff;
+    border: 1px solid #444;
+}
+
+/* Profile Info */
+.profile-info {
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.profile-info p {
+    margin: 0.8rem 0;
+    padding: 10px 15px;
+    background-color: #343a40;
+    border-radius: 5px;
+    color: #ccc;
+    transition: background 0.3s ease;
+}
+
+.profile-info p strong {
+    color: #17a2b8;
+}
+.profile-info p:hover {
+    background-color: #3a3f44;
+}
+
+/* Edit Button */
+.edit-button {
+    padding: 10px 20px;
+    background-color: #17a2b8;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.edit-button:hover {
+    background-color: #138496;
+    transform: scale(1.05);
+}
+
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+/* Edit Profile Modal */
+.modal-content {
+    background-color: #1e1e1e;
+    color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    width: 400px;
+    text-align: left;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content h2 {
+    color: #17a2b8;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+    font-weight: 600;
+    text-align: left;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    color: #bbb;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #555;
+    border-radius: 5px;
+    background-color: #2e2e2e;
+    color: #fff;
+}
+
+.form-group input[type="date"] {
+    color-scheme: dark;
+}
+
+/* Modal Buttons */
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.save-button,
+.cancel-button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.save-button {
+    background-color: #17a2b8;
+    color: #fff;
+}
+
+.cancel-button {
+    background-color: #555;
+    color: #fff;
+}
+
+.save-button:hover,
+.cancel-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Error Message */
+.error-message {
+    color: #ff5555;
+    font-size: 0.9rem;
+    margin-top: 5px;
+    text-align: left;
+}
+
+/* Error Modal */
+.error-modal-content {
+    background-color: #2e2e2e;
+    color: #ff5555;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    width: 300px;
+    text-align: left;
+    animation: fadeIn 0.3s ease-out;
+    border: 2px solid black;
+    box-shadow: 0 0 7px black;
+}
+
+.error-modal-content h2 {
+    font-size: 1.5rem;
+    color: #ff5555;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.error-modal-content p {
+    font-size: 1rem;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.error-modal-content button {
+    background-color: #ff5555;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.error-modal-content button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
