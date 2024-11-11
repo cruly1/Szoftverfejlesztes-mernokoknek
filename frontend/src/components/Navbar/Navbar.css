@@ -28,23 +28,43 @@
     transition: transform 0.3s ease;
 }
 
-.nav-links a {
+.nav-links a, .logout-button {
     color: #f0f0f0;
     text-decoration: none;
-    padding: 8px 12px;
+    padding: 8px 16px;
     border-radius: 25px;
     font-size: 1rem;
     font-weight: 400;
     letter-spacing: 1px;
-    transition: color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
-    position: relative;
-    background: rgba(255, 255, 255, 0.05);
+    transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05); 
+    cursor: pointer;
+    box-sizing: border-box; 
+    height: 40px; 
 }
 
-.nav-links a:hover {
+
+.logout-button {
+    background: rgba(255, 255, 255, 0.05); 
+    border: 2px solid #f0f0f0; 
+    font-weight: 600; 
+}
+
+
+.logout-button:hover {
+    border: 2;
+    background: #f0f0f0; 
+    color: #1c1c1c; 
+    border-color: #17a2b8; 
+}
+
+/* Hover effect for all links and buttons */
+.nav-links a:hover, .logout-button:hover {
     color: #17a2b8;
+    background: rgba(255, 255, 255, 0.1); /* Lighten the background on hover */
     box-shadow: 0 3px 8px rgba(23, 162, 184, 0.3);
-    background: rgba(255, 255, 255, 0.1);
 }
 
 .hamburger {
@@ -65,20 +85,20 @@
 @media (max-width: 768px) {
     .nav-links {
         flex-direction: column;
-        gap: 12px;
+        
         position: absolute;
         top: 100%;
         right: 0;
         background-color: #1c1c1c;
         width: 100%;
-        transform: translateX(100%);
+        transform: translateY(100%);
         opacity: 0;
         transition: transform 0.5s ease, opacity 0.5s ease;
         padding: 10px 0;
     }
 
     .nav-links.active {
-        transform: translateX(0);
+        transform: translateY(-10%);
         opacity: 1;
     }
 
