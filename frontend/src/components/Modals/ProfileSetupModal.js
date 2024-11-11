@@ -28,6 +28,7 @@ function ProfileSetupModal({ onClose, username, onProfileSetupComplete }) { // A
         .then(() => {
             alert("Profile setup successful!"); // DELETE FOR FUTURE PATRIK
             localStorage.setItem('nickname', profileData.nickName);
+            onProfileSetupComplete();
             onClose();
         })
         .catch((err) => console.error('Error saving profile data:', err));

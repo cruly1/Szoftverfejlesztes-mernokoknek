@@ -7,19 +7,20 @@ import Register from '../../pages/Login/Register';
 import Login from '../../pages/Login/Login';
 import './AuthModal.css';
 
-function AuthModal({ isOpen, onClose, onLogin }) {
-    const [isRegister, setIsRegister] = useState(true);
+function AuthModal({ isOpen, onClose, onLogin, initialView = 'login' }) { // New `initialView` prop
+    const [isRegister, setIsRegister] = useState(initialView === 'register');
 
     useEffect(() => {
-        // Add overflow hidden to body when modal is open
+        // Update the state based on `initialView` prop when modal opens
         if (isOpen) {
+            setIsRegister(initialView === 'register');
             document.body.style.overflow = 'hidden';
         } else {
             document.body.style.overflow = 'auto';
         }
-        // Cleanup on component unmount
+
         return () => (document.body.style.overflow = 'auto');
-    }, [isOpen]);
+    }, [isOpen, initialView]); // Add `initialView` dependency
 
     return (
         <Modal open={isOpen} onClose={onClose} center>
