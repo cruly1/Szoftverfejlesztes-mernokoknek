@@ -5,7 +5,7 @@ import ProfileSetupModal from '../Modals/ProfileSetupModal';
 import { gsap } from 'gsap';
 import axios from 'axios';
 
-function HeroSection({ onLogin, loggedIn, onProfileSetupComplete }) {
+function HeroSection({ onLogin, loggedIn, onProfileComplete }) {
     const heroTextRef = useRef(null);
     const registerBtnRef = useRef(null);
     const loginBtnRef = useRef(null);
@@ -62,9 +62,7 @@ function HeroSection({ onLogin, loggedIn, onProfileSetupComplete }) {
             <div className="hero-content">
                 <p ref={heroTextRef}>Manage players, teams, and events easily!</p>
                 <div className="cta-buttons">
-                    {loggedIn ? (
-                        <p ></p>
-                    ) : (
+                    {loggedIn ? null: (
                         <>
                             <button className="btn primary-btn" onClick={() => { setInitialView("register"); setIsAuthModalOpen(true);}} ref={registerBtnRef}>Register</button>
                             <button className="btn secondary-btn" onClick={() => { setInitialView("login"); setIsAuthModalOpen(true);}} ref={loginBtnRef}>Login</button>
@@ -74,10 +72,10 @@ function HeroSection({ onLogin, loggedIn, onProfileSetupComplete }) {
             </div>
             <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} onLogin={handleLogin} initialView={initialView}/>
             {isProfileSetupOpen && (
-                <ProfileSetupModal 
-                    username={username} 
+                <ProfileSetupModal
+                    username={username}
                     onClose={() => setIsProfileSetupOpen(false)}
-                    onProfileSetupComplete={onProfileSetupComplete} 
+                    onProfileComplete={() => handleLogin(token, username)} // Call handleLogin directly here
                 />
             )}
         </section>
