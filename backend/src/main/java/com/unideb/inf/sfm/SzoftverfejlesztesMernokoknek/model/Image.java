@@ -1,13 +1,14 @@
 package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "image")
+@Table(name = "images")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,8 +28,12 @@ public class Image {
     )
     private Long id;
 
+    @NotBlank
     private String name;
+
+    @NotBlank
     private String type;
+
     @Lob
     @Column(name = "imagedata", length = 10000)
     private byte[] imageData;

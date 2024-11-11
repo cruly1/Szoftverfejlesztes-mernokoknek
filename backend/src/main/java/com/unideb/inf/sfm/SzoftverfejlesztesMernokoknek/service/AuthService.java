@@ -25,7 +25,7 @@ public class AuthService {
     public AuthResponse register(RegisterRequest request) {
         User user = authServiceUtils.createUser(request);
         userRepository.save(user);
-        emailService.sendRegistrationEmail(user.getEmail());
+//        emailService.sendRegistrationEmail(user.getEmail());
         var jwtToken = jwtService.generateToken(user);
 
         return AuthResponse.builder().token(jwtToken).build();

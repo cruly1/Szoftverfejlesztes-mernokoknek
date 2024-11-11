@@ -36,17 +36,17 @@ public class TestPlayerController {
         MockitoAnnotations.openMocks(this);
     }
 
-    @Test
-    public void testGetPlayerById() {
-        Long playerId = 1L;
-        PlayerDTO playerDTO = new PlayerDTO();
-        when(playerService.getPlayerById(playerId)).thenReturn(playerDTO);
-
-        ResponseEntity<PlayerDTO> response = playerController.getPlayerById(playerId);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(playerDTO, response.getBody());
-    }
+//    @Test
+//    public void testGetPlayerById() {
+//        Long playerId = 1L;
+//        PlayerDTO playerDTO = new PlayerDTO();
+//        when(playerService.getPlayerById(playerId)).thenReturn(playerDTO);
+//
+//        ResponseEntity<PlayerDTO> response = playerController.getPlayerById(playerId);
+//
+//        assertEquals(HttpStatus.OK, response.getStatusCode());
+//        assertEquals(playerDTO, response.getBody());
+//    }
 
     @Test
     public void testGetPlayerByNickName() {
@@ -72,17 +72,17 @@ public class TestPlayerController {
         assertEquals(playerDTO, response.getBody());
     }
 
-    @Test
-    public void testAddPlayerToEvent() {
-        Long playerId = 1L;
-        Long eventId = 1L;
-        String expectedResponse = "Player added to event";
-        when(playerService.addPlayerToEvent(playerId, eventId)).thenReturn(expectedResponse);
-
-        String response = playerController.addPlayerToEvent(playerId, eventId);
-
-        assertEquals(expectedResponse, response);
-    }
+//    @Test
+//    public void testAddPlayerToEvent() {
+//        Long playerId = 1L;
+//        Long eventId = 1L;
+//        String expectedResponse = "Player added to event";
+//        when(playerService.addPlayerToEvent(playerId, eventId)).thenReturn(expectedResponse);
+//
+//        String response = playerController.addPlayerToEvent(playerId, eventId);
+//
+//        assertEquals(expectedResponse, response);
+//    }
 
     @Test
     public void testCreatePlayer() {

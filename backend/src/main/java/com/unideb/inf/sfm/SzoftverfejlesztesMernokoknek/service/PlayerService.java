@@ -2,12 +2,10 @@ package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.service;
 
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.dto.PlayerDTO;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.mapper.PlayerMapper;
-import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Event;
-import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Player;
-import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Team;
-import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.User;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.*;
 
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.EventRepository;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.NationalityRepository;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.PlayerRepository;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.utils.AuthServiceUtils;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.utils.EventServiceUtils;
@@ -29,6 +27,7 @@ public class PlayerService {
     private final PlayerServiceUtils playerServiceUtils;
     private final AuthServiceUtils authServiceUtils;
     private final EventServiceUtils eventServiceUtils;
+    private final NationalityRepository nationalityRepository;
 
     public PlayerDTO getPlayerByNickName(String nickName) {
         Player player = playerServiceUtils.findByNickName(nickName);
@@ -51,6 +50,10 @@ public class PlayerService {
             return null;
         }
 
+        Nationality nationality = nationalityRepository.findByCountryName(player.getNationality().getCountryName())
+                .orElseThrow(() -> new IllegalArgumentException("Nationality not found"));
+
+        player.setNationality(nationality);
         player.setTeam(team);
         user.setPlayer(player);
         player.setUser(user);

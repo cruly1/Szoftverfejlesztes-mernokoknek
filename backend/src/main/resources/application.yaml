@@ -28,8 +28,11 @@ spring:
         smtp:
           socketFactory:
             class: javax.net.ssl.SSLSocketFactory
+            port: 465
           auth: true
           starttls.enable: true
+          ssl:
+            enable: true
 
 
 server:
