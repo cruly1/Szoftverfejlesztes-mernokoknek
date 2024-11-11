@@ -9,6 +9,7 @@ import './AuthModal.css';
 
 function AuthModal({ isOpen, onClose, onLogin, initialView = 'login' }) { // New `initialView` prop
     const [isRegister, setIsRegister] = useState(initialView === 'register');
+    const [animate, setAnimate] = useState(false);
 
     useEffect(() => {
         // Update the state based on `initialView` prop when modal opens
@@ -22,14 +23,23 @@ function AuthModal({ isOpen, onClose, onLogin, initialView = 'login' }) { // New
         return () => (document.body.style.overflow = 'auto');
     }, [isOpen, initialView]); // Add `initialView` dependency
 
+    // Toggle between Register and Login with animation
+    const toggleView = () => {
+        setAnimate(true);
+        setTimeout(() => {
+            setIsRegister(!isRegister);
+            setAnimate(false);
+        }, 300); // Transition duration in ms
+    };
+
     return (
         <Modal open={isOpen} onClose={onClose} center>
             <div className="auth-modal-content">
                 <div className="auth-modal-toggle">
-                    <button onClick={() => setIsRegister(true)} className={`auth-toggle-btn ${isRegister ? 'active' : ''}`}>
+                    <button onClick={toggleView} className={`auth-toggle-btn ${isRegister ? 'active' : ''}`}>
                         Register
                     </button>
-                    <button onClick={() => setIsRegister(false)} className={`auth-toggle-btn ${!isRegister ? 'active' : ''}`}>
+                    <button onClick={toggleView} className={`auth-toggle-btn ${!isRegister ? 'active' : ''}`}>
                         Login
                     </button>
                 </div>
