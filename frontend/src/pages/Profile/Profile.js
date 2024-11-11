@@ -108,7 +108,7 @@ function Profile() {
         <div className="profile-container">
             <h1>Profile</h1>
 
-            {/* Image Upload Component */}
+            {/* azgatya */}
             
             <ProfileImageUploader nickname={nickname} profileImageName={userData.profileImageName} />
 

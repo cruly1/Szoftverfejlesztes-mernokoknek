@@ -44,9 +44,10 @@ function App() {
     navigate("/"); // Redirect to home page after logout
   };
 
-  const handleProfileSetupComplete = () => {
-    setLoggedIn(true); // Update the loggedIn state after profile setup
-  };
+    const handleProfileSetupComplete = (nickname) => {
+    // Call handleLogin after profile setup
+    handleLogin(localStorage.getItem('token'), nickname);
+};
 
   return (
     <div className="App">
@@ -57,7 +58,7 @@ function App() {
       </header>
 
       <Routes>
-        <Route path="/" element={<Home onLogin={handleLogin} loggedIn={loggedIn} onProfileSetupComplete={handleProfileSetupComplete}/>} />
+        <Route path="/" element={<Home onLogin={handleLogin} loggedIn={loggedIn} onProfileComplete={handleProfileSetupComplete} />} />
         <Route path="/players" element={<Players />} />
         <Route path="/teams" element={<Teams />} />
         <Route path="/events" element={<Events />} />

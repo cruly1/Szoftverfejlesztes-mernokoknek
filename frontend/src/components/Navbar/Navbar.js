@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
 
-function Navbar({ loggedIn, onLogout }) {
+function Navbar({ loggedIn, onLogout, onProfileComplete}) {
     const [menuOpen, setMenuOpen] = useState(false);
 
     const toggleMenu = () => {

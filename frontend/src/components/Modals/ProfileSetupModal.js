@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './ProfileSetupModal.css';
 
-function ProfileSetupModal({ onClose, username, onProfileSetupComplete }) { // Accept username as prop
+function ProfileSetupModal({ onClose, username, onProfileComplete }) { // Accept username as prop
     const [profileData, setProfileData] = useState({
         firstName: '', 
         lastName: '', 
@@ -28,7 +28,12 @@ function ProfileSetupModal({ onClose, username, onProfileSetupComplete }) { // A
         .then(() => {
             alert("Profile setup successful!"); // DELETE FOR FUTURE PATRIK
             localStorage.setItem('nickname', profileData.nickName);
+            console.log("Profile setup complete - calling onProfileComplete");
+            if (typeof onProfileComplete === 'function') { // Check if onProfileComplete is defined
+                onProfileComplete();
+            }
             onClose();
+            
         })
         .catch((err) => console.error('Error saving profile data:', err));
     };
