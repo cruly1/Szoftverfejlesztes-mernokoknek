@@ -50,7 +50,7 @@ public class PlayerService {
             return null;
         }
 
-        Nationality nationality = nationalityRepository.findByCountryName(player.getNationality().getCountryName())
+        Nationality nationality = nationalityRepository.findByDemonym(player.getNationality().getDemonym())
                 .orElseThrow(() -> new IllegalArgumentException("Nationality not found"));
 
         player.setNationality(nationality);
