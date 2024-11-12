@@ -29,7 +29,7 @@ public class AuthService {
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
 
-        return AuthResponse.builder().accessToken(jwtToken).refreshToken(refreshToken).build();
+        return AuthResponse.builder().token(jwtToken).refreshToken(refreshToken).build();
     }
 
     public AuthResponse authenticate(AuthRequest request) {
@@ -41,6 +41,6 @@ public class AuthService {
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
 
-        return AuthResponse.builder().accessToken(jwtToken).refreshToken(refreshToken).build();
+        return AuthResponse.builder().token(jwtToken).refreshToken(refreshToken).build();
     }
 }
