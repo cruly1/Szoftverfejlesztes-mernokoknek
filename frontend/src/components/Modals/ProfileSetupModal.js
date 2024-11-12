@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './ProfileSetupModal.css';
 
@@ -10,12 +10,49 @@ function ProfileSetupModal({ onClose, username, onProfileComplete }) { // Accept
         ingameRole: '', 
         dateOfBirth: '', 
         gender: '', 
-        nationality: ''
+         nationality: {
+            demonym: ''  // Initialize nationality as an object with a demonym key
+        }
     });
+     const [demonymOptions, setDemonymOptions] = useState([]);
+
+
+    useEffect(() => {
+        const fetchDemonyms = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    console.error("Token is missing. Please log in again.");
+                    return;
+                }
+                console.log("token:", token);
+                const response = await axios.get('http://localhost:8080/api/nationalities/getAllDemonyms', {
+                    headers: { Authorization: `Bearer ${token}` },
+                    withCredentials: true,
+                });
+                setDemonymOptions(response.data);
+            } catch (error) {
+                console.error('Error fetching demonyms:', error);
+            }
+        };
+
+        fetchDemonyms();
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setProfileData({ ...profileData, [name]: value });
+        // Check if we're updating the nationality demonym
+        if (name === 'demonym') {
+            setProfileData({
+                ...profileData,
+                nationality: {
+                    ...profileData.nationality,
+                    demonym: value
+                }
+            });
+        } else {
+            setProfileData({ ...profileData, [name]: value });
+        }
     };
 
     const handleSave = () => {
@@ -52,7 +89,14 @@ function ProfileSetupModal({ onClose, username, onProfileComplete }) { // Accept
                     <option value="MALE">Male</option>
                     <option value="FEMALE">Female</option>
                 </select>
-                <input name="nationality" value={profileData.nationality} onChange={handleChange} placeholder="Nationality" />
+                 <select name="demonym" value={profileData.nationality.demonym} onChange={handleChange}>
+                    <option value="">Select Nationality</option>
+                    {demonymOptions.map((demonym) => (
+                        <option key={demonym} value={demonym}>
+                            {demonym}
+                        </option>
+                    ))}
+                </select>
                 <button type="button" onClick={handleSave}>Save</button>
             </form>
         </div>
