@@ -1,12 +1,9 @@
 package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.service;
 
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.dto.TeamDTO;
-import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.customexceptions.InvalidParametersException;
-import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.customexceptions.TeamAlreadyExistsException;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.mapper.TeamMapper;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Event;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Team;
-import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.customexceptions.ResourceNotFoundException;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.EventRepository;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.TeamRepository;
 
@@ -27,11 +24,6 @@ public class TeamService {
     private final TeamMapper teamMapper;
     private final TeamServiceUtils teamServiceUtils;
     private final EventServiceUtils eventServiceUtils;
-
-    public TeamDTO getTeamById(Long teamId) {
-        Team team = teamServiceUtils.findById(teamId);
-        return teamMapper.toDTO(team);
-    }
 
     public TeamDTO getTeamByTeamName(String teamName) {
         Team team = teamServiceUtils.findByTeamName(teamName);

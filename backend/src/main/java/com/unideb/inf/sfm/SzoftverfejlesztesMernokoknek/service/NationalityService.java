@@ -7,8 +7,12 @@ import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,16 +30,29 @@ public class NationalityService {
 
         if (countries != null) {
             for (Country country : countries) {
-                String countryName = country.getName().getCommon();
-                String translation = country.getTranslations().getHun().getOfficial();
+                try {
+                    String countryName = country.getName().getCommon();
+                    String demonym = country.getDemonyms().getEng().getM();
+                    String cca2 = country.getCca2();
 
-                if (countryName != null && translation != null) {
-                    Nationality nationalityEntity = new Nationality(nationalityId, countryName, translation);
-                    nationalityRepository.save(nationalityEntity);
-                    nationalityId++;
+                    if (countryName != null && demonym != null && cca2 != null) {
+                        Nationality nationalityEntity = new Nationality(nationalityId, countryName, demonym, cca2);
+                        nationalityRepository.save(nationalityEntity);
+                        nationalityId++;
+                    }
+                } catch (BeanCreationException | NullPointerException e) {
+                    System.out.println("Invalid countryname, demonym or countrycode!");
                 }
             }
         }
+    }
+
+    public List<String> getAllDemonyms() {
+        return nationalityRepository.findAll()
+                .stream()
+                .map(Nationality::getDemonym)
+                .sorted()
+                .collect(Collectors.toList());
     }
 }
 
@@ -44,25 +61,24 @@ public class NationalityService {
 @Setter
 class Country {
     private Name name;
-    private Translations translations;
+    private Demonyms demonyms;
+    private String cca2;
 
     @Getter
     @Setter
     static class Name {
         private String common;
-
     }
 
     @Getter
     @Setter
-    static class Translations {
-        private Translation hun;
+    static class Demonyms {
+        private Demonym eng;
 
         @Getter
         @Setter
-        static class Translation {
-            private String official;
-
+        static class Demonym {
+            private String m;
         }
     }
 }

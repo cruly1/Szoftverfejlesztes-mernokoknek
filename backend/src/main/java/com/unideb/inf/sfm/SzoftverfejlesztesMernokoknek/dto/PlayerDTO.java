@@ -22,7 +22,9 @@ public class PlayerDTO {
     private EIngameRoles ingameRole;
     private LocalDate dateOfBirth;
     private EGender gender;
-    private String nationality;
+    private String countryName;
+    private String demonym;
+    private String cca2;
     private String teamName;
     private Set<EventDTO> events = new HashSet<>();
     private String username;

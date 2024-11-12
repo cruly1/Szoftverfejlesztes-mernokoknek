@@ -27,8 +27,9 @@ public class AuthService {
         userRepository.save(user);
 //        emailService.sendRegistrationEmail(user.getEmail());
         var jwtToken = jwtService.generateToken(user);
+        var refreshToken = jwtService.generateRefreshToken(user);
 
-        return AuthResponse.builder().token(jwtToken).build();
+        return AuthResponse.builder().accessToken(jwtToken).refreshToken(refreshToken).build();
     }
 
     public AuthResponse authenticate(AuthRequest request) {
@@ -38,7 +39,8 @@ public class AuthService {
         );
         var user = authServiceUtils.findUserByUsername(request.getUsername());
         var jwtToken = jwtService.generateToken(user);
+        var refreshToken = jwtService.generateRefreshToken(user);
 
-        return AuthResponse.builder().token(jwtToken).build();
+        return AuthResponse.builder().accessToken(jwtToken).refreshToken(refreshToken).build();
     }
 }

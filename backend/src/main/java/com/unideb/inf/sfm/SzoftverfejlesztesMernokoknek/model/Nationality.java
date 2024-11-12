@@ -30,5 +30,8 @@ public class Nationality {
     private String countryName;
 
     @Column(nullable = false)
-    private String translation;
+    private String demonym;
+
+    @Column(nullable = false)
+    private String cca2;
 }
