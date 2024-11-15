@@ -107,8 +107,8 @@ function PlayerDetails() {
         <div className="player-name">
           <h1>{player.firstName} "<span>{player.nickName}</span>" {player.lastName}</h1>
           <img 
-            src={`https://flagcdn.com/48x36/${player.nationality.toLowerCase()}.png`} 
-            alt={player.nationality} 
+            src={`https://flagcdn.com/48x36/${player.cca2.toLowerCase()}.png`} 
+            alt={player.cca2}
             className="flag-icon"
           />
         </div>

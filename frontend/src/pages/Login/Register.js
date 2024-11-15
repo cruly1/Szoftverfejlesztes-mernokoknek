@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import './Register.css';
 
 function Register({ onRegisterSuccess }) {
-    const [formData, setFormData] = useState({ username: '', password: '', email: '' });
+    const [formData, setFormData] = useState({ username: '', password: '',confirmPassword: '' , email: ''});
     const [error, setError] = useState(null);
     const [emailError, setEmailError] = useState(null);
+    const [showPassword, setShowPassword] = useState(false); // State for password visibility
 
     // Email validation function
     const validateEmail = (email) => {
@@ -24,9 +28,19 @@ function Register({ onRegisterSuccess }) {
             }
         }
     };
-
+    const toggleShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError(null);
+
+         // Check if passwords match
+        if (formData.password !== formData.confirmPassword) {
+            setError("Passwords do not match. Please try again.");
+            return;
+        }
+
         if (emailError) return; // Prevent submission if email is invalid
         try {
             await axios.post('http://localhost:8080/api/auth/register', formData);
@@ -49,12 +63,31 @@ function Register({ onRegisterSuccess }) {
                     placeholder="Username"
                     required
                 />
+                <div className="password-input">
+                    <input
+                        name="password"
+                        type={showPassword ? 'text' : 'password'}
+                        value={formData.password}
+                        onChange={handleChange}
+                        placeholder="Password"
+                        required
+                        
+                    />
+                    <button
+                        type="button"
+                        onClick={toggleShowPassword}
+                        className="toggle-password"
+                    >
+                        <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                    </button>
+                    
+                </div>
                 <input
-                    name="password"
+                    name="confirmPassword"
                     type="password"
-                    value={formData.password}
+                    value={formData.confirmPassword}
                     onChange={handleChange}
-                    placeholder="Password"
+                    placeholder="Confirm Password"
                     required
                 />
                 <input

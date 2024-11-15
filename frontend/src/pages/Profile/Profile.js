@@ -119,8 +119,8 @@ function Profile() {
                 <p><strong>Nick Name:</strong> {userData.nickName}</p>
                 <p><strong>In-game Role:</strong> {userData.ingameRole}</p>
                 <p><strong>Date of Birth:</strong> {userData.dateOfBirth}</p>
-                <p><strong>Gender:</strong> {userData.gender}</p>
-                <p><strong>Nationality:</strong> {userData.nationality}</p>
+                <p><strong>Gender:</strong> {userData.gender.toLowerCase()}</p>
+                <p><strong>Nationality:</strong> {userData.demonym.toLowerCase()}</p>
             </div>
             <button type="button" className="edit-button" onClick={handleEdit}>Edit</button>
 
