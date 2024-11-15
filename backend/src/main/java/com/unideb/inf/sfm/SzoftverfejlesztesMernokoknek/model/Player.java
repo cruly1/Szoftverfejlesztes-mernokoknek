@@ -4,7 +4,6 @@ import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.enums.EGender;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.enums.EIngameRoles;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.validation.MinAge;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import lombok.*;

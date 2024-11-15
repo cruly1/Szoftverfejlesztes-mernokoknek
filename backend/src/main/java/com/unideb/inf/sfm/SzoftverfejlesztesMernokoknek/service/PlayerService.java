@@ -29,17 +29,20 @@ public class PlayerService {
     private final EventServiceUtils eventServiceUtils;
     private final NationalityRepository nationalityRepository;
 
+    // tested
     public PlayerDTO getPlayerByNickName(String nickName) {
         Player player = playerServiceUtils.findByNickName(nickName);
         return playerMapper.toDTO(player);
     }
 
+    // tested
     public PlayerDTO getPlayerByUsername(String username) {
         User user = authServiceUtils.findUserByUsername(username);
         Player player = playerServiceUtils.findByUser(user);
         return playerMapper.toDTO(player);
     }
 
+    // tested
     public Player addPlayer(Player player, String username) {
         User user = authServiceUtils.findUserByUsername(username);
         Team team = playerServiceUtils.getTeamByPlayer(player);
@@ -60,6 +63,7 @@ public class PlayerService {
         return playerRepository.save(player);
     }
 
+    // tested
     public String addPlayerToEvent(String nickName, String eventName) {
         Player player = playerServiceUtils.findByNickName(nickName);
         Event event = eventServiceUtils.findByEventName(eventName);
@@ -72,6 +76,7 @@ public class PlayerService {
         return "Player added to event successfully.";
     }
 
+    // TODO test
     public Player updatePlayer(String nickName, Player updatedPlayer) {
         Player player = playerServiceUtils.findByNickName(nickName);
         BeanUtils.copyProperties(updatedPlayer, player, "id");
@@ -85,12 +90,14 @@ public class PlayerService {
         return playerRepository.save(player);
     }
 
+    // TODO test
     public String deletePlayerById(Long playerId) {
         Player player = playerServiceUtils.findById(playerId);
         playerRepository.deleteById(playerId);
         return "Player deleted successfully.";
     }
 
+    // TODO test
     public List<PlayerDTO> getAllPlayers() {
         List<Player> players = playerRepository.findAll();
 
