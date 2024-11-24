@@ -86,6 +86,11 @@ public class PlayerService {
             return null;
         }
 
+        Nationality nationality = nationalityRepository.findByDemonym(updatedPlayer.getNationality().getDemonym())
+                .orElseThrow(() -> new IllegalArgumentException("Nationality not found"));
+
+        player.setNationality(nationality);
+
         player.setTeam(team);
         return playerRepository.save(player);
     }

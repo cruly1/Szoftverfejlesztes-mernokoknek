@@ -78,19 +78,33 @@ function Profile() {
         }
         const token = localStorage.getItem('token');
         const oldNickname = localStorage.getItem('nickname');
-        
-        axios.put(`http://localhost:8080/api/players/updatePlayer/search?nickName=${oldNickname}`, editedData, {
+        console.log("oldNickname", oldNickname);
+        console.log("editedData", editedData);
+        const updatedData = {
+            firstName: editedData.firstName,
+            lastName: editedData.lastName,
+            nickName: editedData.nickName,
+            ingameRole: editedData.ingameRole,
+            dateOfBirth: editedData.dateOfBirth,
+            gender: editedData.gender,
+            nationality: {
+                demonym: editedData.demonym,
+            },
+        };
+        console.log("updatedData", updatedData);
+        axios.put(`http://localhost:8080/api/players/updatePlayer/search?nickName=${oldNickname}`, updatedData, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`,
                 
-            }
+            },
+            withCredentials: true,
         })
         .then(response => {
             setUserData(response.data);
             setIsModalOpen(false);
-            if (editedData.nickName && editedData.nickName !== oldNickname) {
-                localStorage.setItem('nickname', editedData.nickName);
+            if (updatedData.nickName && updatedData.nickName !== oldNickname) {
+                localStorage.setItem('nickname', updatedData.nickName);
             }
         })
         .catch(err => {
@@ -107,8 +121,6 @@ function Profile() {
     return (
         <div className="profile-container">
             <h1>Profile</h1>
-
-            {/* azgatya */}
             
             <ProfileImageUploader nickname={nickname} profileImageName={userData.profileImageName} />
 
