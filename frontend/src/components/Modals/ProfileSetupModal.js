@@ -11,14 +11,13 @@ function ProfileSetupModal({ onClose, username, onProfileComplete }) { // Accept
         dateOfBirth: '', 
         gender: '', 
          nationality: {
-            demonym: ''  // Initialize nationality as an object with a demonym key
+            countryName: ''  // Initialize nationality as an object with a demonym key
         }
     });
-     const [demonymOptions, setDemonymOptions] = useState([]);
-
+     const [countryNameOptions, setCountryNameOptions] = useState([]);
 
     useEffect(() => {
-        const fetchDemonyms = async () => {
+        const fetchCountryNames = async () => {
             try {
                 const token = localStorage.getItem('token');
                 if (!token) {
@@ -30,24 +29,24 @@ function ProfileSetupModal({ onClose, username, onProfileComplete }) { // Accept
                     headers: { Authorization: `Bearer ${token}` },
                     withCredentials: true,
                 });
-                setDemonymOptions(response.data);
+                setCountryNameOptions(response.data);
             } catch (error) {
-                console.error('Error fetching demonyms:', error);
+                console.error('Error fetching countryNames:', error);
             }
         };
 
-        fetchDemonyms();
+        fetchCountryNames();
     }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         // Check if we're updating the nationality demonym
-        if (name === 'demonym') {
+        if (name === 'countryName') {
             setProfileData({
                 ...profileData,
                 nationality: {
                     ...profileData.nationality,
-                    demonym: value
+                    countryName: value
                 }
             });
         } else {
@@ -89,11 +88,11 @@ function ProfileSetupModal({ onClose, username, onProfileComplete }) { // Accept
                     <option value="MALE">Male</option>
                     <option value="FEMALE">Female</option>
                 </select>
-                 <select name="demonym" value={profileData.nationality.demonym} onChange={handleChange}>
+                 <select name="countryName" value={profileData.nationality.countryName} onChange={handleChange}>
                     <option value="">Select Nationality</option>
-                    {demonymOptions.map((demonym) => (
-                        <option key={demonym} value={demonym}>
-                            {demonym}
+                    {countryNameOptions.map((countryName) => (
+                        <option key={countryName} value={countryName}>
+                            {countryName}
                         </option>
                     ))}
                 </select>

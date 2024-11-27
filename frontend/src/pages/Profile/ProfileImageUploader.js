@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-function ProfileImageUploader({ nickname }) {
+function ProfileImageUploader({ nickname, onImageUpdate }) {
     const [selectedFile, setSelectedFile] = useState(null);
     const [profileImage, setProfileImage] = useState(null);
     const [profileImageName, setProfileImageName] = useState(null);
@@ -88,7 +88,7 @@ function ProfileImageUploader({ nickname }) {
             return;
         }
 
-         const formData = new FormData();
+        const formData = new FormData();
         formData.append('image', selectedFile);
         const token = localStorage.getItem('token');
 
@@ -111,6 +111,9 @@ function ProfileImageUploader({ nickname }) {
             const updatedImageName = response.data.profileImageName;
             setProfileImageName(updatedImageName);
             fetchProfileImage(updatedImageName); 
+            if (onImageUpdate) {
+                onImageUpdate(updatedImageName);
+            }
 
         } catch (err) {
             console.error("Error uploading image:", err);

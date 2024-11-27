@@ -15,6 +15,14 @@ function Profile() {
 
     const roles = ["IGL", "ENTRY", "SUPPORT", "LURKER", "AWP", "COACH"];
 
+    const handleImageUpdate = (updatedImageName) => {
+        setUserData((prevData) => ({
+            ...prevData,
+            profileImageName: updatedImageName,
+        }));
+    };
+
+
     // Fetch current user profile data
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -88,7 +96,7 @@ function Profile() {
             dateOfBirth: editedData.dateOfBirth,
             gender: editedData.gender,
             nationality: {
-                demonym: editedData.demonym,
+                countryName: editedData.countryName,
             },
         };
         console.log("updatedData", updatedData);
@@ -122,7 +130,7 @@ function Profile() {
         <div className="profile-container">
             <h1>Profile</h1>
             
-            <ProfileImageUploader nickname={nickname} profileImageName={userData.profileImageName} />
+            <ProfileImageUploader nickname={nickname} profileImageName={userData.profileImageName} onImageUpdate={handleImageUpdate}/>
 
 
             <div className="profile-info">
@@ -132,7 +140,7 @@ function Profile() {
                 <p><strong>In-game Role:</strong> {userData.ingameRole}</p>
                 <p><strong>Date of Birth:</strong> {userData.dateOfBirth}</p>
                 <p><strong>Gender:</strong> {userData.gender.toLowerCase()}</p>
-                <p><strong>Nationality:</strong> {userData.demonym.toLowerCase()}</p>
+                <p><strong>Nationality:</strong> {userData.countryName.toLowerCase()}</p>
             </div>
             <button type="button" className="edit-button" onClick={handleEdit}>Edit</button>
 

@@ -13,6 +13,8 @@ const placeholderImage = "https://www.shutterstock.com/image-vector/default-avat
 function PlayerDetails() {
   const { id: nickName } = useParams();
   const [player, setPlayer] = useState(null);
+  const [profileImage, setProfileImage] = useState(null);
+  const [profileImageName, setProfileImageName] = useState(null);
   const [teammates, setTeammates] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -26,6 +28,8 @@ function PlayerDetails() {
       .then(response => {
         const playerData = response.data;
         setPlayer(playerData);
+        const imageName = response.data.profileImageName;
+              setProfileImageName(imageName);
         return playerData.teamName;
       })
       .then(teamName => {
@@ -46,11 +50,39 @@ function PlayerDetails() {
       .catch(err => {
         console.error(err);
         setError("Error fetching player or team data.");
+        setProfileImage(placeholderImage);
       })
       .finally(() => {
         setLoading(false);
       });
   }, [nickName]);
+
+
+  useEffect(() => {
+        if (profileImageName) {
+            fetchProfileImage(profileImageName);
+        }
+    }, [profileImageName]);
+
+    const fetchProfileImage = (imageName) => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.error("No authorization token found. Please log in again.");
+            return;
+        }
+        axios.get(`http://localhost:8080/api/images/${imageName}`, {
+            headers: { Authorization: `Bearer ${token}` },
+            responseType: 'blob',
+        })
+        .then(response => {
+            const imageUrl = URL.createObjectURL(response.data);
+            setProfileImage(imageUrl);
+        })
+        .catch(err => {
+            console.error("Error fetching profile image:", err);
+            setProfileImage(placeholderImage);
+        });
+    };
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
@@ -103,12 +135,12 @@ function PlayerDetails() {
   return (
     <div className="player-detail">
       <div className="player-header">
-        <img src={placeholderImage} alt={`${player.firstName} ${player.lastName}`} className="player-icon" />
+        <img src={profileImage} alt={`${player.firstName} ${player.lastName}`} className="player-icon" />
         <div className="player-name">
           <h1>{player.firstName} "<span>{player.nickName}</span>" {player.lastName}</h1>
           <img 
-            src={`https://flagcdn.com/48x36/${player.cca2.toLowerCase()}.png`} 
-            alt={player.cca2}
+            src={`https://flagcdn.com/48x36/${player.countryCode.toLowerCase()}.png`} 
+            alt={player.countryCode}
             className="flag-icon"
           />
         </div>
