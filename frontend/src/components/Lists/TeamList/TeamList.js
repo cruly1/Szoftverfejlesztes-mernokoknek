@@ -1,15 +1,45 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { capitalize } from '../../../utils/utils.js'; 
+import { capitalize } from '../../../utils/utils.js';
+import axios from 'axios'; 
 import './TeamList.css';
 
 const placeholderImage = "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg"; 
 
 function TeamList({ team }) {
+  const [teams, setTeams] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [scrollingEvents, setScrollingEvents] = useState([]);
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      setError('Unauthorized access. Please log in.');
+      setLoading(false);
+      return;
+    }
+    
+    axios.get("http://localhost:8080/api/teams/getAllTeams", {
+      headers: { Authorization: `Bearer ${token}` },
+      withCredentials: true
+    })
+      .then(response => {
+        setTeams(response.data);
+      })
+      .catch(err => {
+        console.error(err);
+        setError("Error fetching teams.");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
+  useEffect(() => {
+    
     // Check if team.events exists and is an array; if not, use an empty array
     const events = team.events ? team.events : [];
     setScrollingEvents([...events, ...events]);
@@ -37,6 +67,9 @@ function TeamList({ team }) {
     if (b.ingameRole === "COACH") return -1;
     return 0;
   });
+
+  if (loading) return <div>Loading teams...</div>;
+  if (error) return <div>{error}</div>;
 
   return (
     <div className="team-item">

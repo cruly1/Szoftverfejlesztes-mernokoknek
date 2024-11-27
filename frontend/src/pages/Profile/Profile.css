@@ -16,9 +16,9 @@ body {
     color: #ffffff;
     box-shadow: 0 0 7px black;
     border: 2px solid black;
-/*  min-height: 70vh;
-    hogy leerjen az aljara a footer
-*/
+    min-height: 70vh;
+
+
 }
 
 /* Profile Info */

@@ -26,6 +26,12 @@
   min-height: 100vh;
 }
 
+.unauthorized-access {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-top: 20px;
+}
+
 .teams-list {
   width: 100%;
 }

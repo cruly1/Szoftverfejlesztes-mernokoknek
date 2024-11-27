@@ -10,6 +10,13 @@ function EventList() {
 
   useEffect(() => {
     const token = localStorage.getItem('token'); 
+
+    if (!token) {
+      setError('Unauthorized access. Please log in.');
+      setLoading(false);
+      return;
+    }
+
     axios.get('http://localhost:8080/api/events/getAllEvents', {
       headers: { Authorization: `Bearer ${token}` },
       withCredentials: true
