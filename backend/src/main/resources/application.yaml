@@ -48,3 +48,6 @@ application:
       refresh-token:
         expiration: 604800000
       requestMatchers: "/api/auth/**"
+
+nationality:
+  accessKey: b86872434c1aeb50d1e8ca7b16a38d55

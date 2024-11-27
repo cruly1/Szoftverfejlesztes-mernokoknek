@@ -7,8 +7,15 @@ import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanCreationException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -20,37 +27,51 @@ public class NationalityService {
 
     private static Long nationalityId = 6000L;
 
+    @Value("${nationality.accessKey}")
+    private String accessKey;
+
     private final NationalityRepository nationalityRepository;
     private final RestTemplate restTemplate = new RestTemplate();
 
+    private static final Logger logger = LoggerFactory.getLogger(NationalityService.class);
+
     @PostConstruct
     public void loadNationalities() {
-        String api = "https://restcountries.com/v3.1/all";
-        Country[] countries = restTemplate.getForObject(api, Country[].class);
+        String api = "https://api.countrylayer.com/v2/all?access_key=" + accessKey;
 
-        if (countries != null) {
-            for (Country country : countries) {
-                try {
-                    String countryName = country.getName().getCommon();
-                    String demonym = country.getDemonyms().getEng().getM();
-                    String cca2 = country.getCca2();
+        try {
+            Country[] countries = restTemplate.getForObject(api, Country[].class);
 
-                    if (countryName != null && demonym != null && cca2 != null) {
-                        Nationality nationalityEntity = new Nationality(nationalityId, countryName, demonym, cca2);
-                        nationalityRepository.save(nationalityEntity);
-                        nationalityId++;
+            if (countries != null) {
+                for (Country country : countries) {
+                    try {
+                        if (country.getName() != null && country.getAlpha2Code() != null) {
+
+                            String countryName = country.getName();
+                            String countryCode = country.getAlpha2Code();
+
+                            Nationality nationalityEntity = new Nationality(nationalityId, countryName, countryCode);
+                            nationalityRepository.save(nationalityEntity);
+                            nationalityId++;
+                        }
+                    } catch (BeanCreationException | NullPointerException e) {
+                        logger.warn(e.getMessage());
                     }
-                } catch (BeanCreationException | NullPointerException e) {
-                    System.out.println("Invalid countryname, demonym or countrycode!");
                 }
             }
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            logger.error("HTTP error: " + e.getStatusCode() + " - " + e.getMessage());
+        } catch (ResourceAccessException e) {
+            logger.error("Network error: " + e.getMessage());
+        } catch (RestClientException e) {
+            logger.error("General RestClientException: " + e.getMessage());
         }
     }
 
-    public List<String> getAllDemonyms() {
+    public List<String> getAllCountries() {
         return nationalityRepository.findAll()
                 .stream()
-                .map(Nationality::getDemonym)
+                .map(Nationality::getCountryName)
                 .sorted()
                 .collect(Collectors.toList());
     }
@@ -60,25 +81,6 @@ public class NationalityService {
 @Getter
 @Setter
 class Country {
-    private Name name;
-    private Demonyms demonyms;
-    private String cca2;
-
-    @Getter
-    @Setter
-    static class Name {
-        private String common;
-    }
-
-    @Getter
-    @Setter
-    static class Demonyms {
-        private Demonym eng;
-
-        @Getter
-        @Setter
-        static class Demonym {
-            private String m;
-        }
-    }
+    private String name;
+    private String alpha2Code;
 }

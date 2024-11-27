@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface NationalityRepository extends JpaRepository<Nationality, Long> {
-    Optional<Nationality> findByDemonym(String countryName);
+    Optional<Nationality> findByCountryName(String countryName);
 }

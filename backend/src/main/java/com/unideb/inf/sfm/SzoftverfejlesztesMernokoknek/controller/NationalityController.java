@@ -20,7 +20,7 @@ public class NationalityController {
 
     @GetMapping("getAllDemonyms")
     public ResponseEntity<List<String>> getAllDemonyms() {
-        List<String> demonyms = nationalityService.getAllDemonyms();
+        List<String> demonyms = nationalityService.getAllCountries();
         return ResponseEntity.ok(demonyms);
     }
 }

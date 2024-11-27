@@ -23,8 +23,7 @@ public class PlayerDTO {
     private LocalDate dateOfBirth;
     private EGender gender;
     private String countryName;
-    private String demonym;
-    private String cca2;
+    private String countryCode;
     private String teamName;
     private Set<EventDTO> events = new HashSet<>();
     private String username;

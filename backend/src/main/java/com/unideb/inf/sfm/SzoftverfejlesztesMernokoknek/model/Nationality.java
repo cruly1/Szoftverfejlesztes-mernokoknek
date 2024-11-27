@@ -29,9 +29,6 @@ public class Nationality {
     @Column(name = "country_name", nullable = false)
     private String countryName;
 
-    @Column(nullable = false)
-    private String demonym;
-
-    @Column(nullable = false)
-    private String cca2;
+    @Column(name = "country_code", nullable = false)
+    private String countryCode;
 }
