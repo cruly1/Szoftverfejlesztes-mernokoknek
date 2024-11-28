@@ -9,6 +9,10 @@ function Navbar({ loggedIn, onLogout, onProfileComplete}) {
         setMenuOpen(!menuOpen);
     };
 
+    const closeMenu = () => {
+        setMenuOpen(false); // Close the menu when a link is clicked
+    };
+
     return (
         <nav className="navbar">
             <div className="logo">
@@ -20,15 +24,15 @@ function Navbar({ loggedIn, onLogout, onProfileComplete}) {
                 <div></div>
             </div>
             <ul className={`nav-links ${menuOpen ? 'active' : ''}`}>
-                <li><Link to="/" className="nav-link">Home</Link></li>
-                <li><Link to="/players" className="nav-link">Players</Link></li>
-                <li><Link to="/teams" className="nav-link">Teams</Link></li>
-                <li><Link to="/events" className="nav-link">Events</Link></li>
+                <li><Link to="/" className="nav-link" onClick={closeMenu}>Home</Link></li>
+                <li><Link to="/players" className="nav-link" onClick={closeMenu}>Players</Link></li>
+                <li><Link to="/teams" className="nav-link" onClick={closeMenu}>Teams</Link></li>
+                <li><Link to="/events" className="nav-link" onClick={closeMenu}>Events</Link></li>
                 {/* Conditionally render Profile link and Logout button */}
                 {loggedIn && (
                     <>
-                        <li><Link to="/profile" className="nav-link">Profile</Link></li>
-                        <li><button onClick={onLogout} className="nav-link logout-button">Logout</button></li>
+                        <li><Link to="/profile" className="nav-link" onClick={closeMenu}>Profile</Link></li>
+                        <li><button onClick={() => {onLogout(); closeMenu();}} className="nav-link logout-button">Logout</button></li>
                     </>
                 )}
             </ul>

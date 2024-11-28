@@ -98,7 +98,14 @@ function Profile() {
             nationality: {
                 countryName: editedData.countryName,
             },
+            profileImageName: userData.profileImageName,
+            profileImageType: userData.profileImageType,
+            team:{
+                teamName: userData.teamName,
+            },
+            
         };
+
         console.log("updatedData", updatedData);
         axios.put(`http://localhost:8080/api/players/updatePlayer/search?nickName=${oldNickname}`, updatedData, {
             headers: {

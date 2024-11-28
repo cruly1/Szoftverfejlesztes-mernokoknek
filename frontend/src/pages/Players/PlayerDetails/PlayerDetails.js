@@ -30,6 +30,7 @@ function PlayerDetails() {
         setPlayer(playerData);
         const imageName = response.data.profileImageName;
               setProfileImageName(imageName);
+        console.log(playerData);
         return playerData.teamName;
       })
       .then(teamName => {
@@ -135,7 +136,7 @@ function PlayerDetails() {
   return (
     <div className="player-detail">
       <div className="player-header">
-        <img src={profileImage} alt={`${player.firstName} ${player.lastName}`} className="player-icon" />
+        <img src={profileImage || placeholderImage} alt={`${player.firstName} ${player.lastName}`} className="player-icon" />
         <div className="player-name">
           <h1>{player.firstName} "<span>{player.nickName}</span>" {player.lastName}</h1>
           <img 
