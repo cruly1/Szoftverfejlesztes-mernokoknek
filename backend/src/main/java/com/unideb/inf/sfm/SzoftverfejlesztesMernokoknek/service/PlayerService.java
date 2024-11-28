@@ -49,7 +49,7 @@ public class PlayerService {
 
         if (playerServiceUtils.hasRegisteredPlayer(user) ||
                 (team != null &&
-                        (playerServiceUtils.isNotAllowedToJoinTeam(team.getPlayersInTeam()) || playerServiceUtils.isRoleTaken(player, team)))) {
+                        (playerServiceUtils.isAllowedToJoinTeam(team.getPlayersInTeam()) || playerServiceUtils.isRoleTaken(player, team)))) {
             return null;
         }
 
@@ -82,15 +82,22 @@ public class PlayerService {
         BeanUtils.copyProperties(updatedPlayer, player, "id");
         Team team = playerServiceUtils.getTeamByPlayer(player);
 
-        if (team != null && (playerServiceUtils.isNotAllowedToJoinTeam(team.getPlayersInTeam()) || playerServiceUtils.isRoleTaken(player, team))) {
+        if (team != null && (!playerServiceUtils.isAllowedToJoinTeam(team.getPlayersInTeam()) || playerServiceUtils.isRoleTaken(player, team))) {
             return null;
         }
 
-        Nationality nationality = nationalityRepository.findByCountryName(player.getNationality().getCountryName())
+        Nationality nationality = nationalityRepository.findByCountryName(updatedPlayer.getNationality().getCountryName())
                 .orElseThrow(() -> new IllegalArgumentException("Nationality not found"));
 
         player.setNationality(nationality);
         player.setTeam(team);
+
+        if (team != null) {
+            List<Player> playersInTeam = team.getPlayersInTeam();
+            playersInTeam.add(player);
+            team.setPlayersInTeam(playersInTeam);
+        }
+
         return playerRepository.save(player);
     }
 

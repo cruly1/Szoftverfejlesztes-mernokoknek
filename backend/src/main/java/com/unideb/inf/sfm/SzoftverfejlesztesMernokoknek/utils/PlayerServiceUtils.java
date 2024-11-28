@@ -46,7 +46,7 @@ public class PlayerServiceUtils {
                 : null;
     }
 
-    public boolean isNotAllowedToJoinTeam(List<Player> players) {
+    public boolean isAllowedToJoinTeam(List<Player> players) {
         if (players.size() >= ALLOWED_TEAM_SIZE) {
             throw new TeamLimitExceededException("Only 6 members are allowed to join each team.");
         }
