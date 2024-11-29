@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
+import { LoadingContext } from '../../../LoadingWrapper';
 import { Radar } from 'react-chartjs-2';
 import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend } from 'chart.js';
 import './PlayerDetails.css';
@@ -16,74 +17,120 @@ function PlayerDetails() {
   const [profileImage, setProfileImage] = useState(null);
   const [profileImageName, setProfileImageName] = useState(null);
   const [teammates, setTeammates] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoadingLocal] = useState(true);
   const [error, setError] = useState(null);
+  const { setLoading } = useContext(LoadingContext);
 
   useEffect(() => {
     const token = localStorage.getItem('token'); 
+    
+    setPlayer(null);
+    setProfileImage(null); // Clear previous image before fetching
+    setLoading(true); // Start loading animation
     axios.get(`http://localhost:8080/api/players/getByNickName/search?nickName=${nickName}`, {
-      headers: { Authorization: `Bearer ${token}` },
-      withCredentials: true
+        headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true
     })
-      .then(response => {
+    .then(response => {
         const playerData = response.data;
         setPlayer(playerData);
-        const imageName = response.data.profileImageName;
-              setProfileImageName(imageName);
-        console.log(playerData);
+        setProfileImageName(playerData.profileImageName);
         return playerData.teamName;
-      })
-      .then(teamName => {
+    })
+    .then(teamName => {
         if (teamName) {
-          return axios.get(`http://localhost:8080/api/teams/search?teamName=${teamName}`, {
-            headers: { Authorization: `Bearer ${token}` },
-            withCredentials: true
-          });
+            return axios.get(`http://localhost:8080/api/teams/search?teamName=${teamName}`, {
+                headers: { Authorization: `Bearer ${token}` },
+                withCredentials: true
+            });
         }
-      })
-      .then(response => {
+    })
+    .then(async (response) => {
         if (response) {
-          const teamData = response.data;
-          const filteredTeammates = teamData.players.filter(teammate => teammate.nickName !== nickName);
-          setTeammates(filteredTeammates);
+            const teamData = response.data;
+
+            const filteredTeammates = await Promise.all(
+                teamData.players.filter(teammate => teammate.nickName !== nickName).map(async (teammate) => {
+                    if (teammate.profileImageName) {
+                        try {
+                            const imageResponse = await axios.get(
+                                `http://localhost:8080/api/images/${teammate.profileImageName}`,
+                                {
+                                    headers: { Authorization: `Bearer ${token}` },
+                                    responseType: 'blob',
+                                }
+                            );
+                            const imageUrl = URL.createObjectURL(imageResponse.data);
+                            return { ...teammate, profileImageUrl: imageUrl };
+                        } catch (error) {
+                            console.error(`Error fetching image for ${teammate.nickName}:`, error);
+                            return { ...teammate, profileImageUrl: placeholderImage };
+                        }
+                    } else {
+                        return { ...teammate, profileImageUrl: placeholderImage };
+                    }
+                })
+            );
+
+            setTeammates(filteredTeammates);
         }
-      })
-      .catch(err => {
+    })
+    .catch(err => {
         console.error(err);
         setError("Error fetching player or team data.");
-        setProfileImage(placeholderImage);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [nickName]);
+    })
+    .finally(() => {
+        setLoading(false); // Stop loading animation
+        setLoadingLocal(false); // Ensure component's local loading state is updated
+    });
+    
+}, [nickName, setLoading]);
+
+
 
 
   useEffect(() => {
-        if (profileImageName) {
-            fetchProfileImage(profileImageName);
-        }
-    }, [profileImageName]);
+    let currentBlobUrl = null; // Store the current blob URL
 
-    const fetchProfileImage = (imageName) => {
-        const token = localStorage.getItem('token');
-        if (!token) {
-            console.error("No authorization token found. Please log in again.");
-            return;
+    if (profileImageName) {
+        fetchProfileImage(profileImageName)
+            .then(blobUrl => {
+                if (currentBlobUrl) {
+                    URL.revokeObjectURL(currentBlobUrl); // Revoke the previous blob URL
+                }
+                currentBlobUrl = blobUrl; // Update to the new blob URL
+                setProfileImage(blobUrl); // Set the new profile image
+            })
+            .catch(() => {
+                setProfileImage(placeholderImage); // Use placeholder on error
+            });
+    }
+
+    return () => {
+        if (currentBlobUrl) {
+            URL.revokeObjectURL(currentBlobUrl); // Revoke blob URL when the component unmounts or profile changes
         }
-        axios.get(`http://localhost:8080/api/images/${imageName}`, {
+    };
+}, [profileImageName]);
+
+    const fetchProfileImage = async (imageName) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        console.error("No authorization token found. Please log in again.");
+        throw new Error("Unauthorized");
+    }
+
+    try {
+        const response = await axios.get(`http://localhost:8080/api/images/${imageName}`, {
             headers: { Authorization: `Bearer ${token}` },
             responseType: 'blob',
-        })
-        .then(response => {
-            const imageUrl = URL.createObjectURL(response.data);
-            setProfileImage(imageUrl);
-        })
-        .catch(err => {
-            console.error("Error fetching profile image:", err);
-            setProfileImage(placeholderImage);
         });
-    };
+        return URL.createObjectURL(response.data); // Return the blob URL
+    } catch (err) {
+        console.error("Error fetching profile image:", err);
+        throw err;
+    }
+};
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
@@ -132,6 +179,10 @@ function PlayerDetails() {
     },
     plugins: { legend: { labels: { color: '#fff' } } },
   };
+
+
+  
+  
  
   return (
     <div className="player-detail">
@@ -195,24 +246,24 @@ function PlayerDetails() {
         <div className="teammates-section">
           <h2>Teammates</h2>
           <ul>
-            {teammates.map(teammate => (
+          {teammates.map(teammate => (
               <li key={teammate.nickName} className="teammate-item">
-                <Link to={`/players/${teammate.nickName}`} className="teammate-link">
-                  <img 
-                    src={placeholderImage} 
-                    alt={`${teammate.firstName} ${teammate.lastName}`}
-                    className="teammate-image"
-                  />
-                  <div className="teammate-name">
-                  {teammate.firstName} "{teammate.nickName}" {teammate.lastName}
-                  </div>
-                  <div className="teammate-role">
-                  {capitalize(teammate.ingameRole)}
-                  </div>
-                </Link>
+                  <Link to={`/players/${teammate.nickName}`} className="teammate-link">
+                      <img 
+                          src={teammate.profileImageUrl || placeholderImage} 
+                          alt={`${teammate.firstName} ${teammate.lastName}`}
+                          className="teammate-image"
+                      />
+                      <div className="teammate-name">
+                          {teammate.firstName} "{teammate.nickName}" {teammate.lastName}
+                      </div>
+                      <div className="teammate-role">
+                          {capitalize(teammate.ingameRole)}
+                      </div>
+                  </Link>
               </li>
-            ))}
-          </ul>
+          ))}
+      </ul>
         </div>
       )}
     </div>

@@ -88,6 +88,7 @@ function Profile() {
         const oldNickname = localStorage.getItem('nickname');
         console.log("oldNickname", oldNickname);
         console.log("editedData", editedData);
+        console.log("userData", userData);
         const updatedData = {
             firstName: editedData.firstName,
             lastName: editedData.lastName,
@@ -100,10 +101,10 @@ function Profile() {
             },
             profileImageName: userData.profileImageName,
             profileImageType: userData.profileImageType,
-            team:{
-                teamName: userData.teamName,
-            },
-            
+            ...(userData.teamName // Check if the player has a team
+            ? { team: { teamName: userData.teamName } } // If the player has a team
+            : { teamName: userData.teamName } // If the player doesn't have a team
+    ),
         };
 
         console.log("updatedData", updatedData);
