@@ -147,8 +147,8 @@ h1 {
 }
 
 @media (min-width: 768px) {
-  .button-49,
-  .button-49:after {
+  .add-team-button,
+  .add-team-button:after {
     width: 200px;
     height: 86px;
     line-height: 88px;
