@@ -76,11 +76,11 @@ function Teams() {
   return (
     <div className="teams-page">
       <h1>Teams</h1>
-
+    <div className="add-team-container">
       {token && (
         <button onClick={handleAddTeamClick} className="add-team-button">Add Team</button>
       )}
-
+    </div>
       <div className="teams-list">
         {token ? (teams.map(team => (
           <TeamList key={team.id} team={team} />

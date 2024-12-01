@@ -88,6 +88,7 @@ function Profile() {
         const oldNickname = localStorage.getItem('nickname');
         console.log("oldNickname", oldNickname);
         console.log("editedData", editedData);
+        console.log("userData", userData);
         const updatedData = {
             firstName: editedData.firstName,
             lastName: editedData.lastName,
@@ -98,7 +99,14 @@ function Profile() {
             nationality: {
                 countryName: editedData.countryName,
             },
+            profileImageName: userData.profileImageName,
+            profileImageType: userData.profileImageType,
+            ...(userData.teamName // Check if the player has a team
+            ? { team: { teamName: userData.teamName } } // If the player has a team
+            : { teamName: userData.teamName } // If the player doesn't have a team
+    ),
         };
+
         console.log("updatedData", updatedData);
         axios.put(`http://localhost:8080/api/players/updatePlayer/search?nickName=${oldNickname}`, updatedData, {
             headers: {

@@ -52,7 +52,7 @@ function AuthModal({ isOpen, onClose, onLogin, initialView = 'login' }) { // New
 
                 <div className="auth-steam-login">
                     <button className="steam-login-btn">
-                        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+                        <a href="https://store.steampowered.com/login/?redir=&redir_ssl=1&snr=1_4_660__global-header" target="_blank" rel="noopener noreferrer">
                             <FontAwesomeIcon icon={faSteam} size="2x" />
                         </a>
                     </button>
