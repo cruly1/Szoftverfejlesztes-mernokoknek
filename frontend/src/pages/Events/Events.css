@@ -2,13 +2,13 @@
 
 .events-page {
   position: relative;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   color: white;
-  overflow: hidden; /* To prevent any content from extending beyond the container */
+  padding: 20px; /* Add padding for spacing */
+  overflow: hidden; /* Prevent any overflow */
 }
 
 /* Blurry background container */

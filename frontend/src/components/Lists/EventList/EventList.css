@@ -7,7 +7,7 @@
 
 .event-item {
   width: 100%;
-  max-width: 600px;
+  
   background-color: rgba(0, 0, 0, 0.6);
   padding: 15px;
   border-radius: 10px;
@@ -61,6 +61,25 @@
 
 .join-event-player-button:disabled,
 .join-event-team-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+.delete-event-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #dc3545;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.delete-event-button:hover {
+  background-color: #c82333;
+}
+
+.delete-event-button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
 }
