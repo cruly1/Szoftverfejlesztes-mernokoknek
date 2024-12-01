@@ -1,6 +1,7 @@
 package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model;
 
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.enums.ERole;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.validation.StrongPassword;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -40,6 +41,7 @@ public class User implements UserDetails {
 
     @Column(nullable = false)
     @NotBlank
+    //@StrongPassword
     private String password;
 
     @Column(nullable = false, unique = true)

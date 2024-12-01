@@ -10,6 +10,7 @@ import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.PlayerReposit
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.utils.AuthServiceUtils;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.utils.EventServiceUtils;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.utils.PlayerServiceUtils;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -64,6 +65,7 @@ public class PlayerService {
     }
 
     // tested
+    @Transactional
     public String addPlayerToEvent(String nickName, String eventName) {
         Player player = playerServiceUtils.findByNickName(nickName);
         Event event = eventServiceUtils.findByEventName(eventName);

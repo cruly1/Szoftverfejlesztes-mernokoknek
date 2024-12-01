@@ -42,7 +42,7 @@ public class PlayerController {
         return ResponseEntity.ok(playerDTO);
     }
 
-    @PostMapping("search/events/search")
+    @PutMapping("addToEvent/search")
     public String addPlayerToEvent(@RequestParam("nickName") String nickName, @RequestParam("eventName") String eventName) {
         return playerService.addPlayerToEvent(nickName, eventName);
     }
