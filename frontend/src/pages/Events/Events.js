@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import EventList from '../../components/Lists/EventList/EventList';
 import AddEventForm from '../../components/Modals/AddEventForm';
 import './Events.css';
 
 function Events() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    // Check if the user is logged in by verifying the presence of a token
+    const token = localStorage.getItem('token');
+    setIsLoggedIn(!!token); // Set to true if token exists, false otherwise
+  }, []);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -18,7 +25,12 @@ function Events() {
       <div className="events-content">
         <h1>Welcome to the CS2 Event</h1>
         <p>Stay tuned for updates on the latest matches and events!</p>
-        <button onClick={openModal} className="add-event-button">Add Event</button>
+        
+        {/* Conditionally render Add Event button */}
+        {isLoggedIn && (
+          <button onClick={openModal} className="add-event-button">Add Event</button>
+        )}
+        
         <EventList />
 
         {/* Modal */}
