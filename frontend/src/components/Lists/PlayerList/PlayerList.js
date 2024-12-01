@@ -27,7 +27,7 @@ function PlayerList() {
     })
       .then(response => {
         setPlayers(response?.data); 
-        
+        console.log("Players:", response?.data);
       })
       .catch((error) => {
         console.error("Error fetching players:", error);
@@ -49,7 +49,7 @@ function PlayerList() {
           <li key={player?.nickName}>
             {/* Create a link to the player's detail page and display full name */}
             <Link to={`/players/${player?.nickName}`} className="player-link">
-                {player?.firstName} "{player?.nickName}" {player?.lastName}
+                {player?.firstName} "{player?.nickName}" {player?.lastName} <br></br> {player?.teamName || "No team"} 
             </Link>
           </li>
         ))}

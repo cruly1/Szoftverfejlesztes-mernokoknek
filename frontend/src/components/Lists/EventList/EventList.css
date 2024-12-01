@@ -24,3 +24,43 @@
   transform: scale(1.05);
   background-color: rgba(23, 162, 184, 0.2);
 }
+
+.event-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.join-event-player-button,
+.join-event-team-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.join-event-player-button {
+  background-color: #17a2b8;
+  color: white;
+}
+
+.join-event-player-button:hover {
+  background-color: #138496;
+}
+
+.join-event-team-button {
+  background-color: #28a745;
+  color: white;
+}
+
+.join-event-team-button:hover {
+  background-color: #218838;
+}
+
+.join-event-player-button:disabled,
+.join-event-team-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
