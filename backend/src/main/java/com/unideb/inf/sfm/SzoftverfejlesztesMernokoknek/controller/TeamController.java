@@ -33,7 +33,7 @@ public class TeamController {
         return new ResponseEntity<>(teamMapper.toDTO(savedTeam), HttpStatus.CREATED);
     }
 
-    @PostMapping("search/events/search")
+    @PutMapping("addToEvent/search")
     public String addTeamToEvent(@RequestParam("teamName") String teamName, @RequestParam("eventName") String eventName) {
         return teamService.addTeamToEvent(teamName, eventName);
     }
