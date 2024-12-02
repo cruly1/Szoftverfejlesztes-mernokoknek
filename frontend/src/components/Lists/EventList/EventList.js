@@ -5,13 +5,17 @@ import './EventList.css';
 
 function EventList() {
   const [events, setEvents] = useState([]);
+  const [currentEvents, setCurrentEvents] = useState([]);
+  const [upcomingEvents, setUpcomingEvents] = useState([]);
+  const [pastEvents, setPastEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [joiningEvent, setJoiningEvent] = useState(false);
   const [participatingEvents, setParticipatingEvents] = useState([]);
   const [teamName, setTeamName] = useState(null);
+  const [teamEvents, setTeamEvents] = useState([]);
 
-  useEffect(() => {
+   useEffect(() => {
     const token = localStorage.getItem('token');
     const nickName = localStorage.getItem('nickname');
 
@@ -28,7 +32,24 @@ function EventList() {
         withCredentials: true,
       })
       .then((response) => {
-        setEvents(response.data);
+        const currentDate = new Date();
+
+        // Separate events into categories
+        const past = response.data.filter(
+          (event) => new Date(event.eventEndDate) < currentDate
+        );
+        const current = response.data.filter(
+          (event) =>
+            new Date(event.eventStartDate) <= currentDate &&
+            new Date(event.eventEndDate) >= currentDate
+        );
+        const upcoming = response.data.filter(
+          (event) => new Date(event.eventStartDate) > currentDate
+        );
+
+        setPastEvents(past);
+        setCurrentEvents(current);
+        setUpcomingEvents(upcoming);
       })
       .catch((err) => {
         console.error(err);
@@ -44,10 +65,26 @@ function EventList() {
         const playerData = response.data;
         const playerEvents = playerData.events.map((event) => ({
           eventName: event.eventName,
-          type: event.teamName ? 'team' : 'solo',
+          type: 'solo',
         }));
         setParticipatingEvents(playerEvents);
         setTeamName(playerData.teamName || null);
+
+        // Fetch team's events if player belongs to a team
+        if (playerData.teamName) {
+          axios
+            .get(`http://localhost:8080/api/teams/search?teamName=${playerData.teamName}`, {
+              headers: { Authorization: `Bearer ${token}` },
+            })
+            .then((teamResponse) => {
+              const teamEventData = teamResponse.data.events.map((event) => ({
+                eventName: event.eventName,
+                type: 'team',
+              }));
+              setTeamEvents(teamEventData);
+            })
+            .catch((err) => console.error('Failed to fetch team events:', err));
+        }
       })
       .catch((err) => {
         console.error("Failed to fetch player's data:", err);
@@ -80,7 +117,7 @@ function EventList() {
       alert(`You have successfully joined the event: ${eventName} as a player!`);
       setParticipatingEvents([...participatingEvents, { eventName, type: 'solo' }]);
     } catch (err) {
-      console.error("Error joining event as player:", err);
+      console.error('Error joining event as player:', err);
       alert('Failed to join the event. Please try again.');
     } finally {
       setJoiningEvent(false);
@@ -106,96 +143,118 @@ function EventList() {
         }
       );
       alert(`Your team (${teamName}) has successfully joined the event: ${eventName}!`);
-      setParticipatingEvents([...participatingEvents, { eventName, type: 'team' }]);
+      setTeamEvents([...teamEvents, { eventName, type: 'team' }]);
     } catch (err) {
-      console.error("Error joining event as team:", err);
+      console.error('Error joining event as team:', err);
       alert('Failed to join the event as a team. Please try again.');
     } finally {
       setJoiningEvent(false);
     }
   };
 
-  const handleDeleteEvent = async (eventName) => {
-    const token = localStorage.getItem('token');
-
-    if (!token) {
-      alert('Unauthorized access. Please log in.');
-      return;
-    }
-
-    const confirmDelete = window.confirm(`Are you sure you want to delete the event: ${eventName}?`);
-
-    if (!confirmDelete) return;
-
-    try {
-      await axios.delete(`http://localhost:8080/api/events/deleteEvent/search?eventName=${eventName}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setEvents(events.filter((event) => event.eventName !== eventName));
-      alert(`Event ${eventName} has been deleted successfully.`);
-    } catch (err) {
-      console.error("Error deleting event:", err);
-      alert('Failed to delete the event. Please try again.');
-    }
-  };
-
   if (loading) return <div>Loading events...</div>;
   if (error) return <div>{error}</div>;
 
-  return (
-    <div className="event-list">
-      {events.map((event) => {
-        const participation = participatingEvents.find(
-          (e) => e.eventName === event.eventName
-        );
+  const allParticipatingEvents = [...participatingEvents, ...teamEvents];
 
-        return (
-          <div key={event.eventName} className="event-item">
-            <Link to={`/events/${event.eventName}`} className="event-link">
-              <h2>{event.eventName}</h2>
-              <p>
-                <strong>Start Date:</strong> {event.eventStartDate}
-              </p>
-              <p>
-                <strong>End Date:</strong> {event.eventEndDate}
-              </p>
-            </Link>
-            <div className="event-actions">
-              {participation ? (
-                <span className="already-joined-text">
-                  Already participating as{' '}
-                  {participation.type === 'team' ? `Team (${teamName})` : 'Solo'}
-                </span>
-              ) : (
-                <>
-                  <button
-                    className="join-event-player-button"
-                    onClick={() => handleJoinEventAsPlayer(event.eventName)}
-                    disabled={joiningEvent}
-                  >
-                    {joiningEvent ? 'Joining...' : 'Join as Player'}
-                  </button>
-                  {teamName && (
-                    <button
-                      className="join-event-team-button"
-                      onClick={() => handleJoinEventAsTeam(event.eventName)}
-                      disabled={joiningEvent}
-                    >
-                      {joiningEvent ? 'Joining...' : 'Join as Team'}
-                    </button>
+  return (
+     <div className="event-list-container">
+      <div className="upcoming-events">
+        <h2>Upcoming Events</h2>
+        {upcomingEvents.length > 0 ? (
+          upcomingEvents.map((event) => {
+            const participation = allParticipatingEvents.find(
+              (e) => e.eventName === event.eventName
+            );
+
+            return (
+              <div key={event.eventName} className="event-item">
+                <Link to={`/events/${event.eventName}`} className="event-link">
+                  <h2>{event.eventName}</h2>
+                  <p>
+                    <strong>Start Date:</strong> {event.eventStartDate}
+                  </p>
+                  <p>
+                    <strong>End Date:</strong> {event.eventEndDate}
+                  </p>
+                </Link>
+                <div className="event-actions">
+                  {participation ? (
+                    <span className="already-joined-text">
+                      Already participating as{' '}
+                      {participation.type === 'team' ? `Team (${teamName})` : 'Solo'}
+                    </span>
+                  ) : (
+                    <>
+                      <button
+                        className="join-event-player-button"
+                        onClick={() => handleJoinEventAsPlayer(event.eventName)}
+                        disabled={joiningEvent}
+                      >
+                        {joiningEvent ? 'Joining...' : 'Join as Player'}
+                      </button>
+                      {teamName && (
+                        <button
+                          className="join-event-team-button"
+                          onClick={() => handleJoinEventAsTeam(event.eventName)}
+                          disabled={joiningEvent}
+                        >
+                          {joiningEvent ? 'Joining...' : 'Join as Team'}
+                        </button>
+                      )}
+                    </>
                   )}
-                </>
-              )}
-              <button
-                className="delete-event-button"
-                onClick={() => handleDeleteEvent(event.eventName)}
-              >
-                Delete Event
-              </button>
+                </div>
+              </div>
+            );
+          })
+        ) : (
+          <p>No upcoming events available.</p>
+        )}
+      </div>
+
+      <div className="current-events">
+        <h2>Current Events</h2>
+        {currentEvents.length > 0 ? (
+          currentEvents.map((event) => (
+            <div key={event.eventName} className="event-item">
+              <Link to={`/events/${event.eventName}`} className="event-link">
+                <h2>{event.eventName}</h2>
+                <p>
+                  <strong>Start Date:</strong> {event.eventStartDate}
+                </p>
+                <p>
+                  <strong>End Date:</strong> {event.eventEndDate}
+                </p>
+              </Link>
+              <span className="already-joined-text">Currently Running</span>
             </div>
-          </div>
-        );
-      })}
+          ))
+        ) : (
+          <p>No current events available.</p>
+        )}
+      </div>
+
+      <div className="past-events">
+        <h2>Past Events</h2>
+        {pastEvents.length > 0 ? (
+          pastEvents.map((event) => (
+            <div key={event.eventName} className="event-item">
+              <Link to={`/events/${event.eventName}`} className="event-link">
+                <h2>{event.eventName}</h2>
+                <p>
+                  <strong>Start Date:</strong> {event.eventStartDate}
+                </p>
+                <p>
+                  <strong>End Date:</strong> {event.eventEndDate}
+                </p>
+              </Link>
+            </div>
+          ))
+        ) : (
+          <p>No past events available.</p>
+        )}
+      </div>
     </div>
   );
 }
