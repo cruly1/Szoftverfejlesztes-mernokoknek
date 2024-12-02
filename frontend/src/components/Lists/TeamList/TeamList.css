@@ -2,52 +2,51 @@
   margin-bottom: 20px;
   width: 100%;
 }
+
 .team-header {
   display: flex;
   align-items: center;
 }
+
 .team-button {
-  width: 25%; 
-  padding: 10px; 
-  font-size: 1.2rem; 
+  width: 200px; /* Fix szélesség */
+  padding: 10px;
+  font-size: 1.2rem;
   font-weight: bold;
   background-color: #343a40;
   color: #ffffff;
-  border: 2px solid black; 
+  border: 2px solid black;
   border-radius: 5px;
   cursor: pointer;
   margin: 10px 0;
-  transition: background-color 0.3s, transform 0.2s; 
+  margin-left: 20px;
+  transition: background-color 0.3s, transform 0.2s;
 }
-
-.team-button:hover {
-  background-color: #17a2b8; 
-  transform: translateY(-2px); 
-}
-
 
 .team-button:hover {
   background-color: #17a2b8;
+  transform: translateY(-2px);
 }
+
 .players-dropdown {
   display: flex;
-  flex-wrap: wrap; 
-  gap: 10px; 
+  flex-wrap: wrap;
+  gap: 10px;
   list-style: none;
   padding: 15px 20px;
-  background-color: #1c1c1c; 
+  background-color: #1c1c1c;
   border-radius: 5px;
   margin-top: 10px;
-  justify-content: center; 
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   border: 2px solid black;
   box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.5);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
 .player-item {
-  width: calc(20% - 10px); 
-  margin: 10px 0; 
+  width: calc(20% - 10px);
+  margin: 10px 0;
   display: flex;
   justify-content: center;
 }
@@ -69,8 +68,8 @@
 }
 
 .team-player-link:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 15px rgba(23, 162, 184, 0.7);
+  transform: scale(1.05);
+  box-shadow: 0 6px 15px rgba(23, 162, 184, 0.7);
 }
 
 .player-image {
@@ -85,8 +84,8 @@
 .scrolling-events-container {
   overflow: hidden;
   white-space: nowrap;
-  width: 75%; 
-  margin-left: 15px; 
+  width: 75%;
+  margin-left: 15px;
 }
 
 .scrolling-events {
@@ -101,6 +100,7 @@
   font-size: 1rem;
   text-align: center;
 }
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -146,6 +146,7 @@
   background-color: #f44336;
   color: white;
 }
+
 .join-team-button {
   background-color: #4caf50;
   color: white;
@@ -166,12 +167,55 @@
   margin-left: 10px;
 }
 
-
 @keyframes scroll-left {
   0% {
     transform: translateX(100%);
   }
   100% {
     transform: translateX(-100%);
+  }
+}
+
+/* Reszponzív módosítások */
+@media (max-width: 768px) {
+  .team-button {
+    width: 150px; /* Kisebb képernyőn kisebb gombok */
+    font-size: 1rem; /* Kisebb betűméret */
+  }
+
+  .player-item {
+    width: calc(33.33% - 10px); /* Képernyőn több játékos fér el */
+  }
+
+  .scrolling-events-container {
+    width: 100%; /* Teljes szélesség a szöveges események számára */
+  }
+
+  .scrolling-event-text {
+    font-size: 0.9rem; /* Kisebb betűméret mobilon */
+  }
+
+  .modal-content {
+    width: 80%;
+  }
+}
+
+@media (max-width: 480px) {
+  .team-button {
+    width: 120px; /* Még kisebb gombok */
+    font-size: 0.9rem; /* Még kisebb betűméret */
+    margin-left: 10px;
+  }
+
+  .player-item {
+    width: calc(50% - 10px); /* További játékosok egy sorban */
+  }
+
+  .scrolling-event-text {
+    font-size: 0.8rem; /* Még kisebb betűméret */
+  }
+
+  .modal-content {
+    width: 90%;
   }
 }

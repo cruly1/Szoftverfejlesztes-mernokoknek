@@ -1,4 +1,4 @@
-/* Events.css */
+/* Frissített CSS */
 
 .events-page {
   position: relative;
@@ -7,8 +7,9 @@
   flex-direction: column;
   align-items: center;
   color: white;
-  padding: 20px; /* Add padding for spacing */
-  overflow: hidden; /* Prevent any overflow */
+  padding: 20px;
+  overflow: hidden;
+  font-family: 'Poppins', sans-serif;
 }
 
 /* Blurry background container */
@@ -22,118 +23,138 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  filter: blur(10px); /* Apply blur only here */
+  filter: blur(10px) brightness(0.7);
   z-index: 1;
+  opacity: 0.9;
 }
 
 /* Content container */
 .events-content {
   position: relative;
-  z-index: 2; /* Bring content above the blurred background */
-  background-color: rgba(0, 0, 0, 0.6); /* Dark overlay for readability */
-  padding: 20px;
-  border-radius: 10px;
+  z-index: 2;
+  background: linear-gradient(135deg, rgba(23, 23, 23, 0.9), rgba(52, 58, 64, 0.8));
+  padding: 30px;
+  border-radius: 15px;
   max-width: 800px;
   text-align: center;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+  animation: fadeIn 1s ease-in-out;
 }
 
-.add-event-button,
-.add-event-button:after {
-  
-  width: 150px;
-  height: 76px;
-  line-height: 78px;
-  font-size: 20px;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Add Event Button */
+.add-event-button {
+  width: 180px;
+  height: 60px;
+  line-height: 60px;
+  font-size: 1.2rem;
   font-family: 'Bebas Neue', sans-serif;
-  background: linear-gradient(45deg, transparent 5%, #17a2b8 5%);
-  border: 0;
+  background: linear-gradient(45deg, #17a2b8, #009688);
+  border: none;
+  border-radius: 30px;
   color: #fff;
-  letter-spacing: 3px;
-  box-shadow: 6px 0px 0px #4d6061;
-  outline: transparent;
+  letter-spacing: 2px;
+  cursor: pointer;
+  box-shadow: 0 6px 15px rgba(23, 162, 184, 0.6);
+  transition: all 0.4s ease;
   position: relative;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.add-event-button:hover {
+  background: linear-gradient(45deg, #009688, #17a2b8);
+  box-shadow: 0 8px 20px rgba(23, 162, 184, 0.8);
+  transform: translateY(-5px);
 }
 
 .add-event-button:after {
-  --slice-0: inset(50% 50% 50% 50%);
-  --slice-1: inset(80% -6px 0 0);
-  --slice-2: inset(50% -6px 30% 0);
-  --slice-3: inset(10% -6px 85% 0);
-  --slice-4: inset(40% -6px 43% 0);
-  --slice-5: inset(80% -6px 5% 0);
-  
-  content: 'ALTERNATE TEXT';
-  display: block;
+  content: '';
   position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 300%;
+  height: 300%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent 70%);
+  animation: ripple 1.5s infinite;
+}
+
+@keyframes ripple {
+  from {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+  to {
+    transform: scale(1.1);
+    opacity: 0;
+  }
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(45deg, transparent 3%, #00E6F6 3%, #00E6F6 5%, #212529 5%);
-  text-shadow: -3px -3px 0px #F8F005, 3px 3px 0px #00E6F6;
-  clip-path: var(--slice-0);
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
-.add-event-button:hover:after {
-  animation: 1s glitch;
-  animation-timing-function: steps(2, end);
+.modal-content {
+  background: #212529;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  animation: zoomIn 0.5s ease;
 }
 
-@keyframes glitch {
-  0% {
-    clip-path: var(--slice-1);
-    transform: translate(-20px, -10px);
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
   }
-  10% {
-    clip-path: var(--slice-3);
-    transform: translate(10px, 10px);
-  }
-  20% {
-    clip-path: var(--slice-1);
-    transform: translate(-10px, 10px);
-  }
-  30% {
-    clip-path: var(--slice-3);
-    transform: translate(0px, 5px);
-  }
-  40% {
-    clip-path: var(--slice-2);
-    transform: translate(-5px, 0px);
-  }
-  50% {
-    clip-path: var(--slice-3);
-    transform: translate(5px, 0px);
-  }
-  60% {
-    clip-path: var(--slice-4);
-    transform: translate(5px, 10px);
-  }
-  70% {
-    clip-path: var(--slice-2);
-    transform: translate(-10px, 10px);
-  }
-  80% {
-    clip-path: var(--slice-5);
-    transform: translate(20px, -10px);
-  }
-  90% {
-    clip-path: var(--slice-1);
-    transform: translate(-10px, 0px);
-  }
-  100% {
-    clip-path: var(--slice-1);
-    transform: translate(0);
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
-@media (min-width: 768px) {
-  .add-event-button,
-  .add-event-button:after {
-    width: 200px;
-    height: 86px;
-    line-height: 88px;
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .add-event-button {
+    width: 160px;
+    height: 50px;
+    font-size: 1rem;
+  }
+
+  .events-content {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .add-event-button {
+    width: 140px;
+    height: 45px;
+    font-size: 0.9rem;
+  }
+
+  .events-content {
+    padding: 15px;
   }
 }
