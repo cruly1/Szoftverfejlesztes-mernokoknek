@@ -2,18 +2,29 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 20px;
+  width: 100%;
+  max-width: 100%; /* Korlátozzuk a lista szélességét */
+  margin: 0 auto; /* Középre igazítás */
 }
 
 .event-item {
   width: 100%;
-  
+  max-width: 600px;
   background-color: rgba(0, 0, 0, 0.6);
-  padding: 15px;
+  padding: 12px;
   border-radius: 10px;
   text-align: center;
   transition: transform 0.3s;
+  box-sizing: border-box;
+  margin-bottom: 20px; /* Margin hozzáadása az elemek közötti távolság növeléséhez */
 }
+
+.event-item:last-child {
+  margin-bottom: 0; /* Az utolsó elem alatti margót eltünteti */
+}
+
 
 .event-link {
   text-decoration: none;
@@ -64,6 +75,7 @@
   background-color: #ccc;
   cursor: not-allowed;
 }
+
 .delete-event-button {
   padding: 8px 16px;
   border: none;
