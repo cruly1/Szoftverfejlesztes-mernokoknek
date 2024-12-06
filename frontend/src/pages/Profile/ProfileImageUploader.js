@@ -2,17 +2,17 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './ProfileImageUploader.css';
 
-
 function ProfileImageUploader({ nickname, onImageUpdate }) {
     const [selectedFile, setSelectedFile] = useState(null);
     const [profileImage, setProfileImage] = useState(null);
     const [profileImageName, setProfileImageName] = useState(null);
+    const [fileName, setFileName] = useState(''); // New state to store file name
     const placeholderImage = "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg";
 
     const TARGET_WIDTH = 300;
     const TARGET_HEIGHT = 300;
 
-     useEffect(() => {
+    useEffect(() => {
         const fetchProfileData = async () => {
             const token = localStorage.getItem('token');
             try {
@@ -60,9 +60,11 @@ function ProfileImageUploader({ nickname, onImageUpdate }) {
         if (file) {
             const timestampedFile = await addTimestampToFile(file, TARGET_WIDTH, TARGET_HEIGHT);
             setSelectedFile(timestampedFile);
+            setFileName(file.name); // Set the file name to display it
         }
     };
-       const addTimestampToFile = (file, width, height) => {
+
+    const addTimestampToFile = (file, width, height) => {
         return new Promise((resolve) => {
             const img = new Image();
             img.src = URL.createObjectURL(file);
@@ -83,7 +85,7 @@ function ProfileImageUploader({ nickname, onImageUpdate }) {
             };
         });
     };
-    // Upload the image using a POST request and fetch the image afterward
+
     const uploadImage = async () => {
         if (!selectedFile) {
             alert("Please select an image to upload.");
@@ -104,8 +106,8 @@ function ProfileImageUploader({ nickname, onImageUpdate }) {
             
             alert("Image uploaded successfully!");
             setSelectedFile(null);
+            setFileName(''); // Reset file name after upload
 
-            // Fetch the player data to get the updated profileImageName
             const response = await axios.get(`http://localhost:8080/api/players/getByNickName/search?nickName=${nickname}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
@@ -129,18 +131,20 @@ function ProfileImageUploader({ nickname, onImageUpdate }) {
 
     return (
         <div className="image-upload-container">
-    {/* Display Profile Image */}
-    <div className="profile-image">
-        <img src={profileImage || placeholderImage} alt="Profile" />
-    </div>
+            {/* Display Profile Image */}
+            <div className="profile-image">
+                <img src={profileImage || placeholderImage} alt="Profile" />
+            </div>
 
-    {/* File Input and "Choose File" Button */}
-    <input type="file" id="file" name="image" onChange={handleFileChange} />
-    <label htmlFor="file" className="custom-file-input">Choose File</label> {/* This label acts as the file selection button */}
-    
-    {/* Upload Image Button */}
-    <button className="custom-upload-button" onClick={uploadImage}>Upload Image</button>
-</div>
+            {/* File Input and "Choose File" Button */}
+            <input type="file" id="file" name="image" onChange={handleFileChange} />
+            <label htmlFor="file" className="custom-file-input">
+                {fileName || "Choose File"} {/* Display file name if selected, or default "Choose File" */}
+            </label>
+            
+            {/* Upload Image Button */}
+            <button className="custom-upload-button" onClick={uploadImage}>Upload Image</button>
+        </div>
     );
 }
 
