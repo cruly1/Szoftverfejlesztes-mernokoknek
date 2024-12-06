@@ -5,8 +5,8 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(8px);
+    background-color: rgba(23, 162, 184, 0.3); /* Adjusted to a slightly transparent blue for background */
+    backdrop-filter: blur(8px); /* Applying the blur effect */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -20,7 +20,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #1e1e2f;
+    background-color: #1c1c1c;
     padding: 30px;
     border-radius: 12px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
@@ -29,17 +29,20 @@
     color: #f0f0f0;
 }
 
+/* Modal Heading */
 .profile-setup-modal h2 {
     font-size: 1.5rem;
     margin-bottom: 20px;
-    color: #1de9b6; /* Bright teal */
+    color: #17a2b8; /* Using the blue color for the header */
 }
 
+/* Form */
 .profile-setup-modal form {
     display: flex;
     flex-direction: column;
 }
 
+/* Input and Select Fields */
 .profile-setup-modal input,
 .profile-setup-modal select {
     margin-bottom: 15px;
@@ -65,7 +68,7 @@
 .profile-setup-modal button {
     padding: 12px;
     color: white;
-    background-color: #1de9b6;
+    background-color: #17a2b8; /* Blue button */
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -74,8 +77,10 @@
 }
 
 .profile-setup-modal button:hover {
-    background-color: #17c4a1;
+    background-color: #138f97; /* Darker blue on hover */
 }
+
+/* React Modal */
 .react-responsive-modal-modal {
-    background: none;  
+    background: none;
 }

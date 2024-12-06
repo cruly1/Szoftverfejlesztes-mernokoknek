@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './ProfileImageUploader.css';
+
 
 function ProfileImageUploader({ nickname, onImageUpdate }) {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -127,15 +129,18 @@ function ProfileImageUploader({ nickname, onImageUpdate }) {
 
     return (
         <div className="image-upload-container">
-            {/* Display Profile Image */}
-            <div className="profile-image">
-                <img src={profileImage || placeholderImage} alt="Profile" />
-            </div>
+    {/* Display Profile Image */}
+    <div className="profile-image">
+        <img src={profileImage || placeholderImage} alt="Profile" />
+    </div>
 
-            {/* File Input and Upload Button */}
-            <input type="file" name="image" onChange={handleFileChange} />
-            <button onClick={uploadImage}>Upload Image</button>
-        </div>
+    {/* File Input and "Choose File" Button */}
+    <input type="file" id="file" name="image" onChange={handleFileChange} />
+    <label htmlFor="file" className="custom-file-input">Choose File</label> {/* This label acts as the file selection button */}
+    
+    {/* Upload Image Button */}
+    <button className="custom-upload-button" onClick={uploadImage}>Upload Image</button>
+</div>
     );
 }
 
