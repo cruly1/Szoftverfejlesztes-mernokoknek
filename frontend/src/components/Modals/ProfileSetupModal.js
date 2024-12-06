@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './ProfileSetupModal.css';
 
-function ProfileSetupModal({ onClose, username, onProfileComplete }) { // Accept username as prop
+function ProfileSetupModal({ onClose, username, onProfileComplete }) {
     const [profileData, setProfileData] = useState({
         firstName: '', 
         lastName: '', 
@@ -10,11 +10,12 @@ function ProfileSetupModal({ onClose, username, onProfileComplete }) { // Accept
         ingameRole: '', 
         dateOfBirth: '', 
         gender: '', 
-         nationality: {
+        nationality: {
             countryName: ''  // Initialize nationality as an object with a demonym key
         }
     });
-     const [countryNameOptions, setCountryNameOptions] = useState([]);
+    const [countryNameOptions, setCountryNameOptions] = useState([]);
+    const roles = ["IGL", "ENTRY", "SUPPORT", "LURKER", "AWP", "COACH"]; // Define the in-game roles
 
     useEffect(() => {
         const fetchCountryNames = async () => {
@@ -81,14 +82,25 @@ function ProfileSetupModal({ onClose, username, onProfileComplete }) { // Accept
                 <input name="firstName" value={profileData.firstName} onChange={handleChange} placeholder="First Name" />
                 <input name="lastName" value={profileData.lastName} onChange={handleChange} placeholder="Last Name" />
                 <input name="nickName" value={profileData.nickName} onChange={handleChange} placeholder="Nickname" />
-                <input name="ingameRole" value={profileData.ingameRole} onChange={handleChange} placeholder="In-game Role" />
+                
+                {/* Dropdown for in-game role */}
+                <select name="ingameRole" value={profileData.ingameRole} onChange={handleChange}>
+                {roles.map((role) => (
+                    <option key={role} value={role}>
+                        {role}
+                    </option>
+                ))}
+                </select>
+
                 <input name="dateOfBirth" value={profileData.dateOfBirth} onChange={handleChange} type="date" />
                 <select name="gender" value={profileData.gender} onChange={handleChange}>
                     <option value="">Select Gender</option>
                     <option value="MALE">Male</option>
                     <option value="FEMALE">Female</option>
                 </select>
-                 <select name="countryName" value={profileData.nationality.countryName} onChange={handleChange}>
+                
+                {/* Dropdown for nationality */}
+                <select name="countryName" value={profileData.nationality.countryName} onChange={handleChange}>
                     <option value="">Select Nationality</option>
                     {countryNameOptions.map((countryName) => (
                         <option key={countryName} value={countryName}>
@@ -96,6 +108,7 @@ function ProfileSetupModal({ onClose, username, onProfileComplete }) { // Accept
                         </option>
                     ))}
                 </select>
+
                 <button type="button" onClick={handleSave}>Save</button>
             </form>
         </div>

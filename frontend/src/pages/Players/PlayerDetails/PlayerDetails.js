@@ -257,9 +257,9 @@ function PlayerDetails() {
                       <div className="teammate-name">
                           {teammate.firstName} "{teammate.nickName}" {teammate.lastName}
                       </div>
-                      <div className="teammate-role">
-                          {capitalize(teammate.ingameRole)}
-                      </div>
+                      <div className="teammate-role" style={{ color: teammate.ingameRole === 'COACH' ? '#FF6347' : '' }}>
+                            {capitalize(teammate.ingameRole)}
+                        </div>
                   </Link>
               </li>
           ))}
