@@ -16,6 +16,7 @@ function TeamList({ team }) {
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [playerTeamName, setPlayerTeamName] = useState(null);
   const [scrollingEvents, setScrollingEvents] = useState([]);
+  const [playerImages, setPlayerImages] = useState({}); // Store player images
   const { setLoading } = useContext(LoadingContext);
 
   useEffect(() => {
@@ -85,6 +86,41 @@ function TeamList({ team }) {
     }, 3600000); 
     return () => clearInterval(intervalId); 
   }, [scrollingEvents]);
+
+   const fetchPlayerImage = async (player) => {
+    const token = localStorage.getItem('token');
+    if (!token || !player.profileImageName) {
+      return placeholderImage;
+    }
+
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/api/images/${player.profileImageName}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          responseType: 'blob',
+        }
+      );
+      return URL.createObjectURL(response.data);
+    } catch (err) {
+      console.error(`Error fetching image for ${player.nickName}:`, err);
+      return placeholderImage;
+    }
+  };
+
+  const loadPlayerImages = async () => {
+    const images = {};
+    for (const player of team.players) {
+      images[player.nickName] = await fetchPlayerImage(player);
+    }
+    setPlayerImages(images);
+  };
+
+  useEffect(() => {
+    if (isOpen && team.players) {
+      loadPlayerImages();
+    }
+  }, [isOpen, team.players]);
 
   const toggleDropdown = () => {
     const newState = !isOpen;
@@ -298,7 +334,7 @@ const handleLeaveTeam = async () => {
             <li key={player.nickName} className="player-item">
               <Link to={`/players/${player.nickName}`} className="team-player-link">
                 <img 
-                  src={placeholderImage} 
+                  src={playerImages[player.nickName] || placeholderImage} 
                   alt={`${player.firstName} ${player.lastName}`}
                   className="player-image"
                 />
