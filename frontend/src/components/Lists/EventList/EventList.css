@@ -19,6 +19,7 @@
   transition: transform 0.3s;
   box-sizing: border-box;
   margin-bottom: 20px; /* Margin hozzáadása az elemek közötti távolság növeléséhez */
+  border: 1px solid black;
 }
 
 .event-item:last-child {

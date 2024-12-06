@@ -139,11 +139,8 @@
   .add-event-button {
     width: 160px;
     height: 50px;
-    font-size: 1rem;
-  }
-
-  .events-content {
-    padding: 20px;
+    font-size: 1rem;  /* Adjust font size */
+    line-height: 50px; /* Adjust line height for better vertical centering */
   }
 }
 
@@ -151,10 +148,7 @@
   .add-event-button {
     width: 140px;
     height: 45px;
-    font-size: 0.9rem;
-  }
-
-  .events-content {
-    padding: 15px;
+    font-size: 0.9rem;  /* Smaller font size */
+    line-height: 45px;  /* Adjust line height */
   }
 }
