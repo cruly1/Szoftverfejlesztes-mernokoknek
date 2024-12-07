@@ -35,7 +35,6 @@ function AddEventForm({ onClose }) {
       },
     })
     .then(() => {
-      alert('Event added successfully!');
       onClose(); // Close the modal
       window.location.reload(); // Reload the page to refresh the events list
     })

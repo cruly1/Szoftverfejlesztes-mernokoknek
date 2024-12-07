@@ -114,7 +114,7 @@ function EventList() {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      alert(`You have successfully joined the event: ${eventName} as a player!`);
+      
       setParticipatingEvents([...participatingEvents, { eventName, type: 'solo' }]);
     } catch (err) {
       console.error('Error joining event as player:', err);
@@ -142,7 +142,7 @@ function EventList() {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      alert(`Your team (${teamName}) has successfully joined the event: ${eventName}!`);
+      
       setTeamEvents([...teamEvents, { eventName, type: 'team' }]);
     } catch (err) {
       console.error('Error joining event as team:', err);
