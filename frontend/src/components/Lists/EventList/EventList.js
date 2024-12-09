@@ -1,19 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "./EventList.css";
+import { LoadingContext } from '../../../LoadingWrapper';
 
 function EventList() {
   const [events, setEvents] = useState([]);
   const [currentEvents, setCurrentEvents] = useState([]);
   const [upcomingEvents, setUpcomingEvents] = useState([]);
   const [pastEvents, setPastEvents] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loadingLocal, setLoadingLocal] = useState(true);
   const [error, setError] = useState(null);
   const [joiningEvent, setJoiningEvent] = useState(false);
   const [participatingEvents, setParticipatingEvents] = useState([]);
   const [teamName, setTeamName] = useState(null);
   const [teamEvents, setTeamEvents] = useState([]);
+  const { setLoading } = useContext(LoadingContext);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -21,10 +23,10 @@ function EventList() {
 
     if (!token || !nickName) {
       setError("Unauthorized access. Please log in.");
-      setLoading(false);
+      setLoadingLocal(false);
       return;
     }
-
+    setLoading(true);
     // Fetch all events
     axios
       .get("http://localhost:8080/api/events/getAllEvents", {
@@ -98,6 +100,7 @@ function EventList() {
       })
       .finally(() => {
         setLoading(false);
+        setLoadingLocal(false);
       });
   }, []);
 
@@ -109,9 +112,11 @@ function EventList() {
       alert("Player not logged in or unauthorized access.");
       return;
     }
-
+    const minLoadingTime = 1500; // Minimum duration for loading animation in milliseconds
+    const startTime = Date.now(); // Record the start time
     setJoiningEvent(true);
 
+    setLoading(true);
     try {
       await axios.put(
         `http://localhost:8080/api/players/addToEvent/search?nickName=${nickName}&eventName=${eventName}`,
@@ -129,20 +134,29 @@ function EventList() {
       console.error("Error joining event as player:", err);
       alert("Failed to join the event. Please try again.");
     } finally {
+      const elapsedTime = Date.now() - startTime;
+        const remainingTime = Math.max(minLoadingTime - elapsedTime, 0);
+
+        // Ensure loading lasts at least `minLoadingTime`
+        setTimeout(() => {
+            setLoading(false); // Stop loading animation
+        }, remainingTime);
       setJoiningEvent(false);
     }
   };
 
-  const handleJoinEventAsTeam = async (eventName) => {
-    const token = localStorage.getItem("token");
+   const handleJoinEventAsTeam = async (eventName) => {
+   const token = localStorage.getItem("token");
 
     if (!teamName) {
       alert("You don't belong to a team. Unable to join the event as a team.");
       return;
     }
-
+    const minLoadingTime = 1500; // Minimum duration for loading animation in milliseconds
+    const startTime = Date.now(); // Record the start time
     setJoiningEvent(true);
 
+    setLoading(true);
     try {
       await axios.put(
         `http://localhost:8080/api/teams/addToEvent/search?teamName=${teamName}&eventName=${eventName}`,
@@ -157,6 +171,13 @@ function EventList() {
       console.error("Error joining event as team:", err);
       alert("Failed to join the event as a team. Please try again.");
     } finally {
+      const elapsedTime = Date.now() - startTime;
+        const remainingTime = Math.max(minLoadingTime - elapsedTime, 0);
+
+        // Ensure loading lasts at least `minLoadingTime`
+        setTimeout(() => {
+          setLoading(false); // Stop loading animation
+        }, remainingTime);
       setJoiningEvent(false);
     }
   };
@@ -168,9 +189,11 @@ function EventList() {
       alert("Unauthorized access. Please log in.");
       return;
     }
-  
+    const minLoadingTime = 1500; // Minimum duration for loading animation in milliseconds
+    const startTime = Date.now(); // Record the start time
     setJoiningEvent(true);
-  
+    
+    setLoading(true);
     try {
       // Call the leave event API
       await axios.put(
@@ -185,17 +208,24 @@ function EventList() {
       setParticipatingEvents((prev) => prev.filter((event) => event.eventName !== eventName));
       setTeamEvents((prev) => prev.filter((event) => event.eventName !== eventName));
   
-      alert("You have successfully left the event.");
+      
     } catch (err) {
       console.error("Error leaving event:", err);
       alert("Failed to leave the event. Please try again.");
     } finally {
+      const elapsedTime = Date.now() - startTime;
+      const remainingTime = Math.max(minLoadingTime - elapsedTime, 0);
+
+        // Ensure loading lasts at least `minLoadingTime`
+        setTimeout(() => {
+          setLoading(false); // Stop loading animation
+        }, remainingTime);
       setJoiningEvent(false);
     }
   };
   
 
-  if (loading) return <div>Loading events...</div>;
+  if (loadingLocal) return <div>Loading events...</div>;
   if (error) return <div>{error}</div>;
 
   const allParticipatingEvents = [...participatingEvents, ...teamEvents];
@@ -225,10 +255,10 @@ function EventList() {
                   {participation ? (
                     <div className="participation-actions">
                       <span className="already-joined-text">
-                        Already participating as{" "}
+                        Already participating {" "}
                         {participation.type === "team"
-                          ? `Team (${teamName})`
-                          : "Solo"}
+                          ? `with ${teamName}`
+                          : "individually"}
                       </span>
                       <button
                         className="leave-event-button"
