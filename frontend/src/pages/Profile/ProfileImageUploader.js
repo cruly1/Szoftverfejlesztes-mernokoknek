@@ -131,11 +131,9 @@ function ProfileImageUploader({ nickname, onImageUpdate }) {
 
     return (
         <div className="image-upload-container">
-            {/* Display Profile Image */}
             <div className="profile-image">
                 <img src={profileImage || placeholderImage} alt="Profile" />
             </div>
-
             {/* File Input and "Choose File" Button */}
             <input type="file" id="file" name="image" onChange={handleFileChange} />
             <label htmlFor="file" className="custom-file-input">

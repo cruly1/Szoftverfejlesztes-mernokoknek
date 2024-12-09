@@ -157,10 +157,10 @@ function Profile() {
                     <div className="modal-content">
                         <h2>Edit Profile</h2>
                         <form onSubmit={handleSave}>
-                            {Object.keys(userData).map((key) => (
+                            {Object.keys(userData)?.map((key) => (
                                 key !== 'teamName' && key !== 'events' && key !== 'username' && key !== 'profileImageName' && key !== 'profileImageType' &&
                                 <div className="form-group" key={key}>
-                                    <label>{key.replace(/_/g, ' ').toUpperCase()}</label>
+                                    <label>{key?.replace(/_/g, ' ').toUpperCase()}</label>
                                     {key === 'gender' ? (
                                         <select
                                             name={key}
@@ -172,7 +172,7 @@ function Profile() {
                                         </select>
                                     ) : key === 'ingameRole' ? (
                                         <select name={key} value={editedData[key]} onChange={handleChange}>
-                                            {roles.map(role => <option key={role} value={role}>{role}</option>)}
+                                            {roles?.map(role => <option key={role} value={role}>{role}</option>)}
                                         </select>
                                     ) : (
                                         <input

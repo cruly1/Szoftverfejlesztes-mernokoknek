@@ -1,33 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import './EventList.css';
+import React, { useState, useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import "./EventList.css";
+import { LoadingContext } from '../../../LoadingWrapper';
 
 function EventList() {
   const [events, setEvents] = useState([]);
   const [currentEvents, setCurrentEvents] = useState([]);
   const [upcomingEvents, setUpcomingEvents] = useState([]);
   const [pastEvents, setPastEvents] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loadingLocal, setLoadingLocal] = useState(true);
   const [error, setError] = useState(null);
   const [joiningEvent, setJoiningEvent] = useState(false);
   const [participatingEvents, setParticipatingEvents] = useState([]);
   const [teamName, setTeamName] = useState(null);
   const [teamEvents, setTeamEvents] = useState([]);
+  const { setLoading } = useContext(LoadingContext);
 
-   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const nickName = localStorage.getItem('nickname');
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const nickName = localStorage.getItem("nickname");
 
     if (!token || !nickName) {
-      setError('Unauthorized access. Please log in.');
-      setLoading(false);
+      setError("Unauthorized access. Please log in.");
+      setLoadingLocal(false);
       return;
     }
-
+    setLoading(true);
     // Fetch all events
     axios
-      .get('http://localhost:8080/api/events/getAllEvents', {
+      .get("http://localhost:8080/api/events/getAllEvents", {
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       })
@@ -53,19 +55,22 @@ function EventList() {
       })
       .catch((err) => {
         console.error(err);
-        setError('Failed to fetch events.');
+        setError("Failed to fetch events.");
       });
 
     // Fetch player's details
     axios
-      .get(`http://localhost:8080/api/players/getByNickName/search?nickName=${nickName}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+      .get(
+        `http://localhost:8080/api/players/getByNickName/search?nickName=${nickName}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
       .then((response) => {
         const playerData = response.data;
         const playerEvents = playerData.events.map((event) => ({
           eventName: event.eventName,
-          type: 'solo',
+          type: "solo",
         }));
         setParticipatingEvents(playerEvents);
         setTeamName(playerData.teamName || null);
@@ -73,17 +78,20 @@ function EventList() {
         // Fetch team's events if player belongs to a team
         if (playerData.teamName) {
           axios
-            .get(`http://localhost:8080/api/teams/search?teamName=${playerData.teamName}`, {
-              headers: { Authorization: `Bearer ${token}` },
-            })
+            .get(
+              `http://localhost:8080/api/teams/search?teamName=${playerData.teamName}`,
+              {
+                headers: { Authorization: `Bearer ${token}` },
+              }
+            )
             .then((teamResponse) => {
               const teamEventData = teamResponse.data.events.map((event) => ({
                 eventName: event.eventName,
-                type: 'team',
+                type: "team",
               }));
               setTeamEvents(teamEventData);
             })
-            .catch((err) => console.error('Failed to fetch team events:', err));
+            .catch((err) => console.error("Failed to fetch team events:", err));
         }
       })
       .catch((err) => {
@@ -92,20 +100,23 @@ function EventList() {
       })
       .finally(() => {
         setLoading(false);
+        setLoadingLocal(false);
       });
   }, []);
 
   const handleJoinEventAsPlayer = async (eventName) => {
-    const nickName = localStorage.getItem('nickname');
-    const token = localStorage.getItem('token');
+    const nickName = localStorage.getItem("nickname");
+    const token = localStorage.getItem("token");
 
     if (!nickName || !token) {
-      alert('Player not logged in or unauthorized access.');
+      alert("Player not logged in or unauthorized access.");
       return;
     }
-
+    const minLoadingTime = 1500; // Minimum duration for loading animation in milliseconds
+    const startTime = Date.now(); // Record the start time
     setJoiningEvent(true);
 
+    setLoading(true);
     try {
       await axios.put(
         `http://localhost:8080/api/players/addToEvent/search?nickName=${nickName}&eventName=${eventName}`,
@@ -114,26 +125,38 @@ function EventList() {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      
-      setParticipatingEvents([...participatingEvents, { eventName, type: 'solo' }]);
+
+      setParticipatingEvents([
+        ...participatingEvents,
+        { eventName, type: "solo" },
+      ]);
     } catch (err) {
-      console.error('Error joining event as player:', err);
-      alert('Failed to join the event. Please try again.');
+      console.error("Error joining event as player:", err);
+      alert("Failed to join the event. Please try again.");
     } finally {
+      const elapsedTime = Date.now() - startTime;
+        const remainingTime = Math.max(minLoadingTime - elapsedTime, 0);
+
+        // Ensure loading lasts at least `minLoadingTime`
+        setTimeout(() => {
+            setLoading(false); // Stop loading animation
+        }, remainingTime);
       setJoiningEvent(false);
     }
   };
 
-  const handleJoinEventAsTeam = async (eventName) => {
-    const token = localStorage.getItem('token');
+   const handleJoinEventAsTeam = async (eventName) => {
+   const token = localStorage.getItem("token");
 
     if (!teamName) {
       alert("You don't belong to a team. Unable to join the event as a team.");
       return;
     }
-
+    const minLoadingTime = 1500; // Minimum duration for loading animation in milliseconds
+    const startTime = Date.now(); // Record the start time
     setJoiningEvent(true);
 
+    setLoading(true);
     try {
       await axios.put(
         `http://localhost:8080/api/teams/addToEvent/search?teamName=${teamName}&eventName=${eventName}`,
@@ -142,23 +165,73 @@ function EventList() {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      
-      setTeamEvents([...teamEvents, { eventName, type: 'team' }]);
+
+      setTeamEvents([...teamEvents, { eventName, type: "team" }]);
     } catch (err) {
-      console.error('Error joining event as team:', err);
-      alert('Failed to join the event as a team. Please try again.');
+      console.error("Error joining event as team:", err);
+      alert("Failed to join the event as a team. Please try again.");
     } finally {
+      const elapsedTime = Date.now() - startTime;
+        const remainingTime = Math.max(minLoadingTime - elapsedTime, 0);
+
+        // Ensure loading lasts at least `minLoadingTime`
+        setTimeout(() => {
+          setLoading(false); // Stop loading animation
+        }, remainingTime);
       setJoiningEvent(false);
     }
   };
+  const handleLeaveEvent = async (eventName) => {
+    const nickName = localStorage.getItem("nickname");
+    const token = localStorage.getItem("token");
+  
+    if (!nickName || !token) {
+      alert("Unauthorized access. Please log in.");
+      return;
+    }
+    const minLoadingTime = 1500; // Minimum duration for loading animation in milliseconds
+    const startTime = Date.now(); // Record the start time
+    setJoiningEvent(true);
+    
+    setLoading(true);
+    try {
+      // Call the leave event API
+      await axios.put(
+        `http://localhost:8080/api/players/leaveEvent/search?nickName=${nickName}&eventName=${eventName}`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+  
+      // Update the UI after successfully leaving the event
+      setParticipatingEvents((prev) => prev.filter((event) => event.eventName !== eventName));
+      setTeamEvents((prev) => prev.filter((event) => event.eventName !== eventName));
+  
+      
+    } catch (err) {
+      console.error("Error leaving event:", err);
+      alert("Failed to leave the event. Please try again.");
+    } finally {
+      const elapsedTime = Date.now() - startTime;
+      const remainingTime = Math.max(minLoadingTime - elapsedTime, 0);
 
-  if (loading) return <div>Loading events...</div>;
+        // Ensure loading lasts at least `minLoadingTime`
+        setTimeout(() => {
+          setLoading(false); // Stop loading animation
+        }, remainingTime);
+      setJoiningEvent(false);
+    }
+  };
+  
+
+  if (loadingLocal) return <div>Loading events...</div>;
   if (error) return <div>{error}</div>;
 
   const allParticipatingEvents = [...participatingEvents, ...teamEvents];
 
   return (
-     <div className="event-list-container">
+    <div className="event-list-container">
       <div className="upcoming-events">
         <h2>Upcoming Events</h2>
         {upcomingEvents.length > 0 ? (
@@ -180,10 +253,21 @@ function EventList() {
                 </Link>
                 <div className="event-actions">
                   {participation ? (
-                    <span className="already-joined-text">
-                      Already participating as{' '}
-                      {participation.type === 'team' ? `Team (${teamName})` : 'Solo'}
-                    </span>
+                    <div className="participation-actions">
+                      <span className="already-joined-text">
+                        Already participating {" "}
+                        {participation.type === "team"
+                          ? `with ${teamName}`
+                          : "individually"}
+                      </span>
+                      <button
+                        className="leave-event-button"
+                        onClick={() => handleLeaveEvent(event.eventName)}
+                        disabled={joiningEvent}
+                      >
+                        {joiningEvent ? "Leaving..." : "Leave Event"}
+                      </button>
+                    </div>
                   ) : (
                     <>
                       <button
@@ -191,7 +275,7 @@ function EventList() {
                         onClick={() => handleJoinEventAsPlayer(event.eventName)}
                         disabled={joiningEvent}
                       >
-                        {joiningEvent ? 'Joining...' : 'Join as Player'}
+                        {joiningEvent ? "Joining..." : "Join as Player"}
                       </button>
                       {teamName && (
                         <button
@@ -199,7 +283,7 @@ function EventList() {
                           onClick={() => handleJoinEventAsTeam(event.eventName)}
                           disabled={joiningEvent}
                         >
-                          {joiningEvent ? 'Joining...' : 'Join as Team'}
+                          {joiningEvent ? "Joining..." : "Join as Team"}
                         </button>
                       )}
                     </>

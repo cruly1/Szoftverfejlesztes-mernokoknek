@@ -59,6 +59,12 @@ public class PlayerController {
         return ResponseEntity.ok(playerMapper.toDTO(player));
     }
 
+    @PutMapping("leaveEvent/search")
+    public ResponseEntity<String> leaveEvent(@RequestParam("nickName") String nickName, @RequestParam("eventName") String eventName) {
+        String response = playerService.leaveEvent(nickName, eventName);
+        return ResponseEntity.ok(response);
+    }
+
     @DeleteMapping("{id}")
     public ResponseEntity<String> deletePlayer(@PathVariable("id") Long id) {
         String response = playerService.deletePlayerById(id);
