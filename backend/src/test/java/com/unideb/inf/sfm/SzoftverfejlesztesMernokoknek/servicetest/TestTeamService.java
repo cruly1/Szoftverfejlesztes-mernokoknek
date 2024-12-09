@@ -1,0 +1,1 @@
+package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.servicetest;

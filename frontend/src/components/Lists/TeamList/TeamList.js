@@ -28,8 +28,7 @@ function TeamList({ team }) {
       return;
     }
 
-    
-
+  
     setLoading(true);
 
     axios.get("http://localhost:8080/api/teams/getAllTeams", {
@@ -72,19 +71,31 @@ function TeamList({ team }) {
       
   }, []);
 
+   // Filter and set scrolling events
   useEffect(() => {
-    const events = team.events ? team.events : [];
-    setScrollingEvents([...events, ...events]);
+    const today = new Date();
+    if (team.events) {
+      const upcomingEvents = team.events
+        .filter(event => new Date(event.eventStartDate) > today) // Filter for upcoming events
+        .sort((a, b) => new Date(a.eventStartDate) - new Date(b.eventStartDate)) // Sort by start date
+        .slice(0, 3); // Limit to 3 closest events
+      setScrollingEvents(upcomingEvents);
+    } else {
+      setScrollingEvents([]);
+    }
   }, [team.events]);
 
+  // Periodically scroll events
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      setScrollingEvents(prevEvents => {
-        const [firstEvent, ...rest] = prevEvents;
-        return [...rest, firstEvent];
-      });
-    }, 3600000); 
-    return () => clearInterval(intervalId); 
+    if (scrollingEvents.length > 1) {
+      const intervalId = setInterval(() => {
+        setScrollingEvents(prevEvents => {
+          const [firstEvent, ...rest] = prevEvents;
+          return [...rest, firstEvent];
+        });
+      }, 3600000); // Change every 3 seconds
+      return () => clearInterval(intervalId); 
+    }
   }, [scrollingEvents]);
 
    const fetchPlayerImage = async (player) => {
@@ -311,18 +322,16 @@ const handleLeaveTeam = async () => {
     </button>
   ) : null}
 
-        <div className="scrolling-events-container">
+         <div className="scrolling-events-container">
           <div className="scrolling-events">
             {scrollingEvents.length > 0 ? (
               scrollingEvents.map((event, index) => (
-                event && event.eventName && event.eventDate ? ( // Check if event and properties exist
-                  <span key={`${event.eventName}-${index}`} className="scrolling-event-text">
-                    {event.eventName} ({event.eventDate})
-                  </span>
-                ) : null // If the event is undefined or lacks properties, render nothing
+                <span key={`${event.eventName}-${index}`} className="scrolling-event-text">
+                  {event.eventName} ({event.eventStartDate})
+                </span>
               ))
             ) : (
-              <span className="no-event-text">No events available</span>
+              <span className="no-event-text">No upcoming events available</span>
             )}
           </div>
         </div>

@@ -225,7 +225,7 @@
 //        // arrange
 //        String username = "testUser";
 //        Player player = new Player();
-//        Nationality nationality = new Nationality(2L, "ValidCountry", "ValidDemonym", "VD");
+//        Nationality nationality = new Nationality(2L, "ValidCountry", "VD");
 //        Team team = new Team();
 //        User user = new User();
 //        user.setUsername(username);
@@ -233,9 +233,9 @@
 //        when(authServiceUtils.findUserByUsername(username)).thenReturn(user);
 //        when(playerServiceUtils.hasRegisteredPlayer(user)).thenReturn(false);
 //        when(playerServiceUtils.getTeamByPlayer(player)).thenReturn(team);
-//        when(playerServiceUtils.isNotAllowedToJoinTeam(team.getPlayersInTeam())).thenReturn(false);
+//        when(playerServiceUtils.isAllowedToJoinTeam(team.getPlayersInTeam())).thenReturn(false);
 //        when(playerServiceUtils.isRoleTaken(player, team)).thenReturn(false);
-//        when(nationalityRepository.findByDemonym("ValidDemonym")).thenReturn(Optional.of(nationality));
+//        when(nationalityRepository.findByCountryName("ValidCountry")).thenReturn(Optional.of(nationality));
 //        when(playerRepository.save(player)).thenReturn(player);
 //
 //        player.setNationality(nationality);
@@ -248,7 +248,7 @@
 //        assertEquals(player, result);
 //        verify(authServiceUtils, times(1)).findUserByUsername(username);
 //        verify(playerServiceUtils, times(1)).getTeamByPlayer(player);
-//        verify(nationalityRepository, times(1)).findByDemonym("ValidDemonym");
+//        verify(nationalityRepository, times(1)).findByCountryName("ValidCountry");
 //        verify(playerRepository, times(1)).save(player);
 //    }
 //
@@ -282,7 +282,7 @@
 //        when(authServiceUtils.findUserByUsername(username)).thenReturn(user);
 //        when(playerServiceUtils.getTeamByPlayer(player)).thenReturn(team);
 //        when(playerServiceUtils.hasRegisteredPlayer(user)).thenReturn(false);
-//        when(playerServiceUtils.isNotAllowedToJoinTeam(team.getPlayersInTeam())).thenReturn(true);
+//        when(playerServiceUtils.isAllowedToJoinTeam(team.getPlayersInTeam())).thenReturn(true);
 //
 //        // act
 //        Player result = playerService.addPlayer(player, username);
@@ -291,7 +291,7 @@
 //        assertNull(result);
 //        verify(authServiceUtils, times(1)).findUserByUsername(username);
 //        verify(playerServiceUtils, times(1)).getTeamByPlayer(player);
-//        verify(playerServiceUtils, times(1)).isNotAllowedToJoinTeam(team.getPlayersInTeam());
+//        verify(playerServiceUtils, times(1)).isAllowedToJoinTeam(team.getPlayersInTeam());
 //    }
 //
 //    @Test
@@ -299,18 +299,18 @@
 //        // arrange
 //        String username = "testUser";
 //        Player player = new Player();
-//        player.setNationality(new Nationality(2L, "UnknownCountry", "UnknownDemonym", "UD"));
+//        player.setNationality(new Nationality(2L, "UnknownCountry", "UD"));
 //
 //        User user = new User();
 //        when(authServiceUtils.findUserByUsername(username)).thenReturn(user);
 //        when(playerServiceUtils.hasRegisteredPlayer(user)).thenReturn(false);
 //        when(playerServiceUtils.getTeamByPlayer(player)).thenReturn(null);
-//        when(nationalityRepository.findByDemonym("UnknownDemonym")).thenReturn(Optional.empty());
+//        when(nationalityRepository.findByCountryName("UnknownCountry")).thenReturn(Optional.empty());
 //
 //        // act & assert
 //        assertThrows(IllegalArgumentException.class, () -> playerService.addPlayer(player, username));
 //        verify(authServiceUtils, times(1)).findUserByUsername(username);
-//        verify(nationalityRepository, times(1)).findByDemonym("UnknownDemonym");
+//        verify(nationalityRepository, times(1)).findByCountryName("UnknownCountry");
 //    }
 //
 //    // ---------------------------------------------------------------------------
@@ -402,7 +402,7 @@
 //
 //        when(playerServiceUtils.findByNickName(nickName)).thenReturn(existingPlayer);
 //        when(playerServiceUtils.getTeamByPlayer(existingPlayer)).thenReturn(team);
-//        when(playerServiceUtils.isNotAllowedToJoinTeam(team.getPlayersInTeam())).thenReturn(false);
+//        when(playerServiceUtils.isAllowedToJoinTeam(team.getPlayersInTeam())).thenReturn(false);
 //        when(playerServiceUtils.isRoleTaken(existingPlayer, team)).thenReturn(false);
 //        when(playerRepository.save(existingPlayer)).thenReturn(existingPlayer);
 //
@@ -429,7 +429,7 @@
 //
 //        when(playerServiceUtils.findByNickName(nickName)).thenReturn(existingPlayer);
 //        when(playerServiceUtils.getTeamByPlayer(existingPlayer)).thenReturn(team);
-//        when(playerServiceUtils.isNotAllowedToJoinTeam(team.getPlayersInTeam())).thenReturn(true);
+//        when(playerServiceUtils.isAllowedToJoinTeam(team.getPlayersInTeam())).thenReturn(true);
 //
 //        // act
 //        Player result = playerService.updatePlayer(nickName, updatedPlayer);
@@ -452,7 +452,7 @@
 //
 //        when(playerServiceUtils.findByNickName(nickName)).thenReturn(existingPlayer);
 //        when(playerServiceUtils.getTeamByPlayer(existingPlayer)).thenReturn(team);
-//        when(playerServiceUtils.isNotAllowedToJoinTeam(team.getPlayersInTeam())).thenReturn(false);
+//        when(playerServiceUtils.isAllowedToJoinTeam(team.getPlayersInTeam())).thenReturn(false);
 //        when(playerServiceUtils.isRoleTaken(existingPlayer, team)).thenReturn(true);
 //
 //        // act

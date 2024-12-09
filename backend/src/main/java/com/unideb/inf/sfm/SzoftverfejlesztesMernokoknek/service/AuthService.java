@@ -43,4 +43,8 @@ public class AuthService {
 
         return AuthResponse.builder().token(jwtToken).refreshToken(refreshToken).build();
     }
+
+    public void invalidateToken(String token) {
+        jwtService.invalidateToken(token);
+    }
 }
