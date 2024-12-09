@@ -77,7 +77,8 @@
   cursor: not-allowed;
 }
 
-.delete-event-button {
+.leave-event-button {
+  margin-left: 10px;
   padding: 8px 16px;
   border: none;
   border-radius: 4px;
@@ -88,11 +89,11 @@
   transition: background-color 0.3s ease;
 }
 
-.delete-event-button:hover {
+.leave-event-button:hover {
   background-color: #c82333;
 }
 
-.delete-event-button:disabled {
+.leave-event-button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
 }
