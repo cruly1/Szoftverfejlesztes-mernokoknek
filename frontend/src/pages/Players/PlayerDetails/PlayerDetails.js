@@ -189,7 +189,7 @@ function PlayerDetails() {
       <div className="player-header">
         <img src={profileImage || placeholderImage} alt={`${player.firstName} ${player.lastName}`} className="player-icon" />
         <div className="player-name">
-          <h1>{player.firstName} "<span>{player.nickName}</span>" {player.lastName}</h1>
+          <h1>{player?.firstName} "<span>{player?.nickName}</span>" {player?.lastName}</h1>
           <img 
             src={`https://flagcdn.com/48x36/${player.countryCode.toLowerCase()}.png`} 
             alt={player.countryCode}
@@ -205,36 +205,36 @@ function PlayerDetails() {
           <Radar data={radarData} options={radarOptions} />
         </div>
         <div className="player-info-box">
-          <p><strong>Ingame Role:</strong> {capitalize(player.ingameRole)}</p>
-          <p><strong>Date of Birth:</strong> {player.dateOfBirth}</p>
-          <p><strong>Gender:</strong> {player.gender}</p>
-          <p><strong>Team:</strong> {player.teamName || 'No team'}</p>
+          <p><strong>Ingame Role:</strong> {capitalize(player?.ingameRole)}</p>
+          <p><strong>Date of Birth:</strong> {player?.dateOfBirth}</p>
+          <p><strong>Gender:</strong> {player?.gender}</p>
+          <p><strong>Team:</strong> {player?.teamName || 'No team'}</p>
 
           {/* Display past events */}
            <div className="events-section">
             <h3>Past Events</h3>
-            {pastEvents.length > 0 ? (
+            {pastEvents?.length > 0 ? (
               <ul>
-                {pastEvents.map((event, index) => (
-                  <li key={index}>{event.eventName} ({event.eventStartDate} - {event.eventEndDate})</li>
+                {pastEvents?.map((event, index) => (
+                  <li key={index}>{event?.eventName} ({event?.eventStartDate} - {event?.eventEndDate})</li>
                 ))}
               </ul>
             ) : <p>No past events</p>}
 
             <h3>Ongoing Events</h3>
-            {ongoingEvents.length > 0 ? (
+            {ongoingEvents?.length > 0 ? (
               <ul>
-                {ongoingEvents.map((event, index) => (
-                  <li key={index}>{event.eventName} ({event.eventStartDate} - {event.eventEndDate})</li>
+                {ongoingEvents?.map((event, index) => (
+                  <li key={index}>{event?.eventName} ({event?.eventStartDate} - {event?.eventEndDate})</li>
                 ))}
               </ul>
             ) : <p>No ongoing events</p>}
 
             <h3>Upcoming Events</h3>
-            {upcomingEvents.length > 0 ? (
+            {upcomingEvents?.length > 0 ? (
               <ul>
-                {upcomingEvents.map((event, index) => (
-                  <li key={index}>{event.eventName} ({event.eventStartDate} - {event.eventEndDate})</li>
+                {upcomingEvents?.map((event, index) => (
+                  <li key={index}>{event?.eventName} ({event?.eventStartDate} - {event?.eventEndDate})</li>
                 ))}
               </ul>
             ) : <p>No upcoming events</p>}

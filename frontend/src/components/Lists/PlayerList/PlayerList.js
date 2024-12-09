@@ -12,22 +12,20 @@ function PlayerList() {
 
  
   useEffect(() => {
-    const token = localStorage.getItem('token'); 
+    const token = localStorage?.getItem('token'); 
 
     if (!token) {
       setError('Unauthorized access. Please log in.');
       setLoading(false);
       return;
     }
-    // Set up headers with the Bearer token
-    console.log("Token:", token);
+    
     axios.get('http://localhost:8080/api/players/getAllPlayers', {
       headers: { Authorization: `Bearer ${token}` },
       withCredentials: true
     })
       .then(response => {
         setPlayers(response?.data); 
-        console.log("Players:", response?.data);
       })
       .catch((error) => {
         console.error("Error fetching players:", error);

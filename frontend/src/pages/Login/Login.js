@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 
+
 function Login({ onLogin }) {
   const [credentials, setCredentials] = useState({ username: '', password: '' });
   const [error, setError] = useState(null);
@@ -20,7 +21,8 @@ function Login({ onLogin }) {
     try {
       const response = await axios.post('http://localhost:8080/api/auth/authenticate', credentials, { withCredentials: true });
       const { token } = response.data;
-      onLogin(token, credentials.username); // Pass token and username
+      onLogin(token, credentials.username);
+      setError(null); // Clear any previous error on successful login
     } catch (err) {
       setError('Authentication failed. Please check your credentials.');
     }
@@ -29,7 +31,7 @@ function Login({ onLogin }) {
   return (
     <div>
       <h2>Login</h2>
-      {error && <p>{error}</p>}
+      {error && <p className="auth-error-message">{error}</p>}
       <form onSubmit={handleSubmit}>
         <input name="username" type="text"value={credentials.username} onChange={handleChange} placeholder="Username" required />
          <div className="password-input">

@@ -67,6 +67,7 @@
     box-shadow: 0 3px 8px rgba(23, 162, 184, 0.3);
 }
 
+
 .hamburger {
     display: none;
     cursor: pointer;
@@ -120,4 +121,12 @@
     .hamburger.active div:nth-child(3) {
         transform: rotate(-45deg) translateY(-6px);
     }
+
+    .logout-button {
+        width: 100%; /* Full width for logout on mobile */
+        padding: 12px 0; /* Adjust padding */
+        font-size: 1.2rem; /* Larger font size on mobile */
+    }
 }
+
+
