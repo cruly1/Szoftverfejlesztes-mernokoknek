@@ -109,7 +109,7 @@ public class PlayerService {
         Player player = playerServiceUtils.findByNickName(nickName);
         Event event = eventServiceUtils.findByEventName(eventName);
 
-        if (player.getTeam() == null) {
+        if (player.getTeam() != null) {
             Team team = playerServiceUtils.getTeamByPlayer(player);
             team.getEvents().remove(event);
             event.getTeams().remove(team);
