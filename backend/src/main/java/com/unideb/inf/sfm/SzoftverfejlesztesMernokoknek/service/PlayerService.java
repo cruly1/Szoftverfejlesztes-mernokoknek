@@ -7,6 +7,7 @@ import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.*;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.EventRepository;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.NationalityRepository;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.PlayerRepository;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.TeamRepository;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.utils.AuthServiceUtils;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.utils.EventServiceUtils;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.utils.PlayerServiceUtils;
@@ -29,6 +30,7 @@ public class PlayerService {
     private final AuthServiceUtils authServiceUtils;
     private final EventServiceUtils eventServiceUtils;
     private final NationalityRepository nationalityRepository;
+    private final TeamRepository teamRepository;
 
     // tested
     public PlayerDTO getPlayerByNickName(String nickName) {
@@ -101,6 +103,26 @@ public class PlayerService {
         }
 
         return playerRepository.save(player);
+    }
+
+    public String leaveEvent(String nickName, String eventName) {
+        Player player = playerServiceUtils.findByNickName(nickName);
+        Event event = eventServiceUtils.findByEventName(eventName);
+
+        if (player.getTeam() == null) {
+            Team team = playerServiceUtils.getTeamByPlayer(player);
+            team.getEvents().remove(event);
+            event.getTeams().remove(team);
+            teamRepository.save(team);
+        }
+
+        player.getEvents().remove(event);
+        event.getPlayers().remove(player);
+
+        playerRepository.save(player);
+        eventRepository.save(event);
+
+        return "Event left successfully.";
     }
 
     // TODO test
