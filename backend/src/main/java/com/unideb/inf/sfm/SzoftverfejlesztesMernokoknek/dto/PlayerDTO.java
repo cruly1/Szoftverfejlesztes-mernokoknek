@@ -2,7 +2,6 @@ package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.dto;
 
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.enums.EGender;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.enums.EIngameRoles;
-import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.enums.ENationality;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +22,8 @@ public class PlayerDTO {
     private EIngameRoles ingameRole;
     private LocalDate dateOfBirth;
     private EGender gender;
-    private ENationality nationality;
+    private String countryName;
+    private String countryCode;
     private String teamName;
     private Set<EventDTO> events = new HashSet<>();
     private String username;

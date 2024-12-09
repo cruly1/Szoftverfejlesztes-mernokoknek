@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TeamList from '../../components/Lists/TeamList/TeamList';
 import axios from 'axios';
 import './Teams.css';
@@ -9,10 +9,17 @@ function Teams() {
   const [error, setError] = useState(null);
   const [isAddTeamModalOpen, setIsAddTeamModalOpen] = useState(false);
   const [newTeamName, setNewTeamName] = useState("");
-   const token = localStorage.getItem('token');// Check if user is logged in
+  const token = localStorage.getItem('token');// Check if user is logged in
 
   useEffect(() => {
     const token = localStorage.getItem('token');
+
+    if (!token) {
+      setError('Unauthorized access. Please log in.');
+      setLoading(false);
+      return;
+    }
+    
     axios.get("http://localhost:8080/api/teams/getAllTeams", {
       headers: { Authorization: `Bearer ${token}` },
       withCredentials: true
@@ -38,7 +45,9 @@ function Teams() {
   };
 
   const handleAddTeamSubmit = (e) => {
+    
     e.preventDefault();
+    
     if (!newTeamName.trim()) {
       alert("Please enter a team name.");
       return;
@@ -55,27 +64,27 @@ function Teams() {
         setIsAddTeamModalOpen(false); // Close modal
         setNewTeamName(""); // Clear the input
       })
+      
       .catch(err => {
         console.error("Error adding team:", err);
         alert("Failed to add team. Please try again.");
       });
+      
   };
 
-  if (loading) return <div>Loading teams...</div>;
-  if (error) return <div>{error}</div>;
-
+  
   return (
     <div className="teams-page">
       <h1>Teams</h1>
-
+    <div className="add-team-container">
       {token && (
         <button onClick={handleAddTeamClick} className="add-team-button">Add Team</button>
       )}
-
+    </div>
       <div className="teams-list">
-        {teams.map(team => (
+        {token ? (teams.map(team => (
           <TeamList key={team.id} team={team} />
-        ))}
+        ))): <div className='unauthorized-access'>Unauthorized access. Please log in.</div>}
       </div>
 
       {isAddTeamModalOpen && (

@@ -2,9 +2,9 @@ package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model;
 
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.enums.EGender;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.enums.EIngameRoles;
-import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.enums.ENationality;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.validation.MinAge;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import lombok.*;
 
@@ -56,9 +56,10 @@ public class Player {
     @Enumerated(EnumType.STRING)
     private EGender gender;
 
-    @Column(name = "nationality", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private ENationality nationality;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "nationality_id")
+    @NotNull
+    private Nationality nationality;
 
     @ManyToOne
     private Team team;

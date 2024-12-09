@@ -1,32 +1,47 @@
 import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import './Register.css';
 
 function Register({ onRegisterSuccess }) {
-    const [formData, setFormData] = useState({ username: '', password: '', email: '' });
+    const [formData, setFormData] = useState({ username: '', password: '',confirmPassword: '' , email: ''});
     const [error, setError] = useState(null);
     const [emailError, setEmailError] = useState(null);
-    const [isEmailValid, setIsEmailValid] = useState(false);
+    const [showPassword, setShowPassword] = useState(false); // State for password visibility
+
+    // Email validation function
+    const validateEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+        return emailRegex.test(email);
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
-        
-        // Validate email format
+
         if (name === 'email') {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            setIsEmailValid(emailRegex.test(value));
-            setEmailError(!emailRegex.test(value) ? 'Please enter a valid email address.' : null);
+            if (!validateEmail(value)) {
+                setEmailError('Please enter a valid email address');
+            } else {
+                setEmailError(null);
+            }
         }
     };
-
+    const toggleShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError(null);
 
-        // Check for email validation before proceeding
-        if (emailError) {
+         // Check if passwords match
+        if (formData.password !== formData.confirmPassword) {
+            setError("Passwords do not match. Please try again.");
             return;
         }
 
+        if (emailError) return; // Prevent submission if email is invalid
         try {
             await axios.post('http://localhost:8080/api/auth/register', formData);
             onRegisterSuccess();
@@ -38,10 +53,9 @@ function Register({ onRegisterSuccess }) {
     return (
         <div>
             <h2>Register</h2>
-            {error && <p className="auth-error-message">{error}</p>}
+            {error && <p className="error-message">{error}</p>}
             <form onSubmit={handleSubmit}>
                 <input
-                    className={`auth-input ${isEmailValid ? 'valid' : 'invalid'}`}
                     name="username"
                     type="text"
                     value={formData.username}
@@ -49,26 +63,44 @@ function Register({ onRegisterSuccess }) {
                     placeholder="Username"
                     required
                 />
+                <div className="password-input">
+                    <input
+                        name="password"
+                        type={showPassword ? 'text' : 'password'}
+                        value={formData.password}
+                        onChange={handleChange}
+                        placeholder="Password"
+                        required
+                        
+                    />
+                    <button
+                        type="button"
+                        onClick={toggleShowPassword}
+                        className="toggle-password"
+                    >
+                        <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                    </button>
+                    
+                </div>
                 <input
-                    className={`auth-input ${isEmailValid ? 'valid' : 'invalid'}`}
+                    name="confirmPassword"
+                    type="password"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    placeholder="Confirm Password"
+                    required
+                />
+                <input
                     name="email"
                     type="email"
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="Email"
                     required
+                    className={emailError ? 'input-error' : 'input-valid'}
                 />
-                {emailError && <p className="auth-error-message">{emailError}</p>}
-                <input
-                    className="auth-input"
-                    name="password"
-                    type="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    placeholder="Password"
-                    required
-                />
-                <button type="submit" className="auth-submit-btn">Register</button>
+                {emailError && <p className="error-message">{emailError}</p>}
+                <button type="submit">Register</button>
             </form>
         </div>
     );

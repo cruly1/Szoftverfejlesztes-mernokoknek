@@ -9,7 +9,7 @@ function Players() {
 
   useEffect(() => {
     // Animate the heading (letter by letter)
-    const headingChars = headingRef.current.innerText.split('').map(char => `<span>${char}</span>`).join('');
+    const headingChars = headingRef?.current?.innerText?.split('')?.map(char => `<span>${char}</span>`)?.join('');
     headingRef.current.innerHTML = headingChars;
     setTimeout(() => {
     gsap?.fromTo(

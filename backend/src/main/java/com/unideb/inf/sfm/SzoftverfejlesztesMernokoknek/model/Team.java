@@ -1,6 +1,7 @@
 package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,6 +34,7 @@ public class Team {
     private Long id;
 
     @Column(name = "team_name", nullable = false, unique = true, length = 20)
+    @NotBlank
     private String teamName;
 
     @OneToMany(mappedBy = "team")

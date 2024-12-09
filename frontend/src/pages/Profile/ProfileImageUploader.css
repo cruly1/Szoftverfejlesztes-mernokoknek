@@ -1,0 +1,74 @@
+/* Contain the profile image and file input */
+.image-upload-container {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+/* Profile Image Display */
+.profile-image img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #17a2b8;
+    margin-bottom: 1rem;
+}
+
+/* File Input Style (Hidden) */
+input[type="file"] {
+    display: none; /* Hide the default file input */
+}
+
+/* Custom File Input Button */
+label.custom-file-input {
+    background-color: transparent;
+    border: 2px solid #17a2b8;
+    color: #17a2b8;
+    padding: 0.5rem 1.5rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    display: inline-block;
+    text-align: center;
+    margin-right: 1rem;
+}
+
+/* Hover Effects */
+label.custom-file-input:hover {
+    background-color: #17a2b8;
+    color: #fff;
+    transform: scale(1.05);
+}
+
+/* Active Effects */
+label.custom-file-input:active {
+    transform: scale(1);
+}
+
+/* Custom Upload Button */
+.custom-upload-button {
+    background-color: transparent;
+    border: 2px solid #17a2b8;
+    color: #17a2b8;
+    padding: 0.5rem 1.5rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    margin-top: 1rem;
+}
+
+/* Hover Effects */
+.custom-upload-button:hover {
+    background-color: #17a2b8;
+    color: #fff;
+    transform: scale(1.05);
+}
+
+/* Active Effects */
+.custom-upload-button:active {
+    transform: scale(1);
+}

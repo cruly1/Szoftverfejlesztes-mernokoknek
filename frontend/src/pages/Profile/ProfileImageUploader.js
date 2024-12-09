@@ -1,12 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './ProfileImageUploader.css';
 
-function ProfileImageUploader({ nickname }) {
+function ProfileImageUploader({ nickname, onImageUpdate }) {
     const [selectedFile, setSelectedFile] = useState(null);
     const [profileImage, setProfileImage] = useState(null);
     const [profileImageName, setProfileImageName] = useState(null);
+    const [fileName, setFileName] = useState(''); // New state to store file name
     const placeholderImage = "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg";
     
+    const TARGET_WIDTH = 300;
+    const TARGET_HEIGHT = 300;
+
+    useEffect(() => {
+        const fetchProfileData = async () => {
+            const token = localStorage.getItem('token');
+            try {
+                const response = await axios.get(`http://localhost:8080/api/players/getByNickName/search?nickName=${nickname}`, {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+                const imageName = response.data.profileImageName;
+                setProfileImageName(imageName);
+            } catch (err) {
+                console.error("Error fetching player data:", err);
+                setProfileImage(placeholderImage);
+            }
+        };
+        fetchProfileData();
+    }, [nickname]);
+
+    useEffect(() => {
+        if (profileImageName) {
+            fetchProfileImage(profileImageName);
+        }
+    }, [profileImageName]);
+
     const TARGET_WIDTH = 300;
     const TARGET_HEIGHT = 300;
 
@@ -58,6 +86,7 @@ function ProfileImageUploader({ nickname }) {
         if (file) {
             const timestampedFile = await addTimestampToFile(file, TARGET_WIDTH, TARGET_HEIGHT);
             setSelectedFile(timestampedFile);
+            setFileName(file.name); // Set the file name to display it
         }
     };
 
@@ -103,8 +132,8 @@ function ProfileImageUploader({ nickname }) {
             
             alert("Image uploaded successfully!");
             setSelectedFile(null);
+            setFileName(''); // Reset file name after upload
 
-            // Fetch the player data to get the updated profileImageName
             const response = await axios.get(`http://localhost:8080/api/players/getByNickName/search?nickName=${nickname}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
@@ -112,6 +141,9 @@ function ProfileImageUploader({ nickname }) {
             const updatedImageName = response.data.profileImageName;
             setProfileImageName(updatedImageName);
             fetchProfileImage(updatedImageName); 
+            if (onImageUpdate) {
+                onImageUpdate(updatedImageName);
+            }
 
         } catch (err) {
             console.error("Error uploading image:", err);
@@ -128,8 +160,14 @@ function ProfileImageUploader({ nickname }) {
             <div className="profile-image">
                 <img src={profileImage || placeholderImage} alt="Profile" />
             </div>
-            <input type="file" name="image" onChange={handleFileChange} />
-            <button onClick={uploadImage}>Upload Image</button>
+            {/* File Input and "Choose File" Button */}
+            <input type="file" id="file" name="image" onChange={handleFileChange} />
+            <label htmlFor="file" className="custom-file-input">
+                {fileName || "Choose File"} {/* Display file name if selected, or default "Choose File" */}
+            </label>
+            
+            {/* Upload Image Button */}
+            <button className="custom-upload-button" onClick={uploadImage}>Upload Image</button>
         </div>
     );
 }

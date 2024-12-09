@@ -86,21 +86,24 @@
 @media (max-width: 768px) {
     .nav-links {
         flex-direction: column;
-        gap: 12px;
+        pointer-events: none; /* Disable interaction when hidden */
+        visibility: hidden;
         position: absolute;
         top: 100%;
         right: 0;
         background-color: #1c1c1c;
         width: 100%;
-        transform: translateX(100%);
+        transform: translateY(100%);
         opacity: 0;
         transition: transform 0.5s ease, opacity 0.5s ease;
         padding: 10px 0;
     }
 
     .nav-links.active {
-        transform: translateX(0);
-        opacity: 1;
+    transform: translateY(-10%);
+    opacity: 1;
+    visibility: visible; /* Show the navbar when active */
+    pointer-events: auto; /* Enable interaction */
     }
 
     .hamburger {

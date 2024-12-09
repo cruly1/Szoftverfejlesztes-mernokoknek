@@ -13,4 +13,5 @@ import org.springframework.stereotype.Service;
 @Builder
 public class AuthResponse {
     private String token;
+    private String refreshToken;
 }

@@ -73,13 +73,20 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  max-width: 600px;
-  height: 400px;
+  max-width: 100%; /* A szélesség most már nem haladja meg a szülő elemét */
+  height: 400px; /* Az alap magasság meghatározása */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
   border: 1px solid black;
   box-shadow: 0 0 7px black;
+  overflow: hidden; /* Ha a tartalom nagyobb lenne, mint a konténer, ne lógjon ki */
 }
 
+@media (max-width: 768px) {
+  .chart-placeholder {
+    padding: 20px; /* Csökkentett padding mobilon */
+    height: 250px; /* Kisebb magasság mobilon */
+  }
+}
 .player-info-box {
   flex: 1;
   padding: 20px;
@@ -183,4 +190,8 @@
 
 .teammate-link:hover .teammate-name {
   color: #17a2b8;
+}
+
+.coach {
+  color: red;
 }

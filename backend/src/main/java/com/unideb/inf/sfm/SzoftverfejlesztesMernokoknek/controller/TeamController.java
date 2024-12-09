@@ -21,12 +21,6 @@ public class TeamController {
     private final TeamService teamService;
     private final TeamMapper teamMapper;
 
-    @GetMapping("{id}")
-    public ResponseEntity<TeamDTO> getTeamById(@PathVariable("id") Long teamId) {
-        TeamDTO teamDTO = teamService.getTeamById(teamId);
-        return ResponseEntity.ok(teamDTO);
-    }
-
     @GetMapping(value = "search")
     public ResponseEntity<TeamDTO> getTeamByTeamName(@RequestParam("teamName") String teamName) {
         TeamDTO teamDTO = teamService.getTeamByTeamName(teamName);
@@ -39,9 +33,14 @@ public class TeamController {
         return new ResponseEntity<>(teamMapper.toDTO(savedTeam), HttpStatus.CREATED);
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<TeamDTO> updateTeam(@PathVariable("id") Long teamId, @RequestBody Team updatedTeam) {
-        Team team = teamService.updateTeam(teamId, updatedTeam);
+    @PutMapping("addToEvent/search")
+    public String addTeamToEvent(@RequestParam("teamName") String teamName, @RequestParam("eventName") String eventName) {
+        return teamService.addTeamToEvent(teamName, eventName);
+    }
+
+    @PutMapping(value = "search")
+    public ResponseEntity<TeamDTO> updateTeam(@RequestParam("teamName") String teamName, @RequestBody Team updatedTeam) {
+        Team team = teamService.updateTeam(teamName, updatedTeam);
         return ResponseEntity.ok(teamMapper.toDTO(team));
     }
 
@@ -55,10 +54,5 @@ public class TeamController {
     public ResponseEntity<List<TeamDTO>> getAllTeams() {
         List<TeamDTO> teamDTOS = teamService.getAllTeams();
         return ResponseEntity.ok(teamDTOS);
-    }
-
-    @PostMapping("{teamId}/events/{eventId}")
-    public String addTeamToEvent(@PathVariable("teamId") Long teamId, @PathVariable("eventId") Long eventId) {
-        return teamService.addTeamToEvent(teamId, eventId);
     }
 }

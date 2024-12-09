@@ -15,6 +15,14 @@ function Profile() {
 
     const roles = ["IGL", "ENTRY", "SUPPORT", "LURKER", "AWP", "COACH"];
 
+    const handleImageUpdate = (updatedImageName) => {
+        setUserData((prevData) => ({
+            ...prevData,
+            profileImageName: updatedImageName,
+        }));
+    };
+
+
     // Fetch current user profile data
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -78,19 +86,41 @@ function Profile() {
         }
         const token = localStorage.getItem('token');
         const oldNickname = localStorage.getItem('nickname');
-        
-        axios.put(`http://localhost:8080/api/players/updatePlayer/search?nickName=${oldNickname}`, editedData, {
+        console.log("oldNickname", oldNickname);
+        console.log("editedData", editedData);
+        console.log("userData", userData);
+        const updatedData = {
+            firstName: editedData.firstName,
+            lastName: editedData.lastName,
+            nickName: editedData.nickName,
+            ingameRole: editedData.ingameRole,
+            dateOfBirth: editedData.dateOfBirth,
+            gender: editedData.gender,
+            nationality: {
+                countryName: editedData.countryName,
+            },
+            profileImageName: userData.profileImageName,
+            profileImageType: userData.profileImageType,
+            ...(userData.teamName // Check if the player has a team
+            ? { team: { teamName: userData.teamName } } // If the player has a team
+            : { teamName: userData.teamName } // If the player doesn't have a team
+    ),
+        };
+
+        console.log("updatedData", updatedData);
+        axios.put(`http://localhost:8080/api/players/updatePlayer/search?nickName=${oldNickname}`, updatedData, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`,
                 
-            }
+            },
+            withCredentials: true,
         })
         .then(response => {
             setUserData(response.data);
             setIsModalOpen(false);
-            if (editedData.nickName && editedData.nickName !== oldNickname) {
-                localStorage.setItem('nickname', editedData.nickName);
+            if (updatedData.nickName && updatedData.nickName !== oldNickname) {
+                localStorage.setItem('nickname', updatedData.nickName);
             }
         })
         .catch(err => {
@@ -107,20 +137,18 @@ function Profile() {
     return (
         <div className="profile-container">
             <h1>Profile</h1>
-
-            {/* Image Upload Component */}
             
-            <ProfileImageUploader nickname={nickname} profileImageName={userData?.profileImageName} />
+            <ProfileImageUploader nickname={nickname} profileImageName={userData.profileImageName} onImageUpdate={handleImageUpdate}/>
 
 
             <div className="profile-info">
-                <p><strong>First Name:</strong> {userData?.firstName}</p>
-                <p><strong>Last Name:</strong> {userData?.lastName}</p>
-                <p><strong>Nick Name:</strong> {userData?.nickName}</p>
-                <p><strong>In-game Role:</strong> {userData?.ingameRole}</p>
-                <p><strong>Date of Birth:</strong> {userData?.dateOfBirth}</p>
-                <p><strong>Gender:</strong> {userData?.gender}</p>
-                <p><strong>Nationality:</strong> {userData?.nationality}</p>
+            <p><strong>First Name:</strong> <span>{userData.firstName}</span></p>
+            <p><strong>Last Name:</strong> <span>{userData.lastName}</span></p>
+            <p><strong>Nick Name:</strong> <span>{userData.nickName}</span></p>
+            <p><strong>In-game Role:</strong> <span>{userData.ingameRole}</span></p>
+            <p><strong>Date of Birth:</strong> <span>{userData.dateOfBirth}</span></p>
+            <p><strong>Gender:</strong> <span>{userData.gender.toLowerCase()}</span></p>
+            <p><strong>Nationality:</strong> <span>{userData.countryName.toLowerCase()}</span></p>
             </div>
             <button type="button" className="edit-button" onClick={handleEdit}>Edit</button>
 

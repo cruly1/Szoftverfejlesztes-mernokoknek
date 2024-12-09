@@ -117,6 +117,11 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -124,6 +129,28 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.12</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<excludes>
+								<exclude>com/unideb/inf/sfm/SzoftverfejlesztesMernokoknek/dto/**</exclude>
+								<exclude>com/unideb/inf/sfm/SzoftverfejlesztesMernokoknek/exception/**</exclude>
+								<exclude>com/unideb/inf/sfm/SzoftverfejlesztesMernokoknek/model/**</exclude>
+								<exclude>com/unideb/inf/sfm/SzoftverfejlesztesMernokoknek/repository/**</exclude>
+							</excludes>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

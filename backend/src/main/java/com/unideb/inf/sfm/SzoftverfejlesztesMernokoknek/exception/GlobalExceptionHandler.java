@@ -1,5 +1,6 @@
 package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception;
 
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.customexceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -60,6 +61,16 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(PlayerAlreadyExistsException.class)
     public ResponseEntity<ErrorResponse> handlePlayerAlreadyExistsException(PlayerAlreadyExistsException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                ex.getMessage(),
+                System.currentTimeMillis()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(EventInvalidDateAssigned.class)
+    public ResponseEntity<ErrorResponse> handleEventInvalidDateAssigned(EventInvalidDateAssigned ex) {
         ErrorResponse errorResponse = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
                 ex.getMessage(),

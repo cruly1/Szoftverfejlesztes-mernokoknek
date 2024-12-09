@@ -1,11 +1,11 @@
 package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.service;
 
-import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.ResourceNotFoundException;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Image;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Player;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.ImageRepository;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.PlayerRepository;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.utils.ImageUtils;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.utils.PlayerServiceUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,6 +18,7 @@ import java.util.Optional;
 public class ImageService {
 
     private final PlayerRepository playerRepository;
+    private final PlayerServiceUtils playerServiceUtils;
     private final ImageRepository imageRepository;
     private final ImageUtils imageUtils;
 
@@ -27,9 +28,7 @@ public class ImageService {
     }
 
     public String uploadImage(MultipartFile file, String nickName) throws IOException {
-        Player player = playerRepository.findByNickName(nickName).orElseThrow(
-                () -> new ResourceNotFoundException(-1L, "Player"));
-
+        Player player = playerServiceUtils.findByNickName(nickName);
         String formattedImageName = player.getNickName() + "-" + file.getOriginalFilename();
 
         Image image = imageRepository.save(Image.builder()

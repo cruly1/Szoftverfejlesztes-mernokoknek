@@ -1,8 +1,10 @@
 package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model;
 
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.enums.ERole;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.validation.StrongPassword;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -34,9 +36,12 @@ public class User implements UserDetails {
     private Long id;
 
     @Column(nullable = false, unique = true)
+    @NotBlank
     private String username;
 
     @Column(nullable = false)
+    @NotBlank
+    //@StrongPassword
     private String password;
 
     @Column(nullable = false, unique = true)

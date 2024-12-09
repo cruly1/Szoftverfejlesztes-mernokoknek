@@ -1,43 +1,120 @@
 .event-detail {
-  max-width: 800px;
-  margin: auto;
-  padding: 20px;
-  background-color: rgba(0, 0, 0, 0.7);
-  color: white;
-  border-radius: 10px;
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #343a40; /* Háttérszín */
+  color: #f1f1f1;
+  border-radius: 15px;
+  border: 2px solid black; /* Keret */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  font-family: 'Poppins', sans-serif;
   text-align: center;
 }
 
 .event-detail h1 {
-  font-size: 2.5rem;
-  color: #17a2b8;
+  font-size: 3rem;
+  color: #17a2b8; /* Cím színe */
+  text-shadow: 0 3px 6px rgba(23, 162, 184, 0.6);
+  margin-bottom: 20px;
 }
 
 .event-detail p {
   font-size: 1.2rem;
-  margin: 10px 0;
+  line-height: 1.8;
+  margin: 15px 0;
+  color: #e9ecef; /* Világos szürke a szövegekhez */
 }
 
 .participants-section {
-  margin-top: 20px;
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #495057; /* Sötétebb szekció háttér */
+  border-radius: 10px;
+  border: 2px solid black; /* Kisebb keret */
+  text-align: left;
 }
 
 .participants-section h2 {
-  font-size: 1.8rem;
-  color: #17a2b8;
-  margin-bottom: 10px;
+  font-size: 2rem;
+  color: #17a2b8; /* Alcímek színe */
+  margin-bottom: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 10px;
 }
 
 .participants-section ul {
-  list-style-type: none;
+  list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .participants-section ul ul {
-  padding-left: 20px;
+  margin-left: 20px;
+  border-left: 2px solid rgba(255, 255, 255, 0.2);
+  padding-left: 15px;
 }
 
 .participants-section li {
+  font-size: 1.1rem;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #e5e5e5;
+  transition: transform 0.3s, background 0.3s;
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Finom szegély */
+}
+
+.participants-section li:hover {
+  background: rgba(23, 162, 184, 0.2);
+  transform: translateX(10px);
+  color: #f1f1f1;
+}
+
+.participants-section ul ul li {
   font-size: 1rem;
-  color: #ccc;
+  color: #c5c5c5;
+}
+
+/* Reszponzivitás hozzáadása */
+@media (max-width: 768px) {
+  .event-detail {
+    padding: 20px;
+  }
+
+  .event-detail h1 {
+    font-size: 2.5rem;
+  }
+
+  .event-detail p {
+    font-size: 1rem;
+  }
+
+  .participants-section h2 {
+    font-size: 1.5rem;
+  }
+
+  .participants-section li {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .event-detail {
+    padding: 15px;
+  }
+
+  .event-detail h1 {
+    font-size: 2rem;
+  }
+
+  .participants-section h2 {
+    font-size: 1.2rem;
+  }
+
+  .participants-section li {
+    font-size: 0.8rem;
+    padding: 6px;
+  }
 }

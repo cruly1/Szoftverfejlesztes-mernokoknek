@@ -8,10 +8,11 @@ import PlayerDetails from './pages/Players/PlayerDetails/PlayerDetails';
 import Teams from './pages/Teams/Teams';
 import Events from './pages/Events/Events';
 import Profile from './pages/Profile/Profile';
-import ErrorPage from './pages/ErrorPage/ErrorPage';
+import LoginRequiredPage from './pages/ErrorPage/LoginRequiredPage'; // Importing the new component
 import LoadingCS2 from './components/LoadingCS2/LoadingCS2';
 import EventDetails from './pages/Events/EventDetails/EventDetails';
 import axios from 'axios';
+import ErrorPage from './pages/ErrorPage/ErrorPage';
 
 axios.defaults.withCredentials = true;
 
@@ -44,8 +45,9 @@ function App() {
     navigate("/"); // Redirect to home page after logout
   };
 
-  const handleProfileSetupComplete = () => {
-    setLoggedIn(true); // Update the loggedIn state after profile setup
+  const handleProfileSetupComplete = (nickname) => {
+    // Call handleLogin after profile setup
+    handleLogin(localStorage.getItem('token'), nickname);
   };
 
   return (
@@ -57,10 +59,13 @@ function App() {
       </header>
 
       <Routes>
-        <Route path="/" element={<Home onLogin={handleLogin} loggedIn={loggedIn} onProfileSetupComplete={handleProfileSetupComplete}/>} />
-        <Route path="/players" element={<Players />} />
-        <Route path="/teams" element={<Teams />} />
-        <Route path="/events" element={<Events />} />
+        <Route path="/" element={<Home onLogin={handleLogin} loggedIn={loggedIn} onProfileComplete={handleProfileSetupComplete} />} />
+
+        {/* Protected Routes */}
+        <Route path="/players" element={loggedIn ? <Players /> : <LoginRequiredPage />} />
+        <Route path="/teams" element={loggedIn ? <Teams /> : <LoginRequiredPage />} />
+        <Route path="/events" element={loggedIn ? <Events /> : <LoginRequiredPage />} />
+        
         <Route path="/players/:id" element={<PlayerDetails />} />
         <Route path="/events/:eventName" element={<EventDetails />} />
         <Route path="/profile" element={<Profile />} />

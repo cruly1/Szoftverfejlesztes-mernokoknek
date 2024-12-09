@@ -1,6 +1,8 @@
+/* General Styling for the Player List */
 .player-list h1 {
     font-size: 2.5rem;
     color: #17a2b8;
+    margin-bottom: 20px; /* Adds space below the title */
 }
 
 .player-list ul {
@@ -26,6 +28,7 @@
     padding: 10px;
 }
 
+/* Styling for the player link */
 .player-link {
     display: flex;
     flex-direction: column;
@@ -57,4 +60,80 @@
 .player-link:hover {
     transform: scale(1.05);
     box-shadow: 0 6px 15px rgba(23, 162, 184, 0.7);
+}
+
+/* Media Queries for Responsiveness */
+
+/* For small screens (mobile) */
+@media (max-width: 600px) {
+    .player-list h1 {
+        font-size: 1.8rem; /* Smaller font size for mobile */
+        text-align: center; /* Ensure title is centered */
+        margin-bottom: 15px;
+    }
+
+    .player-list ul {
+        flex-direction: column; /* Stack the list items vertically */
+        align-items: center; /* Center the list items */
+        gap: 10px; /* Reduced space between items */
+    }
+
+    .player-list li {
+        width: 90%; /* Make the list items take more width on small screens */
+        margin: 10px 0; /* Add margin between items */
+    }
+
+    .player-link {
+        font-size: 1rem; /* Reduce font size for better readability on mobile */
+        height: auto;
+        padding: 12px 15px; /* Adjust padding */
+        border-radius: 8px; /* Slightly reduce border radius for a cleaner look */
+    }
+}
+
+/* For tablets (portrait) */
+@media (max-width: 768px) {
+    .player-list h1 {
+        font-size: 2rem; /* Slightly smaller font size */
+    }
+
+    .player-list ul {
+        flex-direction: column; /* Stack the list items vertically */
+        align-items: center; /* Center the list items */
+        gap: 15px; /* Space between items */
+    }
+
+    .player-list li {
+        width: 90%; /* Make list items take more width */
+    }
+
+    .player-link {
+        font-size: 1.1rem; /* Slightly reduce font size */
+    }
+}
+
+/* For larger tablets (landscape) or small desktops */
+@media (max-width: 1024px) {
+    .player-list h1 {
+        font-size: 2.3rem; /* Medium font size */
+    }
+
+    .player-list li {
+        width: 45%; /* Two items per row */
+    }
+
+    .player-link {
+        font-size: 1.1rem; /* Slightly larger font size */
+    }
+}
+
+/* For large screens (desktops and larger) */
+@media (min-width: 1025px) {
+    .player-list h1 {
+        font-size: 2.5rem; /* Default large font size */
+    }
+
+    .player-list li {
+        width: 200px; /* Fixed width */
+    }
 }

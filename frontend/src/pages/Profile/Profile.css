@@ -16,9 +16,9 @@ body {
     color: #ffffff;
     box-shadow: 0 0 7px black;
     border: 2px solid black;
-/*  min-height: 70vh;
-    hogy leerjen az aljara a footer
-*/
+    min-height: 70vh;
+
+
 }
 
 /* Profile Info */
@@ -26,9 +26,36 @@ body {
     margin-bottom: 1.5rem;
 }
 
+/* Profil adatok stílusa extra árnyékokkal és animációkkal */
 .profile-info p {
+    font-size: 1rem;
     margin: 0.5rem 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.8rem;
+    background-color: #2e2e2e;
+    border-radius: 10px;
+    border: 1px solid #444;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Extra árnyék */
+    transition: all 0.3s ease;
 }
+
+/* Profil adatok hover effektus */
+.profile-info p:hover {
+    background-color: #1c1c1c;
+    transform: translateY(-5px); /* Finom emelkedés */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4); /* Erősebb árnyék */
+}
+
+.profile-info strong {
+    color: #17a2b8; /* Highlight the label with accent color */
+}
+
+.profile-info p span {
+    color: #ccc; /* Style the value in a lighter color */
+}
+
 
 /* Edit Button */
 .edit-button {
@@ -65,7 +92,7 @@ body {
 .modal-content {
     background-color: #1c1c1c; /* Dark background */
     color: #fff;
-    padding: 20px;
+    
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     width: 400px;

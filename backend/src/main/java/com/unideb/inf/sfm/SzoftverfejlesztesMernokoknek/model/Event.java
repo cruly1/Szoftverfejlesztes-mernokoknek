@@ -1,6 +1,7 @@
 package com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.validation.ValidDateRange;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,6 +27,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ValidDateRange
 public class Event {
 
     @Id

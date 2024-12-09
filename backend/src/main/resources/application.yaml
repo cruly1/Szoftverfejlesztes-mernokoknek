@@ -28,8 +28,11 @@ spring:
         smtp:
           socketFactory:
             class: javax.net.ssl.SSLSocketFactory
+            port: 465
           auth: true
           starttls.enable: true
+          ssl:
+            enable: true
 
 
 server:
@@ -45,3 +48,6 @@ application:
       refresh-token:
         expiration: 604800000
       requestMatchers: "/api/auth/**"
+
+nationality:
+  accessKey: b86872434c1aeb50d1e8ca7b16a38d55
