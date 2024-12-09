@@ -29,15 +29,18 @@ function HeroSection({ onLogin, loggedIn, onProfileComplete }) {
             withCredentials: true
             });
             const player = response.data;
-
+            
             if (!player) {
                 // If no player exists, open ProfileSetupModal
                 setIsProfileSetupOpen(true);
             } else {
                 // If player exists, close any open modals
                 setIsProfileSetupOpen(false);
+
             }
+            localStorage.setItem('nickname', player.nickName);
             onLogin(newToken);
+            
         } catch (error) {
             console.error("Error checking for existing player:", error);
         }
