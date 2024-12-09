@@ -85,6 +85,7 @@ function ProfileSetupModal({ onClose, username, onProfileComplete }) {
                 
                 {/* Dropdown for in-game role */}
                 <select name="ingameRole" value={profileData.ingameRole} onChange={handleChange}>
+                    <option value="" disabled selected>Select Your In-game Role</option>
                 {roles.map((role) => (
                     <option key={role} value={role}>
                         {role}
@@ -94,14 +95,14 @@ function ProfileSetupModal({ onClose, username, onProfileComplete }) {
 
                 <input name="dateOfBirth" value={profileData.dateOfBirth} onChange={handleChange} type="date" />
                 <select name="gender" value={profileData.gender} onChange={handleChange}>
-                    <option value="">Select Gender</option>
+                    <option value="" disabled selected>Select Gender</option>
                     <option value="MALE">Male</option>
                     <option value="FEMALE">Female</option>
                 </select>
                 
                 {/* Dropdown for nationality */}
                 <select name="countryName" value={profileData.nationality.countryName} onChange={handleChange}>
-                    <option value="">Select Nationality</option>
+                    <option value="" disabled selected>Select Nationality</option>
                     {countryNameOptions.map((countryName) => (
                         <option key={countryName} value={countryName}>
                             {countryName}
