@@ -4,10 +4,12 @@ import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.customexceptio
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.customexceptions.PlayerAlreadyExistsException;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.customexceptions.ResourceNotFoundException;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.exception.customexceptions.TeamLimitExceededException;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Nationality;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Player;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Team;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.User;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.enums.EIngameRoles;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.NationalityRepository;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.PlayerRepository;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.TeamRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ public class PlayerServiceUtils {
 
     private final PlayerRepository playerRepository;
     private final TeamRepository teamRepository;
+    private final NationalityRepository nationalityRepository;
 
     private final static int ALLOWED_TEAM_SIZE = 6;
 
@@ -37,6 +40,11 @@ public class PlayerServiceUtils {
     public Player findByUser(User user) {
         return playerRepository.findByUser(user).orElseThrow(
                 () -> new ResourceNotFoundException(-1L, "Player"));
+    }
+
+    public Nationality findByCountryName(String countryName) {
+        return nationalityRepository.findByCountryName(countryName)
+                .orElseThrow(() -> new IllegalArgumentException("Nationality not found"));
     }
 
     public Team getTeamByPlayer(Player player) {

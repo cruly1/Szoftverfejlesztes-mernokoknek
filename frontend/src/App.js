@@ -37,13 +37,38 @@ function App() {
     localStorage.setItem('token', token);
     setLoggedIn(true); // Update loggedIn state immediately
   };
-
   // Function to handle logout
-  const handleLogout = () => {
+  const handleLogout = async () => {
+  const token = localStorage.getItem('token');
+  
+
+  if (!token) {
+    console.error("No token found. Cannot logout.");
+    return;
+  }
+
+  try {
+    // Call the logout API
+    const logouithehe = await axios.post('http://localhost:8080/api/auth/logout', null, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      withCredentials : true,
+    });
+    console.log("Logout response:", logouithehe);
+    // Remove token from localStorage
     localStorage.removeItem('token');
-    setLoggedIn(false); // Update loggedIn state immediately
-    navigate("/"); // Redirect to home page after logout
-  };
+    localStorage.removeItem('nickname');
+    // Update UI state and navigate
+    setLoggedIn(false); // Ensure `setLoggedIn` is correctly defined in your component
+    navigate("/"); // Redirect to home page
+    console.log("Logout successful");
+
+  } catch (error) {
+    console.error("Error during logout:", error);
+    alert("Failed to log out. Please try again.");
+  }
+};
 
   const handleProfileSetupComplete = (nickname) => {
     // Call handleLogin after profile setup

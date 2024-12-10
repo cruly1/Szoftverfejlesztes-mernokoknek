@@ -17,7 +17,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -32,20 +31,17 @@ public class PlayerService {
     private final NationalityRepository nationalityRepository;
     private final TeamRepository teamRepository;
 
-    // tested
     public PlayerDTO getPlayerByNickName(String nickName) {
         Player player = playerServiceUtils.findByNickName(nickName);
         return playerMapper.toDTO(player);
     }
 
-    // tested
     public PlayerDTO getPlayerByUsername(String username) {
         User user = authServiceUtils.findUserByUsername(username);
         Player player = playerServiceUtils.findByUser(user);
         return playerMapper.toDTO(player);
     }
 
-    // tested
     public Player addPlayer(Player player, String username) {
         User user = authServiceUtils.findUserByUsername(username);
         Team team = playerServiceUtils.getTeamByPlayer(player);
@@ -66,7 +62,6 @@ public class PlayerService {
         return playerRepository.save(player);
     }
 
-    // tested
     @Transactional
     public String addPlayerToEvent(String nickName, String eventName) {
         Player player = playerServiceUtils.findByNickName(nickName);
@@ -80,18 +75,15 @@ public class PlayerService {
         return "Player added to event successfully.";
     }
 
-    // TODO test
     public Player updatePlayer(String nickName, Player updatedPlayer) {
         Player player = playerServiceUtils.findByNickName(nickName);
         BeanUtils.copyProperties(updatedPlayer, player, "id");
         Team team = playerServiceUtils.getTeamByPlayer(player);
+        Nationality nationality = playerServiceUtils.findByCountryName(updatedPlayer.getNationality().getCountryName());
 
         if (team != null && (!playerServiceUtils.isAllowedToJoinTeam(team.getPlayersInTeam()) || playerServiceUtils.isRoleTaken(player, team))) {
             return null;
         }
-
-        Nationality nationality = nationalityRepository.findByCountryName(updatedPlayer.getNationality().getCountryName())
-                .orElseThrow(() -> new IllegalArgumentException("Nationality not found"));
 
         player.setNationality(nationality);
         player.setTeam(team);
@@ -125,19 +117,17 @@ public class PlayerService {
         return "Event left successfully.";
     }
 
-    // TODO test
     public String deletePlayerById(Long playerId) {
         Player player = playerServiceUtils.findById(playerId);
         playerRepository.deleteById(playerId);
         return "Player deleted successfully.";
     }
 
-    // TODO test
     public List<PlayerDTO> getAllPlayers() {
         List<Player> players = playerRepository.findAll();
 
         return players.stream()
                 .map(playerMapper::toDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 }

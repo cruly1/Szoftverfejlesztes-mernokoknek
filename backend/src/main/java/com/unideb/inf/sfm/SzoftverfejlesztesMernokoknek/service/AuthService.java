@@ -37,10 +37,14 @@ public class AuthService {
                 request.getUsername(),
                 request.getPassword())
         );
+
         var user = authServiceUtils.findUserByUsername(request.getUsername());
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
 
-        return AuthResponse.builder().token(jwtToken).refreshToken(refreshToken).build();
+        return AuthResponse.builder()
+                .token(jwtToken)
+                .refreshToken(refreshToken)
+                .build();
     }
 }
