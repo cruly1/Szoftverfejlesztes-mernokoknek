@@ -80,18 +80,16 @@ public class PlayerService {
         return "Player added to event successfully.";
     }
 
-    // TODO test
+    // tested
     public Player updatePlayer(String nickName, Player updatedPlayer) {
         Player player = playerServiceUtils.findByNickName(nickName);
         BeanUtils.copyProperties(updatedPlayer, player, "id");
         Team team = playerServiceUtils.getTeamByPlayer(player);
+        Nationality nationality = playerServiceUtils.findByCountryName(updatedPlayer.getNationality().getCountryName());
 
         if (team != null && (!playerServiceUtils.isAllowedToJoinTeam(team.getPlayersInTeam()) || playerServiceUtils.isRoleTaken(player, team))) {
             return null;
         }
-
-        Nationality nationality = nationalityRepository.findByCountryName(updatedPlayer.getNationality().getCountryName())
-                .orElseThrow(() -> new IllegalArgumentException("Nationality not found"));
 
         player.setNationality(nationality);
         player.setTeam(team);
@@ -105,6 +103,7 @@ public class PlayerService {
         return playerRepository.save(player);
     }
 
+    // tested
     public String leaveEvent(String nickName, String eventName) {
         Player player = playerServiceUtils.findByNickName(nickName);
         Event event = eventServiceUtils.findByEventName(eventName);
