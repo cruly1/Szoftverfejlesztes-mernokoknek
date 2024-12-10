@@ -4,7 +4,7 @@ import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Image;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Player;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.ImageRepository;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.PlayerRepository;
-import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.utils.ImageUtils;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.utils.ImageServiceUtils;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.utils.PlayerServiceUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,11 +20,11 @@ public class ImageService {
     private final PlayerRepository playerRepository;
     private final PlayerServiceUtils playerServiceUtils;
     private final ImageRepository imageRepository;
-    private final ImageUtils imageUtils;
+    private final ImageServiceUtils imageServiceUtils;
 
     public byte[] downloadImage(String fileName) {
         Optional<Image> dbImageData = imageRepository.findByName(fileName);
-        return dbImageData.map(image -> imageUtils.decompressImage(image.getImageData())).orElse(null);
+        return dbImageData.map(image -> imageServiceUtils.decompressImage(image.getImageData())).orElse(null);
     }
 
     public String uploadImage(MultipartFile file, String nickName) throws IOException {
@@ -34,7 +34,7 @@ public class ImageService {
         Image image = imageRepository.save(Image.builder()
                 .name(formattedImageName)
                 .type(file.getContentType())
-                .imageData(imageUtils.compressImage(file.getBytes())).build());
+                .imageData(imageServiceUtils.compressImage(file.getBytes())).build());
 
         player.setProfileImageName(image.getName());
         player.setProfileImageType(image.getType());

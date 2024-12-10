@@ -561,4 +561,54 @@ public class TestPlayerService {
         verify(eventRepository).save(event);
         verify(teamRepository, never()).save(any(Team.class));
     }
+
+    @Test
+    void deletePlayerById_PlayerExists_DeletesPlayerSuccessfully() {
+        // arrange
+        Long playerId = 1L;
+
+        Player player = new Player();
+        player.setId(playerId);
+
+        when(playerServiceUtils.findById(playerId)).thenReturn(player);
+
+        // act
+        String result = playerService.deletePlayerById(playerId);
+
+        // assert
+        assertEquals("Player deleted successfully.", result);
+        verify(playerRepository).deleteById(playerId);
+    }
+
+    @Test
+    void getAllPlayers_ReturnsMappedPlayerDTOList() {
+        // arrange
+        Player player1 = new Player();
+        player1.setId(1L);
+        player1.setNickName("Player1");
+
+        Player player2 = new Player();
+        player2.setId(2L);
+        player2.setNickName("Player2");
+
+        List<Player> players = List.of(player1, player2);
+
+        PlayerDTO playerDTO1 = new PlayerDTO();
+        playerDTO1.setNickName("Player1");
+
+        PlayerDTO playerDTO2 = new PlayerDTO();
+        playerDTO2.setNickName("Player2");
+
+        when(playerRepository.findAll()).thenReturn(players);
+        when(playerMapper.toDTO(player1)).thenReturn(playerDTO1);
+        when(playerMapper.toDTO(player2)).thenReturn(playerDTO2);
+
+        // act
+        List<PlayerDTO> result = playerService.getAllPlayers();
+
+        // assert
+        assertEquals(2, result.size());
+        assertTrue(result.contains(playerDTO1));
+        assertTrue(result.contains(playerDTO2));
+    }
 }

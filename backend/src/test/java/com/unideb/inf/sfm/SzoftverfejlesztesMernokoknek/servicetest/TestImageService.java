@@ -5,7 +5,7 @@ import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.model.Player;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.ImageRepository;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.PlayerRepository;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.service.ImageService;
-import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.utils.ImageUtils;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.utils.ImageServiceUtils;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.utils.PlayerServiceUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,7 +36,7 @@ public class TestImageService {
     private ImageRepository imageRepository;
 
     @Mock
-    private ImageUtils imageUtils;
+    private ImageServiceUtils imageServiceUtils;
 
     @InjectMocks
     private ImageService imageService;
@@ -68,7 +68,7 @@ public class TestImageService {
         // Arrange
         String fileName = "testPlayer-testImage.jpg";
         when(imageRepository.findByName(fileName)).thenReturn(Optional.of(mockImage));
-        when(imageUtils.decompressImage(mockImage.getImageData())).thenReturn(new byte[]{1, 2, 3});
+        when(imageServiceUtils.decompressImage(mockImage.getImageData())).thenReturn(new byte[]{1, 2, 3});
 
         // Act
         byte[] result = imageService.downloadImage(fileName);
@@ -77,7 +77,7 @@ public class TestImageService {
         assertNotNull(result);
         assertArrayEquals(new byte[]{1, 2, 3}, result);
         verify(imageRepository, times(1)).findByName(fileName);
-        verify(imageUtils, times(1)).decompressImage(mockImage.getImageData());
+        verify(imageServiceUtils, times(1)).decompressImage(mockImage.getImageData());
     }
 
     @Test
@@ -92,7 +92,7 @@ public class TestImageService {
         // Assert
         assertNull(result);
         verify(imageRepository, times(1)).findByName(fileName);
-        verify(imageUtils, never()).decompressImage(any());
+        verify(imageServiceUtils, never()).decompressImage(any());
     }
 
     @Test
@@ -105,7 +105,7 @@ public class TestImageService {
         when(mockFile.getContentType()).thenReturn("image/jpeg");
         when(mockFile.getBytes()).thenReturn(new byte[]{1, 2, 3});
         when(playerServiceUtils.findByNickName(nickName)).thenReturn(mockPlayer);
-        when(imageUtils.compressImage(any())).thenReturn(new byte[]{4, 5, 6});
+        when(imageServiceUtils.compressImage(any())).thenReturn(new byte[]{4, 5, 6});
         when(imageRepository.save(any(Image.class))).thenReturn(mockImage);
 
         // Act
