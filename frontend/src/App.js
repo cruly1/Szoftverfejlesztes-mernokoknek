@@ -61,7 +61,7 @@ function App() {
     localStorage.removeItem('nickname');
     // Update UI state and navigate
     setLoggedIn(false); // Ensure `setLoggedIn` is correctly defined in your component
-    navigate("/players"); // Redirect to home page
+    navigate("/"); // Redirect to home page
     console.log("Logout successful");
 
   } catch (error) {
