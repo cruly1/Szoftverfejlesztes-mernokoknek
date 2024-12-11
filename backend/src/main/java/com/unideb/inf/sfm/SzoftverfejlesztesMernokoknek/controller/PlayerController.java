@@ -53,6 +53,11 @@ public class PlayerController {
         return new ResponseEntity<>(playerMapper.toDTO(savedPlayer), HttpStatus.CREATED);
     }
 
+    @PutMapping("joinTeam/search")
+    public ResponseEntity<String> joinTeam(@RequestBody String nickName, @RequestParam("teamName") String teamName) {
+        return ResponseEntity.ok(playerService.joinTeam(nickName, teamName));
+    }
+
     @PutMapping("updatePlayer/search")
     public ResponseEntity<PlayerDTO> updatePlayer(@RequestParam("nickName") String nickName, @RequestBody Player updatedPlayer) {
         Player player = playerService.updatePlayer(nickName, updatedPlayer);

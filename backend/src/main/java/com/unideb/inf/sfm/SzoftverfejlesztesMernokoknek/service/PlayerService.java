@@ -11,6 +11,7 @@ import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.repository.TeamRepositor
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.utils.AuthServiceUtils;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.utils.EventServiceUtils;
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.utils.PlayerServiceUtils;
+import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.utils.TeamServiceUtils;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -30,6 +31,7 @@ public class PlayerService {
     private final EventServiceUtils eventServiceUtils;
     private final NationalityRepository nationalityRepository;
     private final TeamRepository teamRepository;
+    private final TeamServiceUtils teamServiceUtils;
 
     public PlayerDTO getPlayerByNickName(String nickName) {
         Player player = playerServiceUtils.findByNickName(nickName);
@@ -75,24 +77,33 @@ public class PlayerService {
         return "Player added to event successfully.";
     }
 
-    public Player updatePlayer(String nickName, Player updatedPlayer) {
+    public String joinTeam(String nickName, String teamName) {
         Player player = playerServiceUtils.findByNickName(nickName);
-        BeanUtils.copyProperties(updatedPlayer, player, "id");
-        Team team = playerServiceUtils.getTeamByPlayer(player);
-        Nationality nationality = playerServiceUtils.findByCountryName(updatedPlayer.getNationality().getCountryName());
+        Team team = teamServiceUtils.findByTeamName(teamName);
 
         if (team != null && (!playerServiceUtils.isAllowedToJoinTeam(team.getPlayersInTeam()) || playerServiceUtils.isRoleTaken(player, team))) {
             return null;
         }
 
-        player.setNationality(nationality);
         player.setTeam(team);
 
         if (team != null) {
-            List<Player> playersInTeam = team.getPlayersInTeam();
-            playersInTeam.add(player);
-            team.setPlayersInTeam(playersInTeam);
+            team.getPlayersInTeam().add(player);
+
+            teamRepository.save(team);
+            playerRepository.save(player);
+            return "Joined team successfully.";
         }
+
+        return "Couldn't join team.";
+    }
+
+    public Player updatePlayer(String nickName, Player updatedPlayer) {
+        Player player = playerServiceUtils.findByNickName(nickName);
+        BeanUtils.copyProperties(updatedPlayer, player, "id");
+        Nationality nationality = playerServiceUtils.findByCountryName(updatedPlayer.getNationality().getCountryName());
+
+        player.setNationality(nationality);
 
         return playerRepository.save(player);
     }
