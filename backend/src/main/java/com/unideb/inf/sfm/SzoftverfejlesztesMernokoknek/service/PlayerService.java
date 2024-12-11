@@ -14,7 +14,6 @@ import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.utils.PlayerServiceUtils
 import com.unideb.inf.sfm.SzoftverfejlesztesMernokoknek.utils.TeamServiceUtils;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -100,9 +99,14 @@ public class PlayerService {
 
     public Player updatePlayer(String nickName, Player updatedPlayer) {
         Player player = playerServiceUtils.findByNickName(nickName);
-        BeanUtils.copyProperties(updatedPlayer, player, "id");
         Nationality nationality = playerServiceUtils.findByCountryName(updatedPlayer.getNationality().getCountryName());
 
+        player.setFirstName(updatedPlayer.getFirstName());
+        player.setLastName(updatedPlayer.getLastName());
+        player.setNickName(updatedPlayer.getNickName());
+        player.setIngameRole(updatedPlayer.getIngameRole());
+        player.setDateOfBirth(updatedPlayer.getDateOfBirth());
+        player.setGender(updatedPlayer.getGender());
         player.setNationality(nationality);
 
         return playerRepository.save(player);
