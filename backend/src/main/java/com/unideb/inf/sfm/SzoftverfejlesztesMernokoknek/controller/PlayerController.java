@@ -54,7 +54,7 @@ public class PlayerController {
     }
 
     @PutMapping("joinTeam/search")
-    public ResponseEntity<String> joinTeam(@RequestBody String nickName, @RequestParam("teamName") String teamName) {
+    public ResponseEntity<String> joinTeam(@RequestParam String nickName, @RequestParam("teamName") String teamName) {
         return ResponseEntity.ok(playerService.joinTeam(nickName, teamName));
     }
 
