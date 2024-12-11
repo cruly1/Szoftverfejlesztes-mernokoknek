@@ -25,7 +25,7 @@ public class PlayerServiceUtils {
     private final TeamRepository teamRepository;
     private final NationalityRepository nationalityRepository;
 
-    private final static int ALLOWED_TEAM_SIZE = 6;
+    private static final int ALLOWED_TEAM_SIZE = 6;
 
     public Player findById(Long id) {
         return playerRepository.findById(id).orElseThrow(

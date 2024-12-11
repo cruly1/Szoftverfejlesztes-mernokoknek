@@ -57,6 +57,11 @@ public class PlayerController {
     public ResponseEntity<String> joinTeam(@RequestParam String nickName, @RequestParam("teamName") String teamName) {
         return ResponseEntity.ok(playerService.joinTeam(nickName, teamName));
     }
+    
+    @PutMapping("leaveTeam/search")
+    public ResponseEntity<String> leaveTeam(@RequestParam String nickName, @RequestParam("teamName") String teamName) {
+        return ResponseEntity.ok(playerService.leaveTeam(nickName, teamName));
+    }
 
     @PutMapping("updatePlayer/search")
     public ResponseEntity<PlayerDTO> updatePlayer(@RequestParam("nickName") String nickName, @RequestBody Player updatedPlayer) {

@@ -97,6 +97,20 @@ public class PlayerService {
         return "Couldn't join team.";
     }
 
+    public String leaveTeam(String nickName, String teamName) {
+        Player player = playerServiceUtils.findByNickName(nickName);
+        Team team = teamServiceUtils.findByTeamName(teamName);
+        if (team != null) {
+            team.getPlayersInTeam().remove(player);
+            player.setTeam(null);
+            teamRepository.save(team);
+            playerRepository.save(player);
+            return "Team left successfully.";
+        }
+
+        return "Couldn't leave team.";
+    }
+
     public Player updatePlayer(String nickName, Player updatedPlayer) {
         Player player = playerServiceUtils.findByNickName(nickName);
         Nationality nationality = playerServiceUtils.findByCountryName(updatedPlayer.getNationality().getCountryName());
