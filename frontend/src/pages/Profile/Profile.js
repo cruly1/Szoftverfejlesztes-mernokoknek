@@ -78,56 +78,90 @@ function Profile() {
         }
     };
 
-    const handleSave = (e) => {
-        e.preventDefault();
-        if (isUnderAge) {
-            setIsErrorModalOpen(true);
+    const handleSave = async (e) => {
+    e.preventDefault();
+
+    if (isUnderAge) {
+        setIsErrorModalOpen(true);
+        return;
+    }
+
+    const token = localStorage.getItem('token');
+    const oldNickname = localStorage.getItem('nickname');
+
+    if (!token || !oldNickname) {
+        alert("Unauthorized access or missing data.");
+        return;
+    }
+
+    console.log("oldNickname", oldNickname);
+    console.log("editedData", editedData);
+    console.log("userData", userData);
+
+    const updatedData = {
+        firstName: editedData.firstName,
+        lastName: editedData.lastName,
+        nickName: editedData.nickName,
+        ingameRole: editedData.ingameRole,
+        dateOfBirth: editedData.dateOfBirth,
+        gender: editedData.gender,
+        nationality: {
+            countryName: editedData.countryName,
+        },
+    };
+    console.log("updatedData", updatedData);
+
+    try {
+        // Fetch the player's current team
+        const teamResponse = await axios.get(
+            `http://localhost:8080/api/teams/search?teamName=${userData.teamName}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+
+        const teamData = teamResponse.data;
+        console.log("teamData", teamData);
+
+        // Check if the selected ingameRole already exists in the team
+        const isRoleDuplicate = teamData.players.some(
+            (player) => player.ingameRole === updatedData.ingameRole && player.nickName !== oldNickname
+        );
+
+        if (isRoleDuplicate) {
+            alert(`The role "${updatedData.ingameRole}" is already taken by another player in your team.`);
             return;
         }
-        const token = localStorage.getItem('token');
-        const oldNickname = localStorage.getItem('nickname');
-        console.log("oldNickname", oldNickname);
-        console.log("editedData", editedData);
-        console.log("userData", userData);
-        const updatedData = {
-            firstName: editedData.firstName,
-            lastName: editedData.lastName,
-            nickName: editedData.nickName,
-            ingameRole: editedData.ingameRole,
-            dateOfBirth: editedData.dateOfBirth,
-            gender: editedData.gender,
-            nationality: {
-                countryName: editedData.countryName,
-            },
-            profileImageName: userData.profileImageName,
-            profileImageType: userData.profileImageType,
-            ...(userData.teamName // Check if the player has a team
-            ? { team: { teamName: userData.teamName } } // If the player has a team
-            : { teamName: userData.teamName } // If the player doesn't have a team
-    ),
-        };
 
-        console.log("updatedData", updatedData);
-        axios.put(`http://localhost:8080/api/players/updatePlayer/search?nickName=${oldNickname}`, updatedData, {
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
-                
-            },
-            withCredentials: true,
-        })
-        .then(response => {
-            setUserData(response.data);
-            setIsModalOpen(false);
-            if (updatedData.nickName && updatedData.nickName !== oldNickname) {
-                localStorage.setItem('nickname', updatedData.nickName);
+        // Proceed with updating the player's data
+        const response = await axios.put(
+            `http://localhost:8080/api/players/updatePlayer/search?nickName=${oldNickname}`,
+            updatedData,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+                withCredentials: true,
             }
-        })
-        .catch(err => {
-            console.error("Error during save:", err);
-            setError("Failed to update profile.");
-        });
-    };
+        );
+
+        setUserData(response.data);
+        setIsModalOpen(false);
+
+        // Update local storage if nickname was changed
+        if (updatedData.nickName && updatedData.nickName !== oldNickname) {
+            localStorage.setItem('nickname', updatedData.nickName);
+        }
+
+        
+    } catch (error) {
+        console.error("Error during save:", error);
+        setError("Failed to update profile.");
+    }
+};
 
     if (loading) return <div>Loading profile...</div>;
     if (error) return <div>{error}</div>;
@@ -158,7 +192,7 @@ function Profile() {
                         <h2>Edit Profile</h2>
                         <form onSubmit={handleSave}>
                             {Object.keys(userData)?.map((key) => (
-                                key !== 'teamName' && key !== 'events' && key !== 'username' && key !== 'profileImageName' && key !== 'profileImageType' &&
+                                key !== 'teamName' && key !== 'events' && key !== 'username' && key !== 'profileImageName' && key !== 'profileImageType' && key !== 'countryCode' &&
                                 <div className="form-group" key={key}>
                                     <label>{key?.replace(/_/g, ' ').toUpperCase()}</label>
                                     {key === 'gender' ? (

@@ -170,60 +170,27 @@ function TeamList({ team }) {
 
     setLoading(true);
     try {
-        // Fetch the current player object
-        const response = await axios.get(
-            `http://localhost:8080/api/players/getByNickName/search?nickName=${nickName}`,
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            }
-        );
-
-        const playerData = response.data;
-
-        // Update the player object with the new teamName
-        const updatedPlayerData = {
-          firstName: playerData.firstName,
-          lastName: playerData.lastName,
-          nickName: playerData.nickName,
-          ingameRole: playerData.ingameRole,
-          dateOfBirth: playerData.dateOfBirth,
-          gender: playerData.gender,
-          nationality: {
-              countryName: playerData.countryName,
-          },
-          team :{
-            teamName: selectedTeam,
-          }, // Update only the teamName
-          profileImageName: playerData.profileImageName,
-          profileImageType: playerData.profileImageType,
-        };
-        console.log('Updated player data:', updatedPlayerData);
-        // Send the updated player object in the PUT request
+        // Use the new API endpoint to join the team
         await axios.put(
-            `http://localhost:8080/api/players/updatePlayer/search?nickName=${nickName}`,
-            updatedPlayerData,
+            `http://localhost:8080/api/players/joinTeam/search?nickName=${nickName}&teamName=${selectedTeam}`,
+            {}, // No body is required
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
-                    'Content-Type': 'application/json',
                 },
                 withCredentials: true,
             }
         );
 
-
         setPlayerTeamName(selectedTeam);
         
-        window.location.reload(); // Reload the page
-        
-        closeModal(); 
+
+        window.location.reload(); // Reload the page to reflect changes
+        closeModal();
     } catch (error) {
-        console.error('Error updating player:', error);
+        console.error('Error joining team:', error);
         alert('Failed to join the team. Please try again.');
-        
-        closeModal(); 
+        closeModal();
     } finally {
         const elapsedTime = Date.now() - startTime;
         const remainingTime = Math.max(minLoadingTime - elapsedTime, 0);
@@ -235,74 +202,52 @@ function TeamList({ team }) {
         }, remainingTime);
     }
 };
+
 const handleLeaveTeam = async () => {
     const token = localStorage.getItem('token');
     const nickName = localStorage.getItem('nickname');
 
     if (!nickName || !token) {
-      alert('Player not logged in or unauthorized access.');
-      return;
+        alert('Player not logged in or unauthorized access.');
+        return;
     }
-    
+
     const minLoadingTime = 2000; // Minimum duration for loading animation in milliseconds
     const startTime = Date.now();
-
 
     setLoading(true);
 
     try {
-      const response = await axios.get(
-        `http://localhost:8080/api/players/getByNickName/search?nickName=${nickName}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+        // Use the new API endpoint to leave the team
+        await axios.put(
+            `http://localhost:8080/api/players/leaveTeam/search?nickName=${nickName}&teamName=${playerTeamName}`,
+            {}, // No body is required
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                withCredentials: true,
+            }
+        );
 
-      const playerData = response.data;
-      console.log('Player data:', playerData);
-      const updatedPlayerData = {
-        firstName: playerData.firstName,
-          lastName: playerData.lastName,
-          nickName: playerData.nickName,
-          ingameRole: playerData.ingameRole,
-          dateOfBirth: playerData.dateOfBirth,
-          gender: playerData.gender,
-          nationality: {
-              countryName: playerData.countryName,
-          },
-          profileImageName: playerData.profileImageName,
-          profileImageType: playerData.profileImageType,
-          teamName: null,
-           // Update only the teamName
-      };
+        setPlayerTeamName(null); // Clear the current teamName in state
+        
 
-      await axios.put(
-        `http://localhost:8080/api/players/updatePlayer/search?nickName=${nickName}`,
-        updatedPlayerData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-          withCredentials: true,
-        }
-      );
-      setPlayerTeamName(null);
-      window.location.reload(); // Reload the page
-       // Clear the current teamName in state
+        window.location.reload(); // Reload the page to reflect changes
     } catch (error) {
-      console.error('Error leaving team:', error);
-      alert('Failed to leave the team. Please try again.');
+        console.error('Error leaving team:', error);
+        alert('Failed to leave the team. Please try again.');
     } finally {
-      const elapsedTime = Date.now() - startTime;
+        const elapsedTime = Date.now() - startTime;
         const remainingTime = Math.max(minLoadingTime - elapsedTime, 0);
 
         // Ensure loading lasts at least `minLoadingTime`
         setTimeout(() => {
-          setLoading(false); // Stop loading animation
+            setLoading(false); // Stop loading animation
         }, remainingTime);
     }
-  };
+};
+
   if (loading) return <div>Loading teams...</div>;
   if (error) return <div>{error}</div>;
 
